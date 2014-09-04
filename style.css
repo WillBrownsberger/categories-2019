@@ -44,6 +44,7 @@ Style CSS organized as follows
 	view frame and miscellaneous special page wrappers
 	widgets generally
 	widget -- rtfpcl
+	widget -- rtfpa
  -- required Wordpress core styles 
  -- media queries
 
@@ -989,8 +990,9 @@ div#front-page-post-entry {
 	padding: 10px 0 0 8px;
 }
 
-/* responsive-tabs category widget styles */
+/* responsive-tabs front page list styles */
 
+.responsive-tabs-front-page-archives,
 .responsive-tabs-front-page-category-list,
 .responsive-tabs-front-page-comment-list {
 	list-style: none;
@@ -1007,6 +1009,7 @@ div#front-page-post-entry {
 	padding: 8px 8px;
 	}
 
+.responsive-tabs-front-page-archives-list-item,
 .responsive-tabs-front-page-comment-list-item,
 .responsive-tabs-front-page-category-list-item {
 	list-style: none;	
@@ -1023,6 +1026,19 @@ div#front-page-post-entry {
 	display: inline-block;
 	width: 70%; 	
 }
+
+.rtfpa-year {
+	display: inline-block;
+	width: 16%; 	
+}
+
+.rtfpa-month {
+	display: inline-block;
+	text-align: center;	
+	width: 7%; 	
+}
+
+
 
 .responsive-tabs-front-page-comment-author {
 	display: inline-block;

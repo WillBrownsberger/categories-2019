@@ -5,6 +5,8 @@
 *	-- Front Page Category List
 *  -- Front Page Comment List
 *  -- Front Page Post Summary
+*  -- Front Page Text Widget
+*  -- Front Page Archives
 *
 *	@package responsive-tabs  
 */
@@ -20,9 +22,10 @@ add_action( 'widgets_init', 'register_responsive_tabs_widgets' );
 function register_responsive_tabs_widgets() {
 	register_widget ( 'Front_Page_Category_List' );
 	register_widget ( 'Front_Page_Comment_List' );
-	register_widget ( 'Front_Page_Post_summary' );
+	register_widget ( 'Front_Page_Post_Summary' );
+	register_widget ( 'Front_Page_Text_Widget' );
+	register_widget ( 'Front_Page_Archives' );
 }
-
 
 /*
 * Front_Page_Category_List widget
@@ -134,6 +137,8 @@ class Front_Page_Comment_List extends WP_Widget {
  			$number = 50;
 		}
 
+		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
+
 		$args = array( 
 			'comment_type' => '', 
 			'number' 		=> $number, 
@@ -170,7 +175,7 @@ class Front_Page_Comment_List extends WP_Widget {
 				if( $comment->user_id > 0 ) {
 					$editor = user_can( $comment->user_id, 'delete_others_posts' );
 				} 
-				if( ! $editor ) { // limit comment output to user comments, exclude editor and admin replies 
+				if( ! $editor || ! $exclude_editorial_comments ) { // limit comment output to user comments, exclude editor and admin replies 
 				  	$count = $count+1;
 				  	if( $count % 2 == 0 ) {
 				  		$row_class = "pl-even";
@@ -212,15 +217,20 @@ class Front_Page_Comment_List extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title']  = esc_attr( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
+		$instance['exclude_editorial_comments'] = absint( $new_instance['exclude_editorial_comments'] );		
 		return $instance; 
 	}
 
 	function form( $instance ) {
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 50;
+		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
+		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-		<?php
+	
+	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Exclude admin/editorial comments (will not be excluded from count): ' ); ?></label><?php
+	   echo  '<input type="checkbox" id="'. $this->get_field_id('exclude_editorial_comments')  .'" name="'. $this->get_field_name('exclude_editorial_comments')  .'" value="1" ' . checked( '1',  $exclude_editorial_comments  , false ) .'/></p>';
 	}
 
 	/*
@@ -290,56 +300,51 @@ class Front_Page_Post_Summary extends WP_Widget {
 			$output .= $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
 
-		$free_form_text 		= isset( $instance['free_form_text'] ) ? $instance['free_form_text'] : '';
-		if ( $free_form_text > '' ) {
-			$output .=  apply_filters( 'the_content', $free_form_text );		
-		} else {
-					
-			$post_list 				= isset( $instance['post_list'] ) 				? $instance['post_list'] : '';
-			$single_display_mode = isset( $instance['single_display_mode'] ) 	? $instance['single_display_mode'] : '';
-			
-			$post_list_array 		= explode( ',', $post_list );
-	
-			if ( count( $post_list_array ) > 1) { // if have a list of post id's, output a <ul> list of links
-				$output .= '<ul class="front-page-widget-post-list">';
-					foreach ( $post_list_array as $post_ID ) {
-						$permalink 	= get_permalink( $post_ID );
-						$title 		= get_the_title( $post_ID );
-						if( $title && $permalink ) {
-							$output .= '<li><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . $title .'</a></li>';
-						} else {
-							$output .= 'Check post list IDs in Front Page Post Summary widget';
-						}			
-					}		
-				$output .= '</ul>';
-			} elseif( count( $post_list_array ) == 1 ) { // if have exactly one, show excerpt or image or both according to options set
+		$post_list 				= isset( $instance['post_list'] ) 				? $instance['post_list'] : '';
+		$single_display_mode = isset( $instance['single_display_mode'] ) 	? $instance['single_display_mode'] : '';
+		
+		$post_list_array 		= explode( ',', $post_list );
+
+		if ( count( $post_list_array ) > 1) { // if have a list of post id's, output a <ul> list of links
+			$output .= '<ul class="front-page-widget-post-list">';
 				foreach ( $post_list_array as $post_ID ) {
-						$permalink 	= get_permalink( $post_ID );
-						$post 		= get_post( $post_ID );
-						$title 		= get_the_title( $post_ID );
-						
-						if ( ! is_null ( $post ) ) {
-							if( $single_display_mode == 'excerpt' ) {				
-								$output .= apply_filters( 'the_excerpt', $post->post_excerpt ) . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
-							}	elseif( $single_display_mode == 'image' ) {				
-								$output .=  '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '"> ' . get_the_post_thumbnail( $post_ID, $responsive_tabs_image_width ) . '</a>';		  
-					      } elseif( $single_display_mode == 'both' ) {
-						      $output .=  '<div class = "bulk-image-float-left"><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '"> ' . get_the_post_thumbnail($post_ID, $responsive_tabs_both_image_width) . '</a></div>' .
-						       	apply_filters( 'the_excerpt', $post->post_excerpt )  . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
-							} elseif( $single_display_mode == 'content') {
-								$output .= apply_filters( 'the_content', $post->post_content );
-							} elseif( $single_display_mode == 'all') {
-								$output .= '<div class = "bulk-image-float-left-large">' . get_the_post_thumbnail( $post_ID, $responsive_tabs_both_image_width ) . '</div>'; 								
-								$output .= apply_filters( 'the_content', $post->post_content );
-							}
-						} else { 
-							$output .= 'Check settings of Front Page Post Summary Widget';
-						}			  
-				  }     
-			} else { 
-				$output .= 'Check settings of Front Page Post Summary Widget';
-			}	
+					$permalink 	= get_permalink( $post_ID );
+					$title 		= get_the_title( $post_ID );
+					if( $title && $permalink ) {
+						$output .= '<li><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . $title .'</a></li>';
+					} else {
+						$output .= 'Check post list IDs in Front Page Post Summary widget';
+					}			
+				}		
+			$output .= '</ul>';
+		} elseif( count( $post_list_array ) == 1 ) { // if have exactly one, show excerpt or image or both according to options set
+			foreach ( $post_list_array as $post_ID ) {
+					$permalink 	= get_permalink( $post_ID );
+					$post 		= get_post( $post_ID );
+					$title 		= get_the_title( $post_ID );
+					
+					if ( ! is_null ( $post ) ) {
+						if( $single_display_mode == 'excerpt' ) {				
+							$output .= apply_filters( 'the_excerpt', $post->post_excerpt ) . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
+						}	elseif( $single_display_mode == 'image' ) {				
+							$output .=  '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '"> ' . get_the_post_thumbnail( $post_ID, $responsive_tabs_image_width ) . '</a>';		  
+				      } elseif( $single_display_mode == 'both' ) {
+					      $output .=  '<div class = "bulk-image-float-left"><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '"> ' . get_the_post_thumbnail($post_ID, $responsive_tabs_both_image_width) . '</a></div>' .
+					       	apply_filters( 'the_excerpt', $post->post_excerpt )  . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
+						} elseif( $single_display_mode == 'content') {
+							$output .= apply_filters( 'the_content', $post->post_content );
+						} elseif( $single_display_mode == 'all') {
+							$output .= '<div class = "bulk-image-float-left-large">' . get_the_post_thumbnail( $post_ID, $responsive_tabs_both_image_width ) . '</div>'; 								
+							$output .= apply_filters( 'the_content', $post->post_content );
+						}
+					} else { 
+						$output .= 'Check settings of Front Page Post Summary Widget';
+					}			  
+			  }     
+		} else { 
+			$output .= 'Check settings of Front Page Post Summary Widget';
 		}	
+		
 		if ( $responsive_tabs_widget_width == 'full' ) { // close pebble if used
 			$output .= '<div class = "horbar-clear-fix"></div>';			
 		}				
@@ -360,6 +365,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 		$instance['single_display_mode'] 			= strip_tags( $new_instance['single_display_mode'] );
 		$instance['responsive_tabs_widget_width'] = strip_tags( $new_instance['responsive_tabs_widget_width'] );
 		$instance['free_form_text'] 					= wp_kses_post( $new_instance['free_form_text'] );
+		
 		return $instance;
 	}
 
@@ -370,7 +376,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 		$post_list 							= isset( $instance['post_list'] ) ? strip_tags( $instance['post_list'] ) : '';
 		$single_display_mode 			= isset( $instance['single_display_mode'] ) ? strip_tags( $instance['single_display_mode'] ) : 'excerpt';
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? strip_tags( $instance ['responsive_tabs_widget_width'] ) : 'pebble';
-		$free_form_text 					= isset( $instance['free_form_text'] ) ? strip_tags( $instance ['free_form_text'] ) : '';		
+		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -446,11 +452,243 @@ class Front_Page_Post_Summary extends WP_Widget {
 	         }
 		   } 
 		 	echo $p . $r . 
+	 	'</select><br />';
+	} 
+}
+/*
+* Front Page Text Widget
+*/
+
+class Front_Page_Text_Widget extends WP_Widget {
+
+	function __construct() {
+		parent::__construct(
+			'responsive_tabs_front_page_text_widget', // Base ID
+			__( 'Front Page Text Widget', 'responsive-tabs' ), // Name
+			array( 'description' => __( 'Variable width text widget to populate front page', 'responsive-tabs' ), ) // Args
+		);
+	}
+
+	function widget( $args, $instance ) {
+		
+ 		extract( $args, EXTR_SKIP );
+ 		
+ 		$output = '<!-- responsive-tabs Front_Page_Text_Widget, includes/responsive-tabs-widgets.php -->';
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$output .=  $before_widget;										// is blank in home widget areas
+		
+		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
+
+		/* set up for variable widget widget */
+		if ( $responsive_tabs_widget_width == 'pebble' ) {
+			$output .= '<div class = "home-bulk-widget-wrapper">'; // div limits height and width and floats the widgets left
+		} else {
+			$output .= '<div class = "home-bulk-text-widget">';
+		}		
+
+		if ( $title ) {
+			$output .= $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
+		} 		
+
+		$free_form_text 		= isset( $instance['free_form_text'] ) ? $instance['free_form_text'] : '';
+		if ( $free_form_text > '' ) {
+			$output .=  apply_filters( 'the_content', $free_form_text );		
+		} 	
+
+		$output .= '</div>'; // close textwidget or home_bulk_widget
+		 		
+		$output .= $after_widget ;									// is blank in home widget areas
+
+		echo $output;
+	}
+
+	function update( $new_instance, $old_instance ) {
+		
+		$instance = $old_instance;
+		
+		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance['responsive_tabs_widget_width'] = strip_tags( $new_instance['responsive_tabs_widget_width'] );
+		$instance['free_form_text'] 					= wp_kses_post( $new_instance['free_form_text'] );
+		return $instance;
+	}
+
+
+	function form( $instance ) {
+		
+		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? strip_tags( $instance ['responsive_tabs_widget_width'] ) : 'pebble';
+		$free_form_text 					= isset( $instance['free_form_text'] ) ? wp_kses_post( $instance ['free_form_text'] ) : '';		
+		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+
+		 	
+		<?php 	$responsive_tabs_widget_width_options = array(
+			'0' => array(
+				'value' =>	'pebble',
+				'label' =>  __( 'Show 4 widgets per row on desk top ', 'responsive-tabs' ),
+			),
+			'1' => array(
+				'value' =>	'full',
+				'label' =>  __( 'Show 1 widget per row on all screens', 'responsive-tabs' ),
+			),
+		);
+		
+		$selected = $responsive_tabs_widget_width;  
+   	?>
+ 		<label for="responsive_tabs_widget_width"><?php _e('Widget Width:<br />', 'responsive-tabs' ); ?> </label>
+		<select id="<?php echo $this->get_field_id( 'responsive_tabs_widget_width' ); ?>" name="<?php echo $this->get_field_name( 'responsive_tabs_widget_width' ); ?>">    	
+		<?php 
+			$p = '';
+			$r = '';
+			foreach (  $responsive_tabs_widget_width_options as $option ) {
+		    	$label = $option['label'];
+				if ( $selected == $option['value'] ) { // Make selected first in list
+			   	$p = '<option selected="selected" value="' . $option['value']  . '">' . $label . '</option>';
+				} else {
+					$r .= '<option value="' . $option['value'] . '">' . $label . '</option>';
+	         }
+		   } 
+		 	echo $p . $r . 
 	 	'</select><br />';?>
 
-		<p><label for="<?php echo $this->get_field_id( 'free_form_text' ); ?>"><?php _e( 'Free form text instead of post content<br />(text widget with width control)<br />','responsive-tabs' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'free_form_text' ); ?>"><?php _e( 'Free form text (may include html as in a post)<br />(text widget with width control)<br />','responsive-tabs' ); ?></label>
 		<textarea type="text" rows = "5" cols = "20" id="<?php echo $this->get_field_id( 'free_form_text' ); ?>" name="<?php echo $this->get_field_name( 'free_form_text' ); ?>"><?php echo $free_form_text; ?></textarea></p> 	 	
 	 	<?php
 	} 
 }
+
+
+/*
+* Front Archive Widget
+*/
+
+class Front_Page_Archives extends WP_Widget {
+
+	function __construct() {
+		parent::__construct(
+			'responsive_tabs_front_page_archives', // Base ID
+			__( 'Front Page Archives', 'responsive-tabs' ), // Name
+			array( 'description' => __( 'Wide format archive widget for front page use', 'responsive-tabs' ), ) // Args
+		);
+	}
+
+	function widget( $args, $instance ) {
+		
+ 		extract( $args, EXTR_SKIP );
+ 		
+ 		$output = '<!-- responsive-tabs Front_Page_Archives, includes/responsive-tabs-widgets.php -->';
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		
+		$output .=  $before_widget  ;										// is blank in home widget areas
+		
+		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
+
+
+		if ( $title ) {
+			$output .= $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
+		} 		
+
+		/* get counts */		
+		global $wpdb;
+		$month_counts = $wpdb->get_results( 
+			'SELECT YEAR(post_date) AS YEAR, MONTH(post_date) AS MONTH, count(ID) AS POST_COUNT from wp_posts 
+			WHERE post_status = "publish" AND post_type = "post" 
+			GROUP BY YEAR(post_date), MONTH(post_date)' 
+			, OBJECT );
+		
+		/* prepare to display counts */
+		$month_count_array 	= array();
+		$first_year 			= 9999; 
+		$last_year				= 0;
+		
+		foreach ( $month_counts as $month_count ) { /* tabulate month counts in array and identify first and last years */
+			$month_count_array[$month_count->YEAR][$month_count->MONTH] = $month_count->POST_COUNT;
+			//$output .= '<p>year:' . $month_count->YEAR . ' month: ' . $month_count->MONTH . ' count: ' . $month_count->POST_COUNT . '</p>'; 		
+			if ( $month_count->YEAR < $first_year ) {
+				$first_year = $month_count->YEAR;			
+			} 
+			if ( $month_count->YEAR > $last_year ) {
+				$last_year = $month_count->YEAR;			
+			} 
+		}	
+	 
+	 	/* display counts including zero counts in range */
+		if ( $last_year > 0 ) {
+			$output .=  '<ul class = "responsive-tabs-front-page-archives">' . /* use styling consistent with category list */
+		     	'<li class = "pl-odd">' .
+		     		'<ul class = "rtfpcl-category-headers">' .
+			     		'<li class="rtfpa-year">' . __( 'Posts', 'responsive-tabs' ) . '</li>' . 
+			     		'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' . 
+			     		'<li class="rtfpa-month">' . __( 'F', 'responsive-tabs' ) . '</li>' .
+			     		'<li class="rtfpa-month">' . __( 'M', 'responsive-tabs' ) . '</li>' .
+			     		'<li class="rtfpa-month">' . __( 'A', 'responsive-tabs' ) . '</li>' .
+			     		'<li class="rtfpa-month">' . __( 'M', 'responsive-tabs' ) . '</li>' .
+			     		'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'A', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'S', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'O', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'N', 'responsive-tabs' ) . '</li>' .
+						'<li class="rtfpa-month">' . __( 'D', 'responsive-tabs' ) . '</li>' .
+		     		'</ul>' . 
+		     	'</li>';
+	
+			global $month; 
+			$count = 1;
+			for ( $year_index = $last_year; $year_index >= $first_year; $year_index-- ) {
+			  	$count = $count+1;
+			  	if( $count % 2 == 0 ) {
+			  		$row_class = "pl-even"; // alternating colors same as post list
+			  	} else {
+			  		$row_class = "pl-odd";
+			  	} 
+			  	$output .= '<li class = "' . $row_class . '">' .
+			  		'<ul class = "responsive-tabs-front-page-archives-list-item">' . 
+			  			'<li class="rtfpa-year">' . $year_index . '</li>';
+
+						for ( $month_index = 1; $month_index <= 12; $month_index++ ) {
+								if ( isset ( $month_count_array[$year_index][$month_index] ) ) {
+									$display =  '<a href = "' . get_month_link ( $year_index, $month_index ) . '" ' . 
+										'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . date("F Y ", mktime(0, 0, 0, $month_index, 10, $year_index)) . '">' .   
+										$month_count_array[$year_index][$month_index] . 
+										'</a>'; 
+								} else {
+									$display = '0';								
+								}
+								$output .= '<li class = "rtfpa-month">' . $display . '</li>'; 					
+						}
+				
+				$output .= '</ul></li>';
+			}
+
+		} 	
+				$output .= '</ul>';	
+
+		$output .= $after_widget ;									// is blank in home widget areas
+
+		echo $output;
+	}
+
+	function update( $new_instance, $old_instance ) {
+		
+		$instance = $old_instance;
+		
+		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		return $instance;
+	}
+
+
+	function form( $instance ) {
+		
+		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+	 	<?php
+	} 
+}
+
+
+
 
