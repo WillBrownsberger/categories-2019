@@ -87,7 +87,7 @@ add_action( 'init', 'responsive_tabs_register_menus' );
 */
 function responsive_tabs_widgets_init() {
 	
-	for ( $index = 1; $index <= 15; $index++ ) { // register widget areas for each tab
+	for ( $index = 0; $index <= 15; $index++ ) { // register widget areas for each tab
 		register_sidebar( array(
 				'name' 				=> __( 'Tab ', 'responsive-tabs' ) . $index,
 				'description' 		=> __( 'Widget area for Tab content', 'responsive-tabs' ),
@@ -99,7 +99,18 @@ function responsive_tabs_widgets_init() {
 				'after_title' 		=> '</h2>',
 			) );
 	}
-
+	
+	register_sidebar( array(
+		'name' 				=> __( 'Highlight Area', 'responsive-tabs' ),
+		'description' 		=> __( 'Front Page highlight area (if not used, theme will show highlight headlines, if any, from Appearance > Customize > Front Page Highlight ) ', 'responsive-tabs' ),
+		'id' 					=> 'highlight_area_widget',
+		'class' 				=> '',
+		'before_widget' 	=> '<div class = "highlight-area-widget-wrapper"> ',
+		'after_widget' 	=> '</div>',
+		'before_title' 	=> '<h2 class = "widgettitle">',
+		'after_title' 		=> '</h2>',
+	) );
+	
 	register_sidebar( array(
 		'name' 				=> __( 'Header Bar Widget', 'responsive-tabs' ),
 		'description' 		=> __( 'Widget on Header Bar (recommended for a search widget ) ', 'responsive-tabs' ),
@@ -191,10 +202,10 @@ $background_default = array(
 add_theme_support( 'custom-background', $background_default );
 
 add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
-	add_image_size( 'front-page-thumb', 270, 9999 ); //270 pixels wide (and unlimited height)
-	add_image_size( 'front-page-half-thumb', 135, 9999 ); //135 pixels wide (and unlimited height)
-	add_image_size( 'post-content-width', 560, 9999); // fits post content width on desktop
-	add_image_size( 'full-width', 1140, 99999); // fits full width window (as on front page in single widget row) in desktop
+	add_image_size( 'front-page-thumb', 270, 200 ); //270 pixels wide (and unlimited height)
+	add_image_size( 'front-page-half-thumb', 135, 100 ); //135 pixels wide (and unlimited height)
+	add_image_size( 'post-content-width', 560, 420); // fits post content width on desktop
+	add_image_size( 'full-width', 1140, 855); // fits full width window (as on front page in single widget row) in desktop
 
 add_theme_support( 'html5', array( 'search-form' ) );
 

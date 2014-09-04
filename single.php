@@ -89,6 +89,7 @@ while ( have_posts() ) : the_post();
 					</span>
 				</div><!-- post-info --> <?php
 				
+				the_post_thumbnail('post-content-width');
 				the_content();
 			
 				if ( get_comments_number() > 2 && comments_open() ) { // jump to bottom of long comments list

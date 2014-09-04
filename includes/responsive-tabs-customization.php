@@ -168,6 +168,11 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
 	
+	$wp_customize->add_setting( 'sticky_post_border_color', array(
+	    'default' => '#333',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+
 	/* fonts */
 	
 	$wp_customize->add_section( 'responsive_tabs_fonts' , array(
@@ -416,6 +421,13 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'section'   => 'colors',
 		'settings'  => 'body_link_hover_color',
 		'priority'	=> 100,
+	) ) );  
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sticky_post_border_color', array(
+		'label'     => __( 'Sticky Post Border Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'sticky_post_border_color',
+		'priority'	=> 105,
 	) ) );  
 
 	/*  fonts  */

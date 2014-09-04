@@ -54,6 +54,10 @@ function responsive_tabs_customize_css() { ?>
 		#color-splash { 
 			background: <?php echo get_theme_mod( 'highlight_color' ); ?>; 
 		}
+	  	
+		.post-list li.sticky {
+			border-left: 8px solid <?php echo get_theme_mod( 'sticky_post_border_color' ); ?>;
+		}	  	
 	  			
 		#highlight-headline,
 		#highlight-subhead	{

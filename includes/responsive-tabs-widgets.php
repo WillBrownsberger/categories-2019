@@ -25,6 +25,7 @@ function register_responsive_tabs_widgets() {
 	register_widget ( 'Front_Page_Post_Summary' );
 	register_widget ( 'Front_Page_Text_Widget' );
 	register_widget ( 'Front_Page_Archives' );
+	register_widget ( 'Front_Page_Latest_Posts' );
 }
 
 /*
@@ -292,8 +293,8 @@ class Front_Page_Post_Summary extends WP_Widget {
 			$responsive_tabs_both_image_width 	= 'front-page-half-thumb';
 		} else {
 			$output .= '<div class = "home-bulk-text-widget">';
-			$responsive_tabs_image_width 		= 'front-page-thumb';
-			$responsive_tabs_both_image_width 	= 'front-page-thumb';
+			$responsive_tabs_image_width 		= 'full-width';
+			$responsive_tabs_both_image_width 	= 'post-content-width';
 		}		
 
 		if ( $title ) {
@@ -582,9 +583,6 @@ class Front_Page_Archives extends WP_Widget {
 		
 		$output .=  $before_widget  ;										// is blank in home widget areas
 		
-		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
-
-
 		if ( $title ) {
 			$output .= $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
@@ -618,20 +616,11 @@ class Front_Page_Archives extends WP_Widget {
 			$output .=  '<ul class = "responsive-tabs-front-page-archives">' . /* use styling consistent with category list */
 		     	'<li class = "pl-odd">' .
 		     		'<ul class = "rtfpcl-category-headers">' .
-			     		'<li class="rtfpa-year">' . __( 'Posts', 'responsive-tabs' ) . '</li>' . 
-			     		'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' . 
-			     		'<li class="rtfpa-month">' . __( 'F', 'responsive-tabs' ) . '</li>' .
-			     		'<li class="rtfpa-month">' . __( 'M', 'responsive-tabs' ) . '</li>' .
-			     		'<li class="rtfpa-month">' . __( 'A', 'responsive-tabs' ) . '</li>' .
-			     		'<li class="rtfpa-month">' . __( 'M', 'responsive-tabs' ) . '</li>' .
-			     		'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'J', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'A', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'S', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'O', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'N', 'responsive-tabs' ) . '</li>' .
-						'<li class="rtfpa-month">' . __( 'D', 'responsive-tabs' ) . '</li>' .
-		     		'</ul>' . 
+			     		'<li class="rtfpa-year">' . __( 'Posts by month', 'responsive-tabs' ) . '</li>'; 
+						for ( $month_index = 1; $month_index <= 12; $month_index++ ) {
+			     			$output .= '<li class="rtfpa-month">' . date_i18n( "F Y ", mktime( 0, 0, 0, $month_index, 10 ) )[0]. '</li>';
+			     		}
+		     		$output .= '</ul>' . 
 		     	'</li>';
 	
 			global $month; 
@@ -650,7 +639,7 @@ class Front_Page_Archives extends WP_Widget {
 						for ( $month_index = 1; $month_index <= 12; $month_index++ ) {
 								if ( isset ( $month_count_array[$year_index][$month_index] ) ) {
 									$display =  '<a href = "' . get_month_link ( $year_index, $month_index ) . '" ' . 
-										'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . date("F Y ", mktime(0, 0, 0, $month_index, 10, $year_index)) . '">' .   
+										'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . date_i18n( "F Y ", mktime( 0, 0, 0, $month_index, 10, $year_index ) ) . '">' .   
 										$month_count_array[$year_index][$month_index] . 
 										'</a>'; 
 								} else {
@@ -661,9 +650,8 @@ class Front_Page_Archives extends WP_Widget {
 				
 				$output .= '</ul></li>';
 			}
-
+			$output .= '</ul>';	
 		} 	
-				$output .= '</ul>';	
 
 		$output .= $after_widget ;									// is blank in home widget areas
 
@@ -689,6 +677,57 @@ class Front_Page_Archives extends WP_Widget {
 	} 
 }
 
+/*
+* Front Page Latest Posts Widget
+*/
+
+class Front_Page_Latest_Posts extends WP_Widget {
+
+	function __construct() {
+		parent::__construct(
+			'responsive_tabs_latest_posts', // Base ID
+			__( 'Front Page Latest Posts', 'responsive-tabs' ), // Name
+			array( 'description' => __( 'Wide format latest posts widget for front page use', 'responsive-tabs' ), ) // Args
+		);
+	}
+
+	function widget( $args, $instance ) {
+		
+ 		extract( $args, EXTR_SKIP );
+ 		
+ 		echo '<!-- responsive-tabs Front_Page_Latest_Posts, includes/responsive-tabs-widgets.php -->';
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		
+		echo $before_widget  ;										// is blank in home widget areas
+		
+		if ( $title ) {
+			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
+		} 		
+
+		/* get counts */		
+		get_template_part('post', 'list');
+		
+		echo $after_widget ;									// is blank in home widget areas
+	}
+
+	function update( $new_instance, $old_instance ) {
+		
+		$instance = $old_instance;
+		
+		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		return $instance;
+	}
+
+
+	function form( $instance ) {
+		
+		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+	 	<?php
+	} 
+}
 
 
 
