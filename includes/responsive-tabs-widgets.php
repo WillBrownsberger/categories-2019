@@ -618,7 +618,7 @@ class Front_Page_Archives extends WP_Widget {
 		     		'<ul class = "rtfpcl-category-headers">' .
 			     		'<li class="rtfpa-year">' . __( 'Posts by month', 'responsive-tabs' ) . '</li>'; 
 						for ( $month_index = 1; $month_index <= 12; $month_index++ ) {
-			     			$output .= '<li class="rtfpa-month">' . date_i18n( "F Y ", mktime( 0, 0, 0, $month_index, 10 ) )[0]. '</li>';
+			     			$output .= '<li class="rtfpa-month">' . substr( date_i18n( "F Y ", mktime( 0, 0, 0, $month_index, 10 ) ), 0, 1 ) . '</li>';
 			     		}
 		     		$output .= '</ul>' . 
 		     	'</li>';

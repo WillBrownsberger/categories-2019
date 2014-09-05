@@ -125,8 +125,8 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 					   get_template_part('post','list'); 
 					} else { ?>
 						<div class = "responsive-tabs-notice">
-							<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab + 1 ); ?> </h3> 
-							<h4> <?php printf ( __( 'To populate, please go to Dashboard>Appearance>Customize>Widgets: Tab %d.', 'responsive-tabs' ), $active_tab + 1 ); ?> </h4>
+							<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h3> 
+							<h4> <?php printf ( __( 'To populate, please go to Dashboard>Appearance>Customize>Widgets: Tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h4>
 							<h4> <?php printf ( __( 'Note: When viewing the front page in Customize, to see Widgets: Tab %d, click on this tab, titled "%s."', 'responsive-tabs' ), $active_tab + 1, trim( $tab_titles_array[$active_tab] ) ); ?> </h4>						
 						</div>							
 					<?php }							
