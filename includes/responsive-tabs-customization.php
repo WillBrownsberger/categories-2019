@@ -37,6 +37,7 @@ $font_size_array = array (
 );
 
 $landing_tab_options_array = array (
+	'0'		=> '0',
 	'1'		=> '1',
 	'2'		=> '2',	
 	'3'		=> '3',
@@ -117,7 +118,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );
 	
 	$wp_customize->add_setting( 'landing_tab', array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );
 	
