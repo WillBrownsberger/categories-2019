@@ -11,6 +11,7 @@
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
  ?>
+ <!-- getting started.php -->
 <div class = "responsive-tabs-notice">
 	<h1> <?php _e('Welcome to Responsive Tabs!', 'responsive-tabs' ); ?> </h1> 
  	<?php 	_e( 	'<h4>Overview of Responsive Tabs</h4>

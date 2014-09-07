@@ -11,6 +11,7 @@
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds functions to create archive drop downs by authors and category
 * -- adds function to sanitize a list of post id's
+* -- adds function to sanitize css/scripts (only balance tags)
 *
 * @package responsive-tabs
 *

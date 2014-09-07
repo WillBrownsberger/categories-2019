@@ -5,6 +5,7 @@
 * Handles all theme options through theme customizer interface (excepting structural options -- tabs, accordions, custom css/scripts and breadcrumbs)
 *
 * @package responsive-tabs
+*
 */
 
 $font_family_array = array (  

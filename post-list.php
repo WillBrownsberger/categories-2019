@@ -29,25 +29,25 @@ if ( have_posts() ) {
 	while (have_posts()) : the_post();	
 		
 		$count = $count+1;
-		$row_class = ( $count % 2 == 0 ) ? "pl-even" : "pl-odd";
+		$row_class = ( 0 == $count % 2 ) ? "pl-even" : "pl-odd";
 		if ( is_sticky() && is_home() ) {
 			$row_class .= " sticky";		
 		}
 		$post_type = get_post_type();	
       
       			
-		if( $post_type == "post" || $post_type == "page" ) { 
+		if( "post" == $post_type || "page" == $post_type ) { 
 			$link 	= get_permalink();
   			$title 	= get_the_title();
   			$excerpt	= get_the_excerpt(); 
-		} elseif ( $post_type == 'twcc_clipping' ) { /* supports inclusion of twcc clippings plugin content in consolidated search */ 
+		} elseif ( 'twcc_clipping' == $post_type ) { /* supports inclusion of twcc clippings plugin content in consolidated search */ 
 			$link 	= get_post_meta( get_the_id(), '_clipping_link', true );
 			$title 	= _e( 'News Item: ', 'responsive-tabs' ) . get_the_title(); 
 			$excerpt	= get_the_content();
 		}
 					
 		$guest_author = get_post_meta( get_the_ID(), 'twcc_post_guest_author', true ); /* supports inclusion of twcc front-end-post-no-spam plugin author information */
-		if ($guest_author === '')	{
+		if ( '' === $guest_author )	{
 			$author_entry = 	'<li class="pl-post-author"><a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></li>';
 		} else {
 			$author_entry = '<li class="pl-post-author">'. esc_html( $guest_author ) . '</li>'; 

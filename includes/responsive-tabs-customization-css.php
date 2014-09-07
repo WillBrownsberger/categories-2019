@@ -5,6 +5,7 @@
 * Description: outputs css from theme customizer and any custom css or scripts from front page options
 *  
 * @package responsive-tabs
+*
 */
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );

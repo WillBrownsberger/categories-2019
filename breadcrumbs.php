@@ -5,11 +5,11 @@
  *
  * @package responsive-tabs
  *
+ *
  */
 
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
-
 
 /* test for installed breadcrumb plugins and display them -- credit for these lines to Cyberchimps Responsive */
 if ( function_exists( 'bcn_display' ) ) {  
@@ -24,7 +24,7 @@ if ( function_exists( 'bcn_display' ) ) {
 	echo '<div id="breadcrumbs">';		
 		yoast_breadcrumb( '<p id="breadcrumbs">', '</p>' );
 	echo 'div';
-} elseif ( get_theme_mod( 'show_breadcrumbs' ) == '1' ) {
+} elseif ( true === get_theme_mod( 'show_breadcrumbs' ) ) {
    echo '<div id="breadcrumbs">';		  			
 		global $wp_locale; 
 		$taxonomy = get_query_var('taxonomy');

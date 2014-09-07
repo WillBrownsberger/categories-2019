@@ -4,6 +4,7 @@
 *  Description: displays abbreviated menu/identity header bar for full-width retina pages
 *
 *  @package: responsive-tabs
+*
 */
 
 /* assure that will die if accessed directly */ 

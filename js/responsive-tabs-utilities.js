@@ -7,6 +7,7 @@
 * 	-- manages column widths on load for older browsers (if don't support css calc)
 *  -- covers what appears to be wordpress bug
 *
+*
 * @package responsive
 */ 
 
@@ -18,7 +19,7 @@ function TestSupportCalc() {
 	
 	var testCalc = document.getElementById ( "calctest" ); 
 	var testCalcWidth = testCalc.offsetWidth;
-	if ( testCalcWidth == 3) {
+	if ( 3 == testCalcWidth ) {
 			return true;
 	} else {
 		return false;
@@ -32,7 +33,7 @@ function toggleSideMenu() {
 	var display = sideMenu.style.display;
 	var menuButton	= document.getElementById ( "side-menu-button");
 
-	if (display == "block" ) {
+	if ( "block" == display ) {
 		sideMenu.style.display = "none";
 		ResetSideMenu();
 	} else {
@@ -172,7 +173,7 @@ function AccordionInit() {
       // Grab the accordion items from the page
       var divs = document.getElementsByTagName( 'div' );
       for ( var i = 0; i < divs.length; i++ ) {
-        if ( divs[i].className == 'accordionItem' ) accordionItems.push( divs[i] );
+        if ( 'accordionItem' == divs[i].className ) accordionItems.push( divs[i] );
       }
 
       // Assign onclick events to the accordion item headings
@@ -196,14 +197,14 @@ function toggleItem() {
       }
 
       // Show this item if it was previously hidden
-      if ( itemClass == 'accordionItem hide' ) {
+      if ( 'accordionItem hide' == itemClass ) {
         this.parentNode.className = 'accordionItem';
       }
 }
 
 function getFirstChildWithTagName( element, tagName ) {
       for ( var i = 0; i < element.childNodes.length; i++ ) {
-        if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
+        if ( tagName == element.childNodes[i].nodeName ) return element.childNodes[i];
       }
 }
 

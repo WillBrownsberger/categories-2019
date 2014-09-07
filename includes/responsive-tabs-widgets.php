@@ -287,7 +287,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
 
 		/* set up for variable widget widget */
-		if ( $responsive_tabs_widget_width == 'pebble' ) {
+		if ( 'pebble' == $responsive_tabs_widget_width ) {
 			$output .= '<div class = "home-bulk-widget-wrapper">'; // div limits height and width and floats the widgets left
 			$responsive_tabs_image_width		= 'front-page-thumb';
 			$responsive_tabs_both_image_width 	= 'front-page-half-thumb';
@@ -318,23 +318,23 @@ class Front_Page_Post_Summary extends WP_Widget {
 					}			
 				}		
 			$output .= '</ul>';
-		} elseif( count( $post_list_array ) == 1 ) { // if have exactly one, show excerpt or image or both according to options set
+		} elseif( 1 == count( $post_list_array ) ) { // if have exactly one, show excerpt or image or both according to options set
 			foreach ( $post_list_array as $post_ID ) {
 					$permalink 	= get_permalink( $post_ID );
 					$post 		= get_post( $post_ID );
 					$title 		= get_the_title( $post_ID );
 					
 					if ( ! is_null ( $post ) ) {
-						if( $single_display_mode == 'excerpt' ) {				
+						if( 'excerpt' == $single_display_mode ) {				
 							$output .= apply_filters( 'the_excerpt', $post->post_excerpt ) . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
-						}	elseif( $single_display_mode == 'image' ) {				
+						}	elseif( 'image' == $single_display_mode ) {				
 							$output .=  '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '"> ' . get_the_post_thumbnail( $post_ID, $responsive_tabs_image_width ) . '</a>';		  
-				      } elseif( $single_display_mode == 'both' ) {
+				      } elseif( 'both' == $single_display_mode ) {
 					      $output .=  '<div class = "bulk-image-float-left"><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '"> ' . get_the_post_thumbnail($post_ID, $responsive_tabs_both_image_width) . '</a></div>' .
 					       	apply_filters( 'the_excerpt', $post->post_excerpt )  . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
-						} elseif( $single_display_mode == 'content') {
+						} elseif( 'content' == $single_display_mode ) {
 							$output .= apply_filters( 'the_content', $post->post_content );
-						} elseif( $single_display_mode == 'all') {
+						} elseif( 'all' == $single_display_mode ) {
 							$output .= '<div class = "bulk-image-float-left-large">' . get_the_post_thumbnail( $post_ID, $responsive_tabs_both_image_width ) . '</div>'; 								
 							$output .= apply_filters( 'the_content', $post->post_content );
 						}
@@ -346,7 +346,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 			$output .= 'Check settings of Front Page Post Summary Widget';
 		}	
 		
-		if ( $responsive_tabs_widget_width == 'full' ) { // close pebble if used
+		if ( 'full' == $responsive_tabs_widget_width ) { // pull down background color 
 			$output .= '<div class = "horbar-clear-fix"></div>';			
 		}				
 		
@@ -481,7 +481,7 @@ class Front_Page_Text_Widget extends WP_Widget {
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
 
 		/* set up for variable widget widget */
-		if ( $responsive_tabs_widget_width == 'pebble' ) {
+		if ( 'pebble' == $responsive_tabs_widget_width ) {
 			$output .= '<div class = "home-bulk-widget-wrapper">'; // div limits height and width and floats the widgets left
 		} else {
 			$output .= '<div class = "home-bulk-text-widget">';

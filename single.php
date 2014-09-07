@@ -25,7 +25,7 @@ while ( have_posts() ) : the_post();
 	$more = 1;  
 
 	// get header depending on post width
-	if( $post_width == 'extra_wide' ) {
+	if( 'extra_wide' == $post_width ) {
 		get_header( 'retina' );
 	} else {
 		get_header();
@@ -47,9 +47,9 @@ while ( have_posts() ) : the_post();
 	</div><?php
 	
 	// set up content wrapper based on post width
-	if ( $post_width == 'wide' ) {
+	if ( 'wide' == $post_width ) {
 		echo '<div id="full-width-content-wrapper">';
-	} elseif ( $post_width == 'extra_wide' ) {
+	} elseif ( 'extra_wide' == $post_width ) {
 		echo '<div id="retina-full-width-content-wrapper">';
 	} else {
 		echo '<div id="content-wrapper">';
@@ -63,7 +63,7 @@ while ( have_posts() ) : the_post();
 					_e( 'By', 'responsive-tabs' ) ?> 
 						<span class="post-author">
 							<?php $guest_author = get_post_meta( get_the_ID(), 'twcc_post_guest_author', true );
-								if ( $guest_author === '' ){ // supports twcc frontend-post-no-spam plugin
+								if ( '' === $guest_author ){ // supports twcc frontend-post-no-spam plugin
 									the_author_posts_link();				
 								} else {
 									echo esc_html( $guest_author ); 
@@ -122,7 +122,7 @@ endwhile; //close the main loop (single entry)
 
 // show post side bar if not using a wide format
 
-if( ! $bbpress_switch && is_active_sidebar( 'post_sidebar' ) && ($post_width == '' || $post_width == NULL || $post_width == 'normal'))
+if( ! $bbpress_switch && is_active_sidebar( 'post_sidebar' ) && ( '' == $post_width || NULL == $post_width || 'normal' == $post_width ))
 {	
 	echo '<div id="right-sidebar-wrapper">';
 		dynamic_sidebar( 'post_sidebar' ); 

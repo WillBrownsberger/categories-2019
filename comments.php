@@ -6,6 +6,7 @@
  * Derived from legacy Wordpress comments.php
  * @package responsive-tabs
  *
+ *
  */
 
 /* assure that will die if accessed directly */ 

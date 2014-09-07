@@ -14,6 +14,7 @@
 *		-- add header for author (was under title)
 * 		-- add header for forum  (was under title) and always display it
 *		-- remove header for voices count (unreliable and clutter for most users anyway)
+*
 */
 
 /* assure that will die if accessed directly */ 

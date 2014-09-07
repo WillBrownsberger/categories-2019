@@ -15,6 +15,7 @@
 *		-- made forum into its own list item (in horizontal unordered list corresponding to the topic) and always display it
 *		-- dropped the voice count listing as too much clutter and unreliable anyway
 * 
+*
 */
 
 /* assure that will die if accessed directly */ 

@@ -4,6 +4,7 @@
 *  Description: displays menu/identity header bar that carries across all theme pages
 *
 * @package responsive-tabs
+*
 */
 
 /* assure that will die if accessed directly */ 

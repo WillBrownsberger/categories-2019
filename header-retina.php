@@ -10,6 +10,7 @@
  *
  * @package responsive-tabs
  *
+ *
  */
  
 /* assure that will die if accessed directly */ 
