@@ -1,14 +1,17 @@
 /**
  * bbPress specific CSS
  *
- * @package bbPress
+ * @package responsive-tabs
  * @subpackage Theme
- */
-/* note that serving from here assures that file will be picked up as new if change version of theme by placing in new directory; 
-* however, prevents new bbpress style sheet from coming in automatically with plug in change (a negative);
-* theme style overrides are included at the bottom in a separate block so can recombine with plugin change;
-* combining overrides with basic file saves one request 
-* but does not eliminate reference to query string (believe that this does not affect operation of expires headers in .htaccess)
+ *
+ * Through line 1352 this css is copied directly from /plugins/bbpress/templates/default/css/bbpress.css
+ * 
+ *	After line 1352, have responsive-tabs overrides and additions to bbpress.css -- 
+ * have kept all overrides together below line 1350 for legibility but you can modify lines above 1350 directly if you prefer.
+ * 
+ * Note: main theme style.css is loaded before bbpress/templates/default/css/bbpress.css so cannot overide bbpress plugin styles there
+ * 
+ *
 */
 
 /* =bbPress Style
@@ -794,6 +797,7 @@ p.form-allowed-tags {
 		box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
 		outline-color: rgba(240,255,240,0.1);
 	}
+	
 	#bbpress-forums #bbp-your-profile fieldset.bbp-form input.checkbox {
 		width: auto;
 	}
@@ -1346,78 +1350,22 @@ body.my-account #bbpress-forums {
 		height: auto;
 	}
 }
-/* bbpress responsive css overrides for theme */
+/*************************************************************************************
+ *************************************************************************************
+ ** responsive-tabs theme css overrides and additions
+ *************************************************************************************/
 
-/*
-* these styles loaded by functions.php with bbp-default-css as dependency 
-* style.css is loaded before bbpress/templates/default/css/bbpress.css so cannot overide bbpress styles
-* any changes that override bbp must be placed in this file
-*
-*/
-
-
-#bbpress-forums
-{
-margin-bottom: 0px;
-}
-/*
-* Fix for replies -- may cause other problems.
-* https://bbpress.org/forums/topic/profile-topics-or-replies-posts-not-being-displayed/
-*/
-#bbpress-forums #bbp-user-wrapper ul.bbp-lead-topic,
-#bbpress-forums #bbp-user-wrapper ul.bbp-topics,
-#bbpress-forums #bbp-user-wrapper ul.bbp-forums,
-#bbpress-forums #bbp-user-wrapper ul.bbp-replies,
-#bbpress-forums #bbp-user-wrapper fieldset.bbp-form {
-	clear: both;
-}
-
-#main-tabs li.bbp-header,
-#main-tabs .bbp-header 
-{
-	background: white; 
-}
-
-#content-wrapper #bbpress-forums 
-{
-	padding-top: 30px;
-}
-
-
-#bbpress-forums .bbp-topic-tags
-{
-	line-height: 1em;
-}
-
-#bbpress-forums ul li li
-{
-/*	padding-left: 20px; RETURN HERE TO STYLE WHOLE THING TO ALIGN WITH BOTTOM ? */
-}
-
-.bbp-pagination-count
-{
-padding-left: 8px;
-}
-
-
-/*
-* Fix to topics lists to make more like table
-* bbp-topic-meta
-*/
-p.bbp-topic-meta
-{
+/* restyle forums/topics lists for wide and responsive format 
+-----------------------------------------------------------------*/
+p.bbp-topic-meta {
 	display: inline;
 }
 
-
-li.bbp-forum-info
-{
+li.bbp-forum-info {
 	float: left;
 	text-align: left;
 	width: 66%;
 }
-
-
 
 li.bbp-topic-title {
 	float: left;
@@ -1425,18 +1373,16 @@ li.bbp-topic-title {
 	width: 48%;
 }
 
-li.bbp-topic-started-by-in-list
-{
+li.bbp-topic-started-by-in-list {
 	float: left;
 	text-align: left;
 	width: 12%;
 }
 
-li.bbp-topic-in-forum-in-list
-{
+li.bbp-topic-in-forum-in-list {
 	float: left;
 	text-align: left;
-	width: 13%;
+	width: 12%;
 }
 
 li.bbp-forum-topic-count,
@@ -1445,118 +1391,78 @@ li.bbp-forum-reply-count,
 li.bbp-topic-reply-count {
 	float: left;
 	text-align: center;
-	width: 7%;
+	width: 6%;
 }
 
 li.bbp-forum-freshness,
 li.bbp-topic-freshness {
 	text-align: left;
 	float: left;
-	width: 20%;
+	width: 22%;
 }
 
-
-/*  
-* bbpress font-size adjustments 
-*
-*/
-
-
-/* boost identification info in listings and topic meta data */
-#bbpress-forums ul.bbp-lead-topic, 
-#bbpress-forums ul.bbp-topics, 
-#bbpress-forums ul.bbp-forums, 
-#bbpress-forums ul.bbp-replies, 
-#bbpress-forums ul.bbp-search-results 
-{
-	font-size: 14px;
-}
-
-/* extraboost for author id added in special themetemplate /bbpress/loop-single-reply.php */
-.bbp-reply-post-author-wb a 
-{
-	font-size: 1.3em;
-	line-height: 1em; 
-}
-
-
-/* shrink count/freshness information in forum and topicslist */
+/* shrink count/freshness information */
 #bbpress-forums .type-forum,
-#bbpress-forums .type-topic 
-{
+#bbpress-forums .type-topic {
 	font-size: 11px;
 }
 
-/* boost title sizes in forum and topic listings */
+/* boost title sizes */
 #bbpress-forums .bbp-body  a.bbp-forum-title, 
-#forums-list-0 .bbp-forum-info a,
-#bbpress-forums .bbp-body .bbp-topic-title a.bbp-topic-permalink 
-{
+#bbpress-forums .bbp-body .bbp-topic-title a.bbp-topic-permalink {
 	font-size: 1.455em; 
 	font-weight: 700;
 }
 
-/* but do not boost size of sub-forums in main forum listing */
-#forums-list-0 .bbp-forum-info li a 
-{
-	font-size:1.0em; 
+/* but do not boost size of sub-forums */
+#forums-list-0 .bbp-forum-info li a {
+	font-size: 1.0em; 
+}
+
+/* adjustments for topic/reply view
+------------------------------------------------------------------*/
+
+/* boost for author id added responsive-tabs/bbpress/loop-single-reply.php */
+.bbp-reply-post-author-wb a {
+	font-size: 1.5em;
+	line-height: 1em; 
 }
 
 /* boost pagination link sizes so that additional replies are obvious */
-.bbp-pagination-links a, .bbp-pagination-links span.current 
-{
+.bbp-pagination-links a, .bbp-pagination-links span.current {
 	font-size: 1.3em; 
 	font-weight: 700;
 }
 
-/* boost topic and reply content */
-#bbpress-forums .bbp-reply-content 
-{
-	font-size: 16px;
-	line-height: 1.5;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top: 20px;
-	padding-bottom: 20px;
-} 
+/* left align tags */
+#bbpress-forums div.bbp-topic-tags,
+#bbpress-forums div.bbp-topic-tags p {
+	float: left;
+	font-style: italic; 
+	margin: 0px 0px 0px 0px; 
+}
 
-/*
-* bbPress layout adjustments 
-*
-*/
-
-/* eliminate redundant/superfluous information in topic view */
+/* eliminate redundant/superfluous information */ 
 #main-tabs .bbp-template-notice,
 div.bbp-reply-ip,
 div.bbp-template-notice.info,
 .bbp-replies .bbp-header, 
 .bbp-footer, 
-.bbp-author-role
-{
+.bbp-author-role {
 	display: none; 
-}
+} 
 
-/* author image moved to right in display of content */
-/* (note that author name added to meta line in this */
-/* theme's copy of loop-single-reply.php           ) */
+/* author image moved to right in display of content -- see responsive-tabs/bbpress/loop-single-reply.php */
 #bbpress-forums div.bbp-topic-author,
-#bbpress-forums div.bbp-reply-author 
-{
+#bbpress-forums div.bbp-reply-author {
 	float: right;
-        margin: -10px 8px 10px 10px;
-        width: 80px; 
+   margin: -10px 8px 10px 10px;
+   width: 80px; 
 }
 
-/* for consistency with div.reply in bbpress.css */
-#bbpress-forums div.topic
-{
-	width: 100%;
-}
-
-/* image flush to meta information */
+/* author image flush to meta information */
 #bbpress-forums div.bbp-topic-author img.avatar, 
-#bbpress-forums div.bbp-reply-author img.avatar 
-{
+#bbpress-forums div.bbp-reply-author img.avatar {
 	border-image-width: 0px;
 	margin-top: 0px;
 }
@@ -1564,196 +1470,124 @@ div.bbp-template-notice.info,
 /* no indentation in text */
 #bbpress-forums div.bbp-forum-content,
 #bbpress-forums div.bbp-topic-content,
-#bbpress-forums div.bbp-reply-content 
-{
+#bbpress-forums div.bbp-reply-content {
 	padding: 0 20px 0 10px; 
 	margin: 0px;
 }
-#bbpress-forums div.topic.odd
-{
-background: white;
+
+/* for consistency with div.reply in bbpress.css */
+#bbpress-forums div.topic {
+	width: 100%;
 }
 
-
-#bbpress-forums div.reply.odd
-{
-background: #fafafa;
+/* prevent topic tag lines from being oversized in theme content wrapper (where line height = 1.5 em) */
+#bbpress-forums .bbp-topic-tags {
+	line-height: 1em;
 }
 
-
-#bbpress-forums div.reply.even
-{
-background: #fcfcfc;
-}
-
-/* =Stickies
--------------------------------------------------------------- */
-
-.bbp-topics-front ul.super-sticky,
-.bbp-topics ul.super-sticky,
-.bbp-topics ul.sticky,
-.bbp-forum-content ul.sticky {
-	background-color: #fff0f0 !important;
-	font-size: 1.1em;
-}
-
-/* bbpress topic and reply forms -- border visibility */
+/* other misc
+--------------------------------------------------------------- */
+/* clearer borders in forms */
 textarea#bbp_reply_content,
 textarea#bbp_topic_content,
-textarea#bbp_forum_content 
-{
+textarea#bbp_forum_content {
         border: 1px solid #999;
 }
 
-/* note -- this element is floated right in bbpress.css (necessary?) */
-#bbpress-forums div.bbp-topic-tags,
-#bbpress-forums div.bbp-topic-tags p
-{
-	float: left;
-	margin: 0px 0px 0px 0px; 
-	font-style: italic; 
-}
-
-#bbpress-forums .bbp-pagination, .bbp-pagination-count, .bbp-pagination-links 
-{
-	margin-bottom: 0px; 
-}
-
-#bbpress-forums .bbp-reply-content, 
-#bbpress-forums ul.bbp-replies,
-div.bbp-forum-header, div.bbp-topic-header, div.bbp-reply-header
-{
-	border: 0px solid blue;
-}
-/* gray tones -- scan style sheets for gray */
-#bbpress-forums div.bbp-forum-header,
-#bbpress-forums div.bbp-topic-header,
-#bbpress-forums div.bbp-reply-header,
-#bbpress-forums li.bbp-header
-{
-	background-color: #f4f4f4;
-}
-
-#bbp-user-wrapper {
-	background: white;
-}
-
-#bbpress-forums div.reply.even {
-	background: #fcfcfc;
-}
-
-#bbpress-forums div.reply.odd {
-	background: #fbfbfb;
-}
-
-
-
 /* img formatting for explorer */
-.avatar-14 
-{
+.avatar-14 {
 	max-height: 14px; 
 	max-width: 14px; 
 }
 
-/* degrade detail in bbpress listings as screen size drops */
+/* fix replies list in profile view -- narrower fix than https://bbpress.org/forums/topic/profile-topics-or-replies-posts-not-being-displayed/ */
+#bbpress-forums #bbp-user-wrapper ul.bbp-replies {
+	clear: both;
+}
+
+/*
+*
+* media queries
+*
+*/
+
+/* degrade detail in bbpress listings as screen size drops below 780 
+--------------------------------------------------------------- */
 @media only screen and (max-width: 779px) {
 
 /* topic lists */
 
 	#bbpress-forums .bbp-topic-in-forum-in-list,
 	.bbp-topic-voice-count, 
-	.bbp-topic-reply-count 
-	{
+	.bbp-topic-reply-count {
 		display: none;
 	}
 	
-	#bbpress-forums .bbp-topic-title
-	{
+	#bbpress-forums .bbp-topic-title	{
 		width: 60%;
 	}
 
-	#bbpress-forums .bbp-topic-started-by-in-list
-	{
+	#bbpress-forums .bbp-topic-started-by-in-list {
 		width: 20%;
 	}
 
-	#bbpress-forums .bbp-body .bbp-topic-freshness 
-	{
+	#bbpress-forums .bbp-body .bbp-topic-freshness {
 		width: 20%;
 	}
 
 
 /* forum lists */
-	#bbpress-forums .bbp-forum-info
-	{
+	#bbpress-forums .bbp-forum-info	{
 	width: auto;
 	}
 
 	#bbpress-forums .bbp-forum-freshness,
 	.bbp-forum-topic-count, 
-	.bbp-forum-reply-count 
-	{
+	.bbp-forum-reply-count {
 		display: none;
 	}
 	
-	#bbpress-forums .bbp-header	
-	{
+	#bbpress-forums .bbp-header	{
 		display: none;
 	}
 	
 /* user profiles */
 
-	#bbpress-forums #bbp-single-user-details
-	{
-	float: none;
+	#bbpress-forums #bbp-single-user-details	{
+		float: none;
 	}
 	
 	
-	#bbpress-forums #bbp-user-body
-	{
+	#bbpress-forums #bbp-user-body {
 		margin: 0;
 	}
 } 
 
-@media only screen and (max-width: 480px) 
-{
-
-	#bbpress-forums fieldset.bbp-form
-	{
-
-	}
+/* further degrade detail in bbpress listings as screen size drops below 481 
+---------------------------------------------------------------------------- */
+@media only screen and (max-width: 480px) {
 	
-	#bbp_topic_content
-	{
-/* can't override the width (col count) of this individual field */	
-	}
-	
-	#bbpress-forums .bbp-topic-title
-	{
+	#bbpress-forums .bbp-topic-title	{
 		font-size: 0.9em;
 		float: none;
 		width: auto;
 	}
 
-	#bbpress-forums .bbp-topic-started-by-in-list
-	{
+	#bbpress-forums .bbp-topic-started-by-in-list {
 		float: none;
 		width: auto;
 	}
 
-	#bbpress-forums .bbp-body .bbp-topic-freshness 
-	{
+	#bbpress-forums .bbp-body .bbp-topic-freshness {
 		display: none;
 	}
 
-	#bbpress-forums .bbp-forum-freshness
-	{
-	display: none;
+	#bbpress-forums .bbp-forum-freshness {
+		display: none;
 	}
 	
-	#bbpress-forums .bbp-forum-info
-	{
-	width: auto;
+	#bbpress-forums .bbp-forum-info 	{
+		width: auto;
 	}
 
 }

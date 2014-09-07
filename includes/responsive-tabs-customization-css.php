@@ -14,7 +14,7 @@ add_action( 'customize_register', 'responsive_tabs_theme_customizer' );
 function responsive_tabs_customize_css() { ?>   
 	<!-- theme customizer css output via responsive-tabs-customization-css.php-->
 	<style type="text/css">
-	
+		
 		body {
 			color: <?php echo get_theme_mod( 'body_text_color' ); ?>;
 			font-family: <?php echo get_theme_mod( 'body_text_font_family' ); ?>;
@@ -52,7 +52,7 @@ function responsive_tabs_customize_css() { ?>
 		#front-page-mobile-color-splash,     			
 		#highlight-text-area,
 		#color-splash { 
-			background: <?php echo get_theme_mod( 'highlight_color' ); ?>; 
+			background: <?php echo get_theme_mod( 'highlight_color' ); ?>;  
 		}
 	  	
 		.post-list li.sticky {

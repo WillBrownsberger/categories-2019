@@ -50,7 +50,7 @@ add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
 */
 $tt_mod = get_theme_mod( 'tab_titles' ) ;
 
-if ( $tt_mod === false ) {
+if ( false === $tt_mod ) {
 	set_theme_mod( "site_short_title"	, "Set mobile short title" );
 	set_theme_mod( "highlight_headline"	, "<p>Responsive Tabs</p><p>Theme Initialization</p>" );
 	set_theme_mod( "highlight_subhead"	, "<p>Set up your theme in Appearance>Customize</p>" );
@@ -67,12 +67,12 @@ if ( $tt_mod === false ) {
 	set_theme_mod( "page_home"				, "1" );
 	set_theme_mod( "header_image"			, get_template_directory_uri() . "/images/initial-header.png");
 }
-
+ 
 /*
 *  optionally suppress bbpress bread crumbs on bbp template forms -- since may be loading broader breadcrumb plugins or offering own
 */ 
-if ( get_theme_mods( 'suppress_bbpress_breadcrumbs' ) ) {
-	add_filter( 'bbp_no_breadcrumb', '__return_true' );
+if ( true === get_theme_mod( 'suppress_bbpress_breadcrumbs' ) ) { 
+		add_filter( 'bbp_no_breadcrumb', '__return_true' );
 }
 /*
 * set up menu
