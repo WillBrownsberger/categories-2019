@@ -1432,7 +1432,7 @@ li.bbp-topic-started-by-in-list
 	width: 12%;
 }
 
-li.bbp-topic-in-category-in-list
+li.bbp-topic-in-forum-in-list
 {
 	float: left;
 	text-align: left;
@@ -1660,7 +1660,7 @@ div.bbp-forum-header, div.bbp-topic-header, div.bbp-reply-header
 
 /* topic lists */
 
-	#bbpress-forums .bbp-topic-in-category-in-list,
+	#bbpress-forums .bbp-topic-in-forum-in-list,
 	.bbp-topic-voice-count, 
 	.bbp-topic-reply-count 
 	{

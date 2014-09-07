@@ -1,19 +1,31 @@
 <?php
-
 /**
- * Topics Loop - Single
- *
- * @package bbPress
- * @subpackage Theme
- */
+* File: loop-single-topic.php
+*
+* Description: this template displays topics as line items in bbPress topic listings 
+* 
+* @package responsive-tabs 
+*
+* DERIVED FROM BBPRESS DEFAULT TEMPLATE -- RESPONSIVE-TABS CHANGES AS FOLLOWS:
+* 1) added die on direct access line 
+* 2) added identifying html comment
+* 3) altered formatting so that each title gets a single line to support single-line, responsive formatting (both widest screens and narrowest)
+* 		-- cut off title list item to exclude meta information (in horizontal unordered list corresponding to the topic)
+* 		-- made author into its own list item (in horizontal unordered list corresponding to the topic)
+*		-- made forum into its own list item (in horizontal unordered list corresponding to the topic) and always display it
+*		-- dropped the voice count listing as too much clutter and unreliable anyway
+* 
+*/
 
+/* assure that will die if accessed directly */ 
+defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 ?>
-
+<!-- responsive-tabs/bbpress/loop-single-topic.php -->
 <ul id="bbp-topic-<?php bbp_topic_id(); ?>" <?php bbp_topic_class(); ?>>
 
 	<li class="bbp-topic-title">
 
-		<?php if ( bbp_is_user_home() ) : // not applicable to front page lists -- for profile listings ?>
+		<?php if ( bbp_is_user_home() ) : ?>
 
 			<?php if ( bbp_is_favorites() ) : ?>
 
@@ -64,11 +76,11 @@
 			<?php // don't do this test, keep in all lists for consistency if ( !bbp_is_single_forum() || ( bbp_get_topic_forum_id() !== bbp_get_forum_id() ) ) : ?>
 
 				<?php do_action( 'bbp_theme_before_topic_started_in' ); ?>
-<!-- if showing it, make category/forum it's own li too (was span)-->
-				<li class="bbp-topic-in-category-in-list"><?php printf( __( '<a href="%1$s">%2$s</a>', 'bbpress' ), bbp_get_forum_permalink( bbp_get_topic_forum_id() ), bbp_get_forum_title( bbp_get_topic_forum_id() ) ); ?>
+<!-- if showing it, make forum  it's own li too (was span)-->
+				<li class="bbp-topic-in-forum-in-list"><?php printf( __( '<a href="%1$s">%2$s</a>', 'bbpress' ), bbp_get_forum_permalink( bbp_get_topic_forum_id() ), bbp_get_forum_title( bbp_get_topic_forum_id() ) ); ?>
 
 				<?php do_action( 'bbp_theme_after_topic_started_in' ); ?>
-</li><!-- end li for category -->
+</li><!-- end li for forum -->
 			<?php // endif; ?>
 
 		<!--was a paragraph mark here closing meta -->

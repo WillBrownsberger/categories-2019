@@ -1,14 +1,25 @@
 <?php
-
 /**
- * Topics Loop
- *
- * @package bbPress
- * @subpackage Theme
- */
+* File: loop-topics.php
+*
+* Description: displays list of topics in bbPress 
+* 
+* @package responsive-tabs 
+*
+* DERIVED FROM BBPRESS DEFAULT TEMPLATE -- RESPONSIVE-TABS CHANGES AS FOLLOWS:
+* 1) added die on direct access line 
+* 2) added identifying html comment
+* 3) altered header formatting for one-topic-per-line, responsive formatting (both widest screens and narrowest)
+*    	-- consistent with loop-single-topic changes
+*		-- add header for author (was under title)
+* 		-- add header for forum  (was under title) and always display it
+*		-- remove header for voices count (unreliable and clutter for most users anyway)
+*/
 
+/* assure that will die if accessed directly */ 
+defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 ?>
-
+<!-- responsive-tabs/bbpress/loop-topics.php -->
 <?php do_action( 'bbp_template_before_topics_loop' ); ?>
 
 <ul id="bbp-forum-<?php bbp_forum_id(); ?>" class="bbp-topics">
@@ -17,13 +28,11 @@
 
 		<ul class="forum-titles">
 			<li class="bbp-topic-title"><?php _e( 'Topic', 'bbpress' ); ?></li>
-			<li class="bbp-topic-started-by-in-list"><?php _e( 'Started by', 'bbpress' ); ?></li>
-			<?php // if ( !bbp_is_single_forum() ) :  // can't test here for condition that topic does not equal forum b/c don't have topic yet?>
-			<li class="bbp-topic-in-category-in-list"><?php _e( 'in Category', 'bbpress' ); ?></li>
-			<?php // don't do this test -- keep category in all lists endif; ?>
+			<li class="bbp-topic-started-by-in-list"><?php _e( 'Started by', 'responsive-tabs' ); // added ?></li> 
+			<li class="bbp-topic-in-forum-in-list"><?php _e( 'in Forum', 'responsive-tabs' );  // added ?></li> 
 			<!-- removed bad voice count --> 
-			<li class="bbp-topic-reply-count"><?php bbp_show_lead_topic() ? _e( 'Replies', 'bbpress' ) : _e( 'Posts', 'bbpress' ); ?></li>
-			<li class="bbp-topic-freshness"><?php _e( 'Freshness', 'bbpress' ); ?></li>
+			<li class="bbp-topic-reply-count"><?php bbp_show_lead_topic() ? _e( 'Replies', 'responsive-tabs' ) : _e( 'Posts', 'responsive-tabs' ); ?></li>
+			<li class="bbp-topic-freshness"><?php _e( 'Freshness', 'responsive-tabs' ); ?></li>
 		</ul>
 
 	</li>

@@ -1,17 +1,24 @@
 <?php
-
 /**
- * Replies Loop - Single Reply
- *
- * @package bbPress
- * @subpackage Theme
- * Modifed by WB for inclusions in Resposive child theme, 3/1/2014
- * 	Added Author information in meta section and removed author name from avatar display block
- *	See theme css for responsive use of these changes
- */
+* File: loop-single-reply.php
+*
+* Description: this template displays replies in bbPress 
+* 
+* @package responsive-tabs 
+*
+* DERIVED FROM BBPRESS DEFAULT TEMPLATE -- RESPONSIVE-TABS CHANGES AS FOLLOWS:
+* 1) added author information in meta section 
+* 2) removed author name from avatar display block
+* 3) added identifying html comment
+* 4) added die on direct access line
+*
+*/
 
+/* assure that will die if accessed directly */ 
+defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 ?>
 
+<!--/responsive-tabs/bbpress/loop-single-reply.php -->
 <div id="post-<?php bbp_reply_id(); ?>" class="bbp-reply-header">
     
 	<div class="bbp-meta"> 
