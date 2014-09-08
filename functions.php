@@ -57,15 +57,15 @@ if ( false === $tt_mod ) {
 	set_theme_mod( "highlight_subhead"	, "<p>Set up your theme in Appearance>Customize</p>" );
 	set_theme_mod( "highlight_headline_small_screen" 	, "Highlight Headline Small Screen" );
 	set_theme_mod( "tab_titles"			, "Getting Started, Latest Posts" );
-	set_theme_mod( "landing_tab"			, "1" );
+	set_theme_mod( "landing_tab"			, "0" );
 	set_theme_mod( "show_login_links"	, true );
 	set_theme_mod( "show_breadcrumbs"	, true );
-	set_theme_mod( "category_home"		, "1" );
-	set_theme_mod( "date_home"				, "1" );
-	set_theme_mod( "author_home"			, "1" );
-	set_theme_mod( "search_home"			, "1" );
-	set_theme_mod( "tag_home"				, "1" );
-	set_theme_mod( "page_home"				, "1" );
+	set_theme_mod( "category_home"		, "0" );
+	set_theme_mod( "date_home"				, "0" );
+	set_theme_mod( "author_home"			, "0" );
+	set_theme_mod( "search_home"			, "0" );
+	set_theme_mod( "tag_home"				, "0" );
+	set_theme_mod( "page_home"				, "0" );
 	set_theme_mod( "header_image"			, get_template_directory_uri() . "/images/initial-header.png");
 }
  

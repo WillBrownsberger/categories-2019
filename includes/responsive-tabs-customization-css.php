@@ -70,11 +70,13 @@ function responsive_tabs_customize_css() { ?>
 			font-size: <?php echo get_theme_mod( 'highlight_headline_font_size' ); ?>;
 		}
 			
-		#highlight-headline a	{
+		#highlight-headline a,
+		#highlight-subhead a	{
 			color: <?php echo get_theme_mod( 'highlight_headline_link_color' ); ?>;
 		}
 	
-		#highlight-headline a:hover	{
+		#highlight-headline a:hover
+		#highlight-subhead a:hover	{
 			color: <?php echo get_theme_mod( 'highlight_headline_link_hover_color' ); ?>;
 		}
 	

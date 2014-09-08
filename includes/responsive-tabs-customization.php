@@ -117,7 +117,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );	
 	
 	$wp_customize->add_setting( 'tab_titles', array(
-	    'default' => __( 'Getting Started, Latest Posts','responsive-tabs' ),
+	    'default' => __( 'This is Tab 0, Latest Posts, Getting Started','responsive-tabs' ),
 	    'sanitize_callback' => 'responsive_tabs_title_list'
 	) );
 	
@@ -232,37 +232,37 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'category_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );
 
 	$wp_customize->add_setting( 'date_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );
 
 	$wp_customize->add_setting( 'author_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );	
 
 	$wp_customize->add_setting( 'search_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );	
 	
 	$wp_customize->add_setting( 'tag_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );	
 
 	$wp_customize->add_setting( 'page_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );
 			
 	$wp_customize->add_setting( 'publications_home' , array(
-	    'default' => '1',
+	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );	
 	
