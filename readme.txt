@@ -21,7 +21,7 @@ Major Design Features
 +++ Full use of Wordpress's new customizer interface to allow easy font and color changes.
 +++ Elegant tiled approach for featuring favorite site content on the front page -- tiles for each favorite post will line up in rows of 4 in wide desktop view, but will reshuffle into rows of 3, 2 or 1 as the screenwidth decreases.
 +++ Custom widgets for front page use -- post summaries with images, wide-format category and comment lists, wide-format post archives.
-+++ Custom templates supporting navigation for all types of Wordpress archive
++++ Custom templates supporting navigation for all types of Wordpress archive.
 +++ Dropdown menu for the routine links like about, contact, etc. -- the things that users know to look for on every site.
 +++ Footer accordion for standard reference content.
 +++ Wide format options for both pages and posts to accommodate  tables and other wide format content.
@@ -32,23 +32,21 @@ Major Design Features
 == Installation ==
 Setting up your tabbed front page is straightforward using Wordpress widgets.
 
-1.	 Standard theme install -- install the theme files in a subdirectory called responsive-tabs in the wp-content/themes subdirectory.
-2.  From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
-3.  To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
-    Favorites, Latest Posts, Latest Comments
-4.  You will see your new tabs momentarily in the customizer. Click on one and the Widget area for that Tab will show as a section in the customizer.
-5.  Populate the widget and repeat for each tab.
-6.  If you want people to land on something other than the left most tab (Tab 0), enter the number for that tab.
-7.  Save Changes
-8.  You can set all other theme options in Appearance>Customize.
---  Go to Appearance>Customize>Menu to select a menu to put in the Main Menu location that will appear in the left sidebar (in widescreen view) or under the drop down (in screens less than 1580 pixels wide).  Or go to Appearance>Menus to create a menu if you are starting from scratch.
---  Go to Appearance>Customize>Login Links in side menu to optionally append profile, dashboard and login/out links to the main menu.
---  If you are not seeing your front page, check Appearance>Customize>Static Front Page -- make sure that it is set to Your Latest Posts. That setting will invoke the Responsive Tabs tabbed front page.  However, you can also choose A Static Page and that will bypass the Responsive Tabs front page.
---  Configure theme or plug-in breadcrumbs.  (The theme will recognize installation of popular breadcrumb plugins and ignore theme breadcrumb settings.) 
---  If you are an experienced user, can add custom CSS and scripts.
---  Set up Accordions in page footers for static reference materials
---  Set up site identity header and optional headlines or headline widget 
---  Change colors, fonts and images
+1.	Standard theme install -- install the theme files in a subdirectory called responsive-tabs in the wp-content/themes subdirectory.
+2. From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
+3. To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
+   Favorites, Latest Posts, Latest Comments
+4. You will see your new tabs momentarily in the customizer. Click on one and the Widget area for that Tab will show as a section in the customizer.
+5. Populate the widget and repeat for each tab.
+6. If you want people to land on something other than the left most tab (Tab 0), enter the number for that tab.
+7. Save Changes
+8. You can set all other theme options in Appearance>Customize.
+-- Go to Appearance>Customize>Navigation to select a menu to put in the Main Menu location that will appear in the left sidebar (in widescreen view) or under the drop down (in screens less than 1580 pixels wide).  Or go to Appearance>Menus to create a menu if you are starting from scratch.  Check "Show Login Links in Main Menu" to optionally append profile, dashboard and login/out links to the main menu. Check Show Theme Breadcrumbs to see breadcrumb navigation on pages other than the front page.  (The theme will recognize also installation of popular breadcrumb plugins and ignore theme breadcrumb settings.)
+-- If you are not seeing your front page, check Appearance>Customize>Static Front Page -- make sure that it is set to Your Latest Posts. That setting will invoke the Responsive Tabs tabbed front page.  However, you can also choose A Static Page and that will bypass the Responsive Tabs front page.
+-- If you are an experienced user, can add custom CSS and scripts.
+-- Set up Accordions in page footers for static reference materials.
+-- Set up site identity header and optional headlines or headline widget. 
+-- Change colors, fonts and images to achieve the look you want.
 
 Let us know if you have questions or concerns -- help@responsive-tabs-wordpress-theme.com.
 
