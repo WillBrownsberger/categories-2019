@@ -47,5 +47,5 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
   						a <a href="http://codex.bbpress.org/shortcodes/"  target = "_blank">bbPress forum</a>.</li> 
  		  	</ul>'   , 'responsive-tabs');   	
  	_e(	'<h4>Note: This page will disappear when you change this tab\'s title or content, but you can always get help in Appearance>Customize>Tab Titles or at ', 'responsive-tabs' );
-	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.Com</a>.  The website offers additional examples.'; ?>
+	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.com</a>.  The website offers additional examples.'; ?>
 </div><?php
