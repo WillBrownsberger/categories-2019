@@ -42,7 +42,7 @@ if ( have_posts() ) {
   			$excerpt	= get_the_excerpt(); 
 		} elseif ( 'twcc_clipping' == $post_type ) { /* supports inclusion of twcc clippings plugin content in consolidated search */ 
 			$link 	= get_post_meta( get_the_id(), '_clipping_link', true );
-			$title 	= _e( 'News Item: ', 'responsive-tabs' ) . get_the_title(); 
+			$title 	= __( 'News Item: ', 'responsive-tabs' ) . get_the_title(); 
 			$excerpt	= get_the_content();
 		}
 					
