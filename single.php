@@ -70,22 +70,22 @@ while ( have_posts() ) : the_post();
 								}
 						?></span>, <?php
 					_e( 'on', 'responsive-tabs' ); 
-		 				echo '<a href="'  .  get_month_link( get_post_time( 'Y' ), get_post_time( 'm' ) ) . '"' . 
+		 				echo '<a href="'  .  get_month_link( get_post_time( 'Y' ), get_post_time( 'm' ) ) . '" ' . 
 							'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . get_post_time( 'F', false, null, true ) . ' ' . get_post_time( 'Y', false, null, true )  . '"> ' .
 							 get_post_time('F', false, null, true )  . 
 						'</a> ' .
-						'<a href="'  .  get_day_link( get_post_time( 'Y' ), get_post_time( 'm' ), get_post_time( 'j' ) ) . '"' . 
+						'<a href="'  .  get_day_link( get_post_time( 'Y' ), get_post_time( 'm' ), get_post_time( 'j' ) ) . '" ' . 
 							'title = "'  .  __( 'View posts from same day', 'responsive-tabs')  . '">' .
 							get_post_time('jS', false, null, true )  . 
 						'</a>, ' . 
-			      	'<a href="'  .  get_year_link( get_post_time( 'Y' ) )  . '"' . 
+			      	'<a href="'  .  get_year_link( get_post_time( 'Y' ) )  . '" ' . 
 			      		'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . get_post_time( 'Y' )   . '">' .
 			      		get_post_time( 'Y' )  . 
 			      	'</a>'; ?> 	
 					<span class= "post-cats">
 						<?php _e( 'In', 'responsive-tabs' ) ?>: 
-							<?php the_category(', '); ?>.<?php  
-						the_tags(" <?php __( 'Tagged', 'responsive-tabs' ) ?>: ", ', ','.'); ?>
+							<?php the_category(', '); ?>. 
+							<?php the_tags( __( ' Tagged', 'responsive-tabs' ) . ': ', ', ','.'); ?>
 					</span>
 				</div><!-- post-info --> <?php
 				

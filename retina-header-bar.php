@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 	?>"> 
 	
  	<div id="header-bar">
-		<a href = "<?php echo home_url( '/'); ?>"><button  id = "home-button"><?php _e( 'HOME' , 'responsive-tabs' ); ?></button></a>
+		<a id = "home-button" href = "<?php echo home_url( '/'); ?>"><?php _e( 'HOME' , 'responsive-tabs' ); ?></a>
 		<ul id = "site-info-wrapper">
 			<li class = "site-title">
 				 <a href="<?php  echo home_url( '/' ); ?>" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>">

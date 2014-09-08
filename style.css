@@ -90,7 +90,6 @@ div#header-bar-wrapper.admin-bar-showing {
 	margin: 0 auto;	
 	max-width: 1460px;
 	padding: 0px 60px; 
-	overflow: hidden;
 	width: auto;
 }
 /* 
@@ -459,8 +458,14 @@ ul.children {
 	float: left;
 	font-size: 19px;
 	margin: 15px 20px 15px 0px; 
-	padding: 0px 8px 0px 8px;;
+	padding: 0px 8px 0px 8px;
 }
+
+#side-menu-button:hover {
+	background: #D2CEC6;
+	color: black;
+}
+
 #home-button {
 	background: #C6C2BA;
 	border: 0px;
@@ -468,12 +473,11 @@ ul.children {
 	float: left;
 	font-size: 32px;
 	margin: 10px 0 0 0; 
-	padding: 0px 8px 0px 8px;;
+	padding: 0px 8px 0px 8px;
+	text-decoration: none;
 }
 
-#home-button:hover,
-#side-menu-button:hover {
-	background: #D2CEC6;
+#home-button:hover {
 	color: black;
 }
 
@@ -1278,10 +1282,13 @@ a img.aligncenter {
 	  	width: 100%;	
 	}
 	
-	#color-splash 
-		{
+	#view-frame.front-page-view #color-splash { /* if no headline, so showing color splash, kill it when mobile comes out */
+		display: none;
+	}	
+	
+	#color-splash 	{
 			height: 40px;
-		}
+	}
 	
 	/* mobile tabs styling */
 	#main-tabs-dropdown-wrapper {

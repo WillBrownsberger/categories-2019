@@ -199,7 +199,7 @@ class Front_Page_Comment_List extends WP_Widget {
 							'</li>' .
 						'</ul>' .
 						'<div class = "responsive-tabs-front-page-comment-excerpt">' . 
-							wp_kses_data( $this->get_long_comment_excerpt( $comment->comment_ID ) ) . '</br>' .
+							wp_kses_data( $this->get_long_comment_excerpt( $comment->comment_ID ) ) . '<br />' .
 							'<a href="'. esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . 
 								__( 'View Comment in Context &raquo;', 'responsive-tabs' ) . 
 							'</a>' .
@@ -382,7 +382,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
-		<p><label for="<?php echo $this->get_field_id( 'post_list' ); ?>"><?php _e( 'ID number(s) of post(s) to show:<br/> (single or multiple separated by commas)<br />', 'responsive-tabs' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'post_list' ); ?>"><?php _e( 'ID number(s) of post(s) to show:<br /> (single or multiple separated by commas)<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'post_list' ); ?>" name="<?php echo $this->get_field_name( 'post_list' ); ?>" type="text" value="<?php echo $post_list; ?>" size="30" /></p>
 		
 		<?php 
