@@ -44,6 +44,8 @@ if (  $accordion_posts_list > '') {
 			 		'<h2 class=accordion-header>' . $post_title . '</h2>' . 
 					'<div class="accordion-content">' . $post_content . '</div>' .
 				'</div>';
+			} else {
+				_e( '<h6>Check setting at &raquo; Customize &raquo; Appearance &raquo; Footer Accordions.</h6>', 'responsive-tabs' );			
 			}
 		};
 
@@ -63,7 +65,7 @@ if (  $accordion_posts_list > '') {
 
 </div><!-- view-frame from header -->
 </div> <!-- wrapper from header -->
-<div id="calctest"></div><!--for testing browser capabilities -- see style.css and resize.js -->
+<div id="calctest"></div><!--for testing browser capabilities (see style.css and resize.js) -->
 
 <?php wp_footer(); ?>
 

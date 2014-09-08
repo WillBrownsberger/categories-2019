@@ -262,7 +262,7 @@ class Front_Page_Comment_List extends WP_Widget {
 }
 
 /*
-* Widget to ease population of front page bulk widget area -- creates essentially text widgets with links and images based on post numbers selected
+* Widget to ease population of front page widget area -- creates essentially text widgets with links and images based on post numbers selected
 *
 */
 
@@ -288,11 +288,11 @@ class Front_Page_Post_Summary extends WP_Widget {
 
 		/* set up for variable widget widget */
 		if ( 'pebble' == $responsive_tabs_widget_width ) {
-			$output .= '<div class = "home-bulk-widget-wrapper">'; // div limits height and width and floats the widgets left
+			$output .= '<div class = "home-narrow-widget-wrapper">'; // div limits height and width and floats the widgets left
 			$responsive_tabs_image_width		= 'front-page-thumb';
 			$responsive_tabs_both_image_width 	= 'front-page-half-thumb';
 		} else {
-			$output .= '<div class = "home-bulk-text-widget">';
+			$output .= '<div class = "home-wide-widget-wrapper">';
 			$responsive_tabs_image_width 		= 'full-width';
 			$responsive_tabs_both_image_width 	= 'post-content-width';
 		}		
@@ -326,17 +326,17 @@ class Front_Page_Post_Summary extends WP_Widget {
 					
 					if ( ! is_null ( $post ) ) {
 						if( 'excerpt' == $single_display_mode ) {				
-							$output .= apply_filters( 'the_excerpt', $post->post_excerpt ) . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
+							$output .= '<div class = "bulk-text-padding-wrapper">' . apply_filters( 'the_excerpt', $post->post_excerpt ) . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>'  . '</div>';	
 						}	elseif( 'image' == $single_display_mode ) {				
 							$output .=  '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '"> ' . get_the_post_thumbnail( $post_ID, $responsive_tabs_image_width ) . '</a>';		  
 				      } elseif( 'both' == $single_display_mode ) {
-					      $output .=  '<div class = "bulk-image-float-left"><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '"> ' . get_the_post_thumbnail($post_ID, $responsive_tabs_both_image_width) . '</a></div>' .
-					       	apply_filters( 'the_excerpt', $post->post_excerpt )  . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>';	
+					      $output .=  '<div class = "bulk-text-padding-wrapper">' .  '<div class = "bulk-image-float-left"><a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' )  . $title . '"> ' . get_the_post_thumbnail($post_ID, $responsive_tabs_both_image_width) . '</a></div>' .
+					       	apply_filters( 'the_excerpt', $post->post_excerpt )  . '<a href="'. $permalink . '" title = "' . __( 'Read post ', 'responsive-tabs' ) . $title . '">' . __( 'Read More', 'responsive-tabs') . '&raquo;</a>'  . '</div>';	
 						} elseif( 'content' == $single_display_mode ) {
-							$output .= apply_filters( 'the_content', $post->post_content );
+							$output .=  '<div class = "bulk-text-padding-wrapper">' . apply_filters( 'the_content', $post->post_content ) . '</div>';
 						} elseif( 'all' == $single_display_mode ) {
-							$output .= '<div class = "bulk-image-float-left-large">' . get_the_post_thumbnail( $post_ID, $responsive_tabs_both_image_width ) . '</div>'; 								
-							$output .= apply_filters( 'the_content', $post->post_content );
+							$output .=  '<div class = "bulk-text-padding-wrapper">' . '<div class = "bulk-image-float-left-large">' . get_the_post_thumbnail( $post_ID, $responsive_tabs_both_image_width ) . '</div>';  								
+							$output .= apply_filters( 'the_content', $post->post_content ) . '</div>';
 						}
 					} else { 
 						$output .= 'Check settings of Front Page Post Summary Widget';
@@ -482,9 +482,9 @@ class Front_Page_Text_Widget extends WP_Widget {
 
 		/* set up for variable widget widget */
 		if ( 'pebble' == $responsive_tabs_widget_width ) {
-			$output .= '<div class = "home-bulk-widget-wrapper">'; // div limits height and width and floats the widgets left
+			$output .= '<div class = "home-narrow-widget-wrapper">'; // div limits height and width and floats the widgets left
 		} else {
-			$output .= '<div class = "home-bulk-text-widget">';
+			$output .= '<div class = "home-wide-widget-wrapper">';
 		}		
 
 		if ( $title ) {

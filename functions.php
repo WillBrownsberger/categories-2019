@@ -12,6 +12,7 @@
 * -- adds functions to create archive drop downs by authors and category
 * -- adds function to sanitize a list of post id's
 * -- adds function to sanitize css/scripts (only balance tags)
+* -- adds filter hack to cover home page title
 *
 * @package responsive-tabs
 *
@@ -203,10 +204,10 @@ $background_default = array(
 add_theme_support( 'custom-background', $background_default );
 
 add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
-	add_image_size( 'front-page-thumb', 270, 200 ); //270 pixels wide (and unlimited height)
-	add_image_size( 'front-page-half-thumb', 135, 100 ); //135 pixels wide (and unlimited height)
-	add_image_size( 'post-content-width', 560, 420); // fits post content width on desktop
-	add_image_size( 'full-width', 1140, 855); // fits full width window (as on front page in single widget row) in desktop
+	add_image_size( 'front-page-thumb', 285, 214 ); //270 pixels wide (and unlimited height)
+	add_image_size( 'front-page-half-thumb', 133, 100 ); //135 pixels wide (and unlimited height)
+	add_image_size( 'post-content-width', 560, 420, true ); // fits post content width on desktop
+	add_image_size( 'full-width', 1140, 855, true ); // fits full width window (as on front page in single widget row) in desktop in maximum 
 
 add_theme_support( 'html5', array( 'search-form' ) );
 
@@ -393,4 +394,15 @@ function responsive_tabs_title_list($title_list)  {
 */
 function responsive_tabs_pass_through($unfiltered) {
 	return force_balance_tags($unfiltered);
+}
+/*
+* Hack to cover title for home page -- http://codex.wordpress.org/Function_Reference/wp_title > Covering Homepage
+*/
+add_filter( 'wp_title', 'baw_hack_wp_title_for_home' );
+function baw_hack_wp_title_for_home( $title )
+{
+  if( empty( $title ) && ( is_home() || is_front_page() ) ) {
+    return get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) ;
+  }
+  return $title;
 }

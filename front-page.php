@@ -133,9 +133,9 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 					<?php }							
 				}
 				?>
-			<div><!-- close main-tab-content -->
-		<div><!-- close main-tabs -->
-	<div><!-- close main-tabs-wrapper --><?php
+			</div><!-- close main-tab-content -->
+		</div><!-- close main-tabs -->
+	</div><!-- close main-tabs-wrapper --><?php
 
 
 	get_footer();

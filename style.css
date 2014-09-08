@@ -31,7 +31,7 @@ Style CSS organized as follows
 	comments
 	header
 	highlight
-	home bulk widgets (home_widget_1)
+	home widgets 
 	horizontal bar
 	main tabs
 	new post widget 	
@@ -126,7 +126,6 @@ div#header-bar-wrapper.admin-bar-showing {
 	left: 0;
 	margin: 0;
 	opacity: 0.9;
-	filter:alpha(opacity=90); /* For IE8 and earlier */
 	padding: 0 0 0 60px;
 	position: fixed;
 	right: 320px;
@@ -292,7 +291,7 @@ img {
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
    margin: 0;
-   padding: 20px 0 0 0;   
+   padding: 5px 0 0 0;   
   	width: 100%;
 }          
 
@@ -581,11 +580,41 @@ ul.children {
 
 /* formatting for content presented as collection of small regular widgets in larger area */
 
-.bulk-image-float-left-large {
-	float: left;
-	padding-top: 0px;
-	margin-top: 0px;
-	padding-right: 8px;
+.home-narrow-widget-wrapper {
+	  background: inherit;  
+	 -webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box; 
+	  box-sizing: border-box;
+	  float: left;
+	  height: 200px;
+	  margin: 0;
+	  overflow: hidden;
+	  padding: 0;
+	  width: 25%;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+1) {
+	background:#fafafa;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+2) {
+	background:#f0f0f0;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+3) {
+	background:#fcfcfc;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+4) {
+	background:#f4f4f4;
+}
+
+.home-wide-widget-wrapper h2.widgettitle, 
+.home-narrow-widget-wrapper h2.widgettitle {
+	color: #555;
+	font-size: 1em;
+	margin: 10px 8px; 
+
 }
 
 .bulk-image-float-left {
@@ -595,42 +624,21 @@ ul.children {
 	padding-right: 4px;
 }
 
+.bulk-text-padding-wrapper {
+	padding: 0 8px 8px 8px;
+}
+/* styling for one to a row home widgets */
 
-
-
-.home-bulk-widget-wrapper {
-	  background: inherit;  
-	 -webkit-box-sizing: border-box;
-	 -moz-box-sizing: border-box; 
-	  box-sizing: border-box;
-	  float: left;
-	  height: 200px;
-	  margin: 0;
-	  overflow: hidden;
-	  padding: 10px 0 0 8px;
-	  width: 25%;
+.home-wide-widget-wrapper {
+/* no styling */	
 }
 
-.home-bulk-widget-wrapper:nth-of-type(5n+1) {
-	background:#fafafa;
-}
-
-.home-bulk-widget-wrapper:nth-of-type(5n+2) {
-	background:#f0f0f0;
-}
-
-.home-bulk-widget-wrapper:nth-of-type(5n+3) {
-	background:#fcfcfc;
-}
-
-.home-bulk-widget-wrapper:nth-of-type(5n+4) {
-	background:#f4f4f4;
-}
-
-.home-bulk-widget-wrapper h2.widgettitle {
-	color: #555;
-	margin: 0 0 5px 0; 
-	font-size: 1em;
+/* can be used in narrow widget, but is invoked if displaying image and whole content of post in summary */
+.bulk-image-float-left-large {
+	float: left;
+	padding-top: 0px;
+	margin-top: 0px;
+	padding-right: 8px;
 }
 
 /* horizontal bar */
@@ -655,7 +663,7 @@ ul.children {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
-	background: #e6e6e6;
+	background: white;
 	border: 1px solid #ccc;
 	border-radius: 0px; 
 	display: block;
@@ -711,7 +719,7 @@ li.nav-tab-active  {
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
 	clear: both;
-	padding: 10px 0px 0px 0px;
+	padding: 1px 0 0 0;
 }
 
 #main-tabs a {
@@ -976,10 +984,6 @@ div#front-page-post-entry {
  	padding: 20px; 
 }
 
-.home-bulk-text-widget {
-	padding: 10px 0 0 8px;
-}
-
 /* responsive-tabs front page list styles */
 
 .responsive-tabs-front-page-archives,
@@ -1189,7 +1193,7 @@ a img.aligncenter {
 
 @media only screen and (max-width: 1279px) {
 
-	.home-bulk-widget-wrapper	{
+	.home-narrow-widget-wrapper	{
 		width: 33.3333%;
 	}
 
@@ -1204,6 +1208,12 @@ a img.aligncenter {
 
 	#site-info-wrapper li.site-description {
 		display: none;
+	}
+
+	.attachment-post-content-width,
+	.attachment-full-width {
+		width: 760px;
+		height: 570px; 
 	}
 
 }
@@ -1289,8 +1299,22 @@ a img.aligncenter {
 		display: none;
 	}
 	
-	.home-bulk-widget-wrapper {
+	.home-narrow-widget-wrapper {
 		width: 50%;
+	}
+	
+	.attachment-post-content-width,
+	.attachment-full-width {
+		width: 500px;
+		height: 375px; 
+	}
+	
+	#wp-single-content {
+		padding: 0px;	
+	}
+	
+	#content-header {
+		padding: 4px 0px;
 	}
 } 
 
@@ -1318,8 +1342,14 @@ a img.aligncenter {
 		font-size: .9em;
 	}
 	
-	.home-bulk-widget-wrapper {
+	.home-narrow-widget-wrapper {
 		width: 100%;
+	}
+	
+	.attachment-post-content-width,
+	.attachment-full-width {
+		width: 298px;
+		height: 224px; 
 	}
 
 	#site-info-wrapper li.site-title-short	{
@@ -1367,4 +1397,5 @@ a img.aligncenter {
 		padding: 8px 8px 20px 20px;
 		width: 100%; 
 	}
+
 } 

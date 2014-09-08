@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
  			<p>The Responsive Tabs theme gives you great structural flexibility in defining and redefining your front page content. 
  			Visit <a href="http://responsive-tabs-wordpress-theme.com">responsive-tabs-wordpress-theme.com</a> for more help and examples of this theme in action.  
  			Visit <a href = "http://WillBrownsberger.com">WillBrownsberger.com</a> for a more fully-developed implementation of this theme.  
- 			Please feel free to email <a href="mailto: help@responsive-tabs-wordpress-theme.com">help@responsive-tabs-wordpress-theme.com</a> 
- 			with any questions.</a></p>
+ 			Please feel free to email <a href="mailto:help@responsive-tabs-wordpress-theme.com">help@responsive-tabs-wordpress-theme.com</a> 
+ 			with any questions.</p>
 			<h4>Basic Setup</h4>    		  	
  		  	<ol>
  		  		<li>Enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so: <br />
@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
  		  		<li>For a newspaper look, populate your landing tab widget area with 10 or 15 copies of the Front Page Post Summary widget.  
 	 		  		Use the Front Page Post Summary Widget to bring a post excerpt, featured-image and/or content to the front page -- 
 	 		  		either in full-width or 4-to-a-row format. In 4-to-a-row format, the widgets will show as rows of 2 to 4 tiles (depending on browser width) 
-	 		  		in desktop view but will reshuffle into a column in mobile view.</strong></em></li>
+	 		  		in desktop view but will reshuffle into a column in mobile view.</li>
 				<li>Use the other included Front Page widgets for a responsive category list, comment list or archive list 
 					formatted to take advantage of all screen sizes.</li>     		  		
  		  		<li>To show the standard latest posts list, just use Latest Posts as a tab title and leave the widget area for the tab empty.  
@@ -47,5 +47,5 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
   						a <a href="http://codex.bbpress.org/shortcodes/"  target = "_blank">bbPress forum</a>.</li> 
  		  	</ul>'   , 'responsive-tabs');   	
  	_e(	'<h4>Note: This page will disappear when you change this tab\'s title or content, but you can always get help in Appearance>Customize>Tab Titles or at ', 'responsive-tabs' );
-	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.com</a>.  The website offers additional examples.'; ?>
+	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.com</a>.  The website offers additional examples.</h4>'; ?>
 </div><?php
