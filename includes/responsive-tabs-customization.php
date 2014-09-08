@@ -87,6 +87,9 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_section( 'responsive_tabs_highlight' , array(
 	    'title'      => __( 'Front Page Highlight', 'responsive-tabs' ),
 	    'priority'   => 30,
+  	    'description' => 'Enter short a message to highlight for front page users.  Or make these areas blank to just show a color bar. 
+  	    	You can also put a widget in the highlight area.  Set Colors and Fonts (not applicable to widget content) in the Colors and Fonts sections of the customizer. 
+	    	<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>' 
 	) );
 	
 	$wp_customize->add_setting( 'highlight_headline', array(
@@ -104,13 +107,13 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'wp_kses_post'
 	) );
 	
-	/* tab title */
+	/* tab titles */
 	$wp_customize->add_section( 'tab_titles_section' , array(
 	    'title'      => __( 'Tab Titles', 'responsive-tabs' ),
 	    'priority'   => 35,
 	    'description' => 'Enter tab titles separated by commas, like so:<code>Favorites, Latest Posts, Comments</code>. 
 	    	Then enter content for each tab widget.  The widget for a tab shows below in this menu  when you click on the tab title.
-	    	<a href="http://twowayconstituentcommunication.com/setup-notes-for-responsive-tabs-theme/">More help &raquo;</a>' , 
+	    	<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>' , 
 	) );	
 	
 	$wp_customize->add_setting( 'tab_titles', array(
@@ -219,7 +222,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );
 	
 	/* breadcrumbs control -- overridden if major breadcrumb plugin is installed */
-	
+
 	$wp_customize->add_setting( 'show_breadcrumbs', array(
 	    'default' => true,
 	) );
@@ -269,7 +272,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'   	=> 100,
 	    'description'	=> 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
 	    						Titles will be accordion titles.  Content will appear when clicked.  
-	    						<a href="http://twowayconstituentcommunication.com/setup-notes-for-responsive-tabs-theme/#accordion">More help &raquo;</a>',
+	    						<a href="http://responsive-tabs-wordpress-theme.com/setup-notes-for-responsive-tabs-theme/#accordion">More help &raquo;</a>',
 	) );	
 		
 	$wp_customize->add_setting( 'front_page_accordion', array(
