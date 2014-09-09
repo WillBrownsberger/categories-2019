@@ -49,7 +49,7 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 			</div>
 		<?php } ?>
 		
-		<ul><?php 
+		<ul id = "main-menu-and-login-ul"><?php 
 			$args = array (
 					 'theme_location' 	=> 'main-menu', 
 					 'container'			=> false,

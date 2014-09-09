@@ -111,7 +111,6 @@ div#header-bar-wrapper.admin-bar-showing {
 	background-repeat: no-repeat;
 	display: block;
 	float: left;
-	font-size: 1.2em;
 	margin: 0 20px 0 0;
 	padding: 250px 0 0 0;
 	width: 300px;
@@ -121,7 +120,6 @@ div#header-bar-wrapper.admin-bar-showing {
 	background: #555;
 	color: white;
 	display: none;
-	font-size: 1.2em;
 	left: 0;
 	margin: 0;
 	opacity: 0.9;
@@ -930,12 +928,13 @@ a.read-more-link {
 	width: 250px;
 }
 
-#side-menu ul { 
+#main-menu-and-login-ul { 
+	font-size: 1.2em;
 	list-style:none;
 	padding-left: 0px;
 }
 
-#side-menu ul li a { 
+#main-menu-and-login-ul li a { 
 	display: block;  
 	line-height: 28px; 
   	text-decoration: none;  
@@ -945,46 +944,43 @@ a.read-more-link {
   	color: white;
 }
 
-#side-menu ul li a:before { 
+#main-menu-and-login-ul li a:before { 
 	content: '>';
 	color: #ccc;
 }
 
-#side-menu ul li li a:before { 
+#main-menu-and-login-ul li li a:before { 
 	content: ">>";
 	color: #ccc;
 }
 
-#side-menu ul li li li a:before { 
+#main-menu-and-login-ul li li li a:before { 
 	content: ">>>";
 	color: #ccc;
 }
 
-#side-menu ul li li li li a:before { 
+#main-menu-and-login-ul li li li li a:before { 
 	content: ">>>>";
 	color: #ccc;
 }
 
-#side-menu ul li li li li li a:before { 
+#main-menu-and-login-ul li li li li li a:before { 
 	content: ">>>>>";
 	color: #ccc;
 }
 
-#side-menu ul li li li li li li a:before { 
+#main-menu-and-login-ul li li li li li li a:before { 
 	content: ">>>>>>";
 	color: #ccc;
 }
 
-
-
-#side-menu ul li a:hover {  
+#main-menu-and-login-ul li a:hover {  
 	-moz-box-shadow:10px 10px 20px #000000;
 	-webkit-box-shadow:10px 10px 20px #000000;
 	box-shadow:10px 10px 20px #000000; 
 }
 
 #side-menu-widget-area {
-	margin: 20px;
 	width: 260px;
 }
 

@@ -40,7 +40,7 @@ class Front_Page_Category_List extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_category_list', // Base ID
 			__( 'Front Page Category List', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Top and second level categories in wide format', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Top and second level categories in wide (responsive) format for front page tabs or highlight area.', 'responsive-tabs' ), ) // Args
 		);
 	}
 
@@ -122,7 +122,7 @@ class Front_Page_Comment_List extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_comment_list', // Base ID
 			__( 'Front Page Comment List', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Recent comment list in wide format with excerpts.  Excludes admin and editor comments.', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Recent comment list with excerpts in wide (responsive) format for front page tabs or highlight area.', 'responsive-tabs' ), ) // Args
 		);
 	}
 	
@@ -272,7 +272,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_post_summary', // Base ID
 			__( 'Front Page Post Summary', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Post links, excerpt or content for front page', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Variable width widget for tiling of post links, excerpt and content in front page tabs or highlight area.', 'responsive-tabs' ), ) // Args
 		);
 	}
 
@@ -466,7 +466,7 @@ class Front_Page_Text_Widget extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_text_widget', // Base ID
 			__( 'Front Page Text Widget', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Variable width text widget to populate front page', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Variable width text widget for tiling of arbitrary content in front page tabs or highlight area.', 'responsive-tabs' ), ) // Args
 		);
 	}
 
@@ -570,7 +570,7 @@ class Front_Page_Archives extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_archives', // Base ID
 			__( 'Front Page Archives', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Wide format archive widget for front page use', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Archive widget in wide (responsive) format.', 'responsive-tabs' ), ) // Args
 		);
 	}
 
@@ -687,7 +687,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_latest_posts', // Base ID
 			__( 'Front Page Latest Posts', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Wide format latest posts widget for front page use', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Latest posts widget in wide (responsive) format for front page tabs or highlight area. Will not work in sidebar.', 'responsive-tabs' ), ) // Args
 		);
 	}
 
