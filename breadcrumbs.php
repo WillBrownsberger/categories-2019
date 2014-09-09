@@ -29,7 +29,7 @@ if ( function_exists( 'bcn_display' ) ) {
 		global $wp_locale; 
 		$taxonomy = get_query_var('taxonomy');
 		/* construct breadcrumbs for templates */	
-	   if ( is_page() ) {
+	   if ( is_page() && ! is_front_page() ) {
 			$home_link =  '<a href="/?frontpagetab=' .  get_theme_mod( 'page_home' )  .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link;   	
 	   	$id = get_queried_object_id();

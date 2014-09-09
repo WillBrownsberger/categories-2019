@@ -81,7 +81,7 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 			} // if show_login_links
 		?></ul> <?php // combined menu and login links
 		
-		if ( is_active_sidebar( 'side-menu-widget-area' ) ) { ?>
+		if ( is_active_sidebar( 'side_menu_widget' ) ) { ?>
 			<div id = "side-menu-widget-area" >
 				<?php dynamic_sidebar('side_menu_widget'); ?>
 			</div>

@@ -18,17 +18,13 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 
 	<!--responsive-tabs full-width-page.php -->
 	
-	<?php if ( ! is_front_page() ) { // suppress breadcrumbs and title if user selects page as front page in admin>settings>reading ?>  		
+	<div id="content-header">
+
+		<?php get_template_part( 'breadcrumbs' ); ?>
+   	
+		<?php the_title( '<h1 class="post-title">', ' </h1> '); ?>
 	
-		<div id="content-header">
-	
-			<?php get_template_part( 'breadcrumbs' ); ?>
-	   	
-			<?php the_title( '<h1 class="post-title">', ' </h1> '); ?>
-		
-		</div>
-		
-	<?php } ?>	
+	</div>
 		
 	<div id="full-width-content-wrapper">   
 

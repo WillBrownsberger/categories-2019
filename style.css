@@ -965,6 +965,15 @@ a.read-more-link {
 	color: #ccc;
 }
 
+#side-menu ul li li li li li a:before { 
+	content: ">>>>>";
+	color: #ccc;
+}
+
+#side-menu ul li li li li li li a:before { 
+	content: ">>>>>>";
+	color: #ccc;
+}
 
 
 
