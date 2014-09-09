@@ -221,6 +221,21 @@ body {
 	padding: 0;
 }
 
+/* definition styles from twentyfourteen */
+
+
+dl {
+	margin-bottom: 24px;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: 24px;
+}
+
 div {
 	margin: 0;
 	padding: 0;
@@ -272,6 +287,114 @@ img {
 #retina-full-width-content-wrapper li li,
 #retina-full-width-content-wrapper li li li {
 	max-width: 600px; 
+}
+
+/* table styles from twentyfourteen */
+
+table,
+th,
+td {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	border-width: 1px 0 0 1px;
+	margin-bottom: 24px;
+	width: 100%;
+}
+
+caption,
+th,
+td {
+	font-weight: normal;
+	text-align: left;
+}
+
+th {
+	border-width: 0 1px 1px 0;
+	font-weight: bold;
+}
+
+td {
+	border-width: 0 1px 1px 0;
+}
+
+/* specialized font styling tags from twentyfourteen */
+
+address {
+	font-style: italic;
+	margin-bottom: 24px;
+}
+abbr[title] {
+	border-bottom: 1px dotted #2b2b2b;
+	cursor: help;
+}
+
+small {
+	font-size: smaller;
+}
+
+big {
+	font-size: 125%;
+}
+q,
+cite,
+dfn,
+em,
+i {
+	font-style: italic;
+}
+
+code,
+kbd,
+tt,
+var,
+samp,
+pre {
+	font-family: monospace, serif;
+	font-size: 15px;
+	-webkit-hyphens: none;
+	-moz-hyphens:    none;
+	-ms-hyphens:     none;
+	hyphens:         none;
+	line-height: 1.6;
+}
+
+b,
+strong {
+	font-weight: 700;
+}
+
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+blockquote em,
+blockquote i,
+blockquote cite {
+	font-style: normal;
+}
+
+sup,
+sub {
+	font-size: 75%;
+	height: 0;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub {
+	top: .5ex;
 }
 
 /*

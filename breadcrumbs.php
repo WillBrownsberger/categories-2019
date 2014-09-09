@@ -37,8 +37,8 @@ if ( function_exists( 'bcn_display' ) ) {
 	     	krsort( $ancestors );
 	   	foreach( $ancestors as $ancestor ){
 	   		$ancestor_title = get_the_title( $ancestor );
-			 	echo '<a href=' . get_permalink( $ancestor )
-	    			. ' ' . 'title=' . $ancestor_title . '>' . strtolower($ancestor_title)
+			 	echo '<a href="' . get_permalink( $ancestor )
+	    			. ' ' . '" title="' . $ancestor_title . '" >' . strtolower($ancestor_title)
 	    			. '</a> &raquo; ';   	
 	   	}
 	   } elseif ( is_single() ) {
