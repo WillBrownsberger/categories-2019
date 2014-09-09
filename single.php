@@ -99,6 +99,7 @@ while ( have_posts() ) : the_post();
 				<?php
 				the_post_thumbnail('post-content-width');
 				the_content();
+				?><div class="horbar-clear-fix"></div><?php
 
 				wp_link_pages( array(
 					'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
@@ -115,9 +116,9 @@ while ( have_posts() ) : the_post();
 					
 			</div><!-- .post --><?php
 			
-			if ( comments_open() || get_comments_number() ) {			
-				comments_template();
-			}
+			/* always do comments template -- it will check and show message if not open (contrast page.php) */		
+			comments_template();
+
 	
 			?> <div id="previous-post-link"> <?php
 				previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
