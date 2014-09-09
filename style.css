@@ -5,7 +5,7 @@ Description: Responsive Tabs is a fully responsive theme that takes advantage of
 Version: 1.0
 Author: Will Brownsberger
 Author URI: http://willbrownsberger.com
-Tags: responsive, tabs, light, fast, colors, flexible, bbPress, constituent, cms, fonts, content management, dialog
+Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
 
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -830,6 +830,12 @@ ul.pl-post-item {
 	width: 60%; 
 }
 
+div.post { /* note that li elements in post-list.php also take this class */ 
+	background: white;
+	padding: 24px 20px; 
+}
+
+
 .post-title {
 	margin: 5px 0px;
 }
@@ -858,6 +864,19 @@ ul.pl-post-item {
 #post-list-wrapper h2 {
 	margin: 0px; 
 }
+
+.upper-page-links {
+	display: inline;
+}
+
+.lower-page-links {
+	font-style: italic;
+}
+
+.lower-page-links a {
+	color: red;
+}
+
 
 #previous-post-link {
 	float: left;
@@ -963,10 +982,12 @@ a.read-more-link {
 div#front-page-post-entry {
 	padding: 0 20px 20px 20px;
 }
+
 #wp-single-content {
 	background: white;
 	padding: 24px 20px; 
 }
+
 /* wrapper for use on non-sidebar pages, like  forum.php */
 #full-width-content-wrapper {
 	background: white;
@@ -1076,7 +1097,7 @@ div#front-page-post-entry {
 }
 /*
 *
-* wordpress core styles
+* required Wordpress core styles 
 *
 */
 
@@ -1160,6 +1181,15 @@ a img.aligncenter {
     line-height: 17px;
     margin: 0;
     padding: 0 4px 5px;
+}
+
+.size-auto, 
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
 }
 
 /* 
@@ -1316,6 +1346,7 @@ a img.aligncenter {
 		height: 375px; 
 	}
 	
+	div.post,	
 	#wp-single-content {
 		padding: 0px;	
 	}

@@ -209,6 +209,10 @@ add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
 	add_image_size( 'post-content-width', 560, 420, true ); // fits post content width on desktop
 	add_image_size( 'full-width', 1140, 855, true ); // fits full width window (as on front page in single widget row) in desktop in maximum 
 
+if ( ! isset( $content_width ) ) { // http://codex.wordpress.org/Content_Width
+	$content_width = 560;
+}
+
 add_theme_support( 'html5', array( 'search-form' ) );
 
 add_filter( 'widget_text', 'do_shortcode' );

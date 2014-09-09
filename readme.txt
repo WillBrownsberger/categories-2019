@@ -1,6 +1,6 @@
 === Responsive-Tabs ===
 Contributors: Will Brownsberger (development), Jane Winsor (Graphic Design)
-Tags:  tabs, light, fast, colors, flexible, bbPress, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
+Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
 Requires at least: 3.9
 Tested up to: 4.0
 License: GNU General Public License v2 or later

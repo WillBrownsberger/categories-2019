@@ -58,7 +58,7 @@ while ( have_posts() ) : the_post();
 	
 		// display meta information, comments and pagination if not in bbpress
 		if ( ! $bbpress_switch ) { ?>
-			<div id = "wp-single-content">   
+			<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>   
 				<div class = "post-info"> <?php 
 					_e( 'By', 'responsive-tabs' ) ?> 
 						<span class="post-author">
@@ -86,30 +86,45 @@ while ( have_posts() ) : the_post();
 						<?php _e( 'In', 'responsive-tabs' ) ?>: 
 							<?php the_category(', '); ?>. 
 							<?php the_tags( __( ' Tagged', 'responsive-tabs' ) . ': ', ', ','.'); ?>
+							<?php	wp_link_pages( array(
+								'before'      => '<div class="upper-page-links"><span class="page-links-title">' . __( 'Paged:', 'responsive-tabs' ) . '</span>',
+								'after'       => '.</div>',
+								'link_before' => '<span>',
+								'link_after'  => '</span>',
+								) );	?>
 					</span>
-				</div><!-- post-info --> <?php
+
+				</div><!-- post-info --> 
 				
+				<?php
 				the_post_thumbnail('post-content-width');
 				the_content();
+
+				wp_link_pages( array(
+					'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
+					'after'       => '</div>',
+					'link_before' => '<span>',
+					'link_after'  => '</span>',
+					) );				
 			
 				if ( get_comments_number() > 2 && comments_open() ) { // jump to bottom of long comments list
 	  				echo '<h4><a href="#comment">Make a comment</a></h4>';
 				}
 
 				edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); ?>
-				
-			</div><!-- wp-post-content --><?php
+					
+			</div><!-- .post --><?php
 			
 			if ( comments_open() || get_comments_number() ) {			
 				comments_template();
 			}
 	
 			?> <div id="previous-post-link"> <?php
-			previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
+				previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
 			?> </div> <?php
 	
 			?> <div id="next-post-link">  <?php
-			next_post_link( '<strong>%link &raquo; </strong>', __( 'next post', 'responsive-tabs' ) ); 
+				next_post_link( '<strong>%link &raquo; </strong>', __( 'next post', 'responsive-tabs' ) ); 
 			?> </div> 
 			
 			<div class="horbar-clear-fix"></div><?php	

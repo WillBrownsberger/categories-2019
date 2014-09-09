@@ -30,12 +30,8 @@ if ( have_posts() ) {
 		
 		$count = $count+1;
 		$row_class = ( 0 == $count % 2 ) ? "pl-even" : "pl-odd";
-		if ( is_sticky() && is_home() ) {
-			$row_class .= " sticky";		
-		}
 		$post_type = get_post_type();	
       
-      			
 		if( "post" == $post_type || "page" == $post_type ) { 
 			$link 	= get_permalink();
   			$title 	= get_the_title();
@@ -53,7 +49,9 @@ if ( have_posts() ) {
 			$author_entry = '<li class="pl-post-author">'. esc_html( $guest_author ) . '</li>'; 
 		}
 		/* output list item -- echoing to show structure and avoid white spaces in inline-block styling */
-		echo '<li class ="' . $row_class .'">' .
+		echo '<li ' ;
+			post_class( $row_class ); 
+			echo '>' .
 			'<ul class="pl-post-item">' . 			
 				'<li class="pl-post-title">' .
 					'<a href="'  .  $link  . '" rel="bookmark" ' . 

@@ -36,4 +36,4 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 
 	<div id = "wrapper">
 	<div id="retina-view-frame"> <!-- will be closed by view frame close -->
-	<div id="color-splash"></div><?
+	<div id="color-splash"></div><?php

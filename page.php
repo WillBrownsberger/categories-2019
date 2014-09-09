@@ -37,6 +37,14 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		?>
 		<div id = "wp-single-content">
 			<?php the_content(); ?>
+			<?php	wp_link_pages( array(
+					'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
+					'after'       => '</div>',
+					'link_before' => '<span>',
+					'link_after'  => '</span>',
+					) );				
+			?>			
+			
 			<?php edit_post_link( __( 'Edit Page', 'responsive-tabs') , '<p>', '</p>' ); ?> 
 		</div>
 		

@@ -36,7 +36,7 @@ if ( comments_open() ) { ?>
 
 	<div id="respond">
 	
-		<h3><?php comment_form_title( __('Make a Comment'), __('Reply to %s' ), true ); ?></h3>
+		<h3><?php comment_form_title( __('Make a Comment', 'responsive-tabs' ), __('Reply to %s', 'responsive-tabs' ), true ); ?></h3>
 	
 		<div id="cancel-comment-reply">
 			<small><?php cancel_comment_reply_link() ?></small>

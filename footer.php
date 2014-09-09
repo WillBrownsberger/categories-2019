@@ -71,4 +71,4 @@ if (  $accordion_posts_list > '') {
 
 </body>
 </html>
-<?
+<?php

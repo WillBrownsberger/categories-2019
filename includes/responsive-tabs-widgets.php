@@ -122,7 +122,7 @@ class Front_Page_Comment_List extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_front_page_comment_list', // Base ID
 			__( 'Front Page Comment List', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Recent comment list in wide format with excerpts.  Excludes admin and editor comments.' ), ) // Args
+			array( 'description' => __( 'Recent comment list in wide format with excerpts.  Excludes admin and editor comments.', 'responsive-tabs' ), ) // Args
 		);
 	}
 	
@@ -230,7 +230,7 @@ class Front_Page_Comment_List extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 	
-	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Exclude admin/editorial comments (will not be excluded from count): ' ); ?></label><?php
+	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Exclude admin/editorial comments (will not be excluded from count): ', 'responsive-tabs' ); ?></label><?php
 	   echo  '<input type="checkbox" id="'. $this->get_field_id('exclude_editorial_comments')  .'" name="'. $this->get_field_name('exclude_editorial_comments')  .'" value="1" ' . checked( '1',  $exclude_editorial_comments  , false ) .'/></p>';
 	}
 
