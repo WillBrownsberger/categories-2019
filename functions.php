@@ -9,10 +9,11 @@
 * -- registers sidebars
 * -- adds theme support for header, background, thumbnails, html5
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
-* -- adds functions to create archive drop downs by authors and category
+* -- adds functions to create archive drop down of authors
 * -- adds function to sanitize a list of post id's
 * -- adds function to sanitize css/scripts (only balance tags)
 * -- adds filter hack to cover home page title
+* -- adds editor_tyle
 *
 * @package responsive-tabs
 *
@@ -215,6 +216,8 @@ if ( ! isset( $content_width ) ) { // http://codex.wordpress.org/Content_Width
 
 add_theme_support( 'html5', array( 'search-form' ) );
 
+add_theme_support( 'automatic-feed-links' );
+
 add_filter( 'widget_text', 'do_shortcode' );
 /*
 * add metabox for post width (see nonce technique at http://www.wproots.com/complex-meta-boxes-in-wordpress/) 
@@ -340,23 +343,7 @@ function responsive_tabs_author_dropdown($args = '') {
 
 }
 	
-/* function not actually used in release version of theme */
-function responsive_tabs_category_dropdown(){
 
-	echo strtolower(wp_dropdown_categories('echo=0&orderby=NAME&hierarchical=1&hide_if_empty=1&show_count=1&show_option_none=Select category')); 
-	?>	
-	<script type="text/javascript"><!--
-	    var dropdown = document.getElementById("cat");
-	    function onCatChange() {
-			if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
-				location.href = "<?php echo get_option('home');
-				?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
-			}
-	    }
-	    dropdown.onchange = onCatChange;
-	--></script>
-	<?php
-} 
 /*
 * function to sanitize a list of post id's to a comma separated string of numerics
 *
@@ -410,3 +397,11 @@ function baw_hack_wp_title_for_home( $title )
   }
   return $title;
 }
+
+/*
+* Editor Styling using main style sheet
+*/
+function responsive_tabs_add_editor_styles() {
+    add_editor_style( 'custom-editor-style.css' );
+}
+add_action( 'after_setup_theme', 'responsive_tabs_add_editor_styles' );

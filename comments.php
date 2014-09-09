@@ -32,60 +32,75 @@ if ( have_comments() ) { ?>
 	<div class = "horbar-clear-fix"></div><?php
 }
 
-if ( comments_open() ) { ?>
+/* set up standard wordpress comment form (which does its own condition processing) */
+$commenter = wp_get_current_commenter();
+$req = get_option( 'require_name_email' );
+$aria_req = ( $req ? " aria-required='true'" : '' );
+$required_text = __('(required)', 'responsive-tabs' );
+$email_author_reminder =  ( $req ? ' onBlur="checkNameEmailOnComments()" ' : '' );
+	/* The onBlur function for the comment element alerts the user who has entered comment that s/he has not entered name or email without leaving form -- 
+	*  user can proceed to submit form anyway.  This is a courtesy -- some browsers allow input to be lost if edits failed and must use back button. 
+	*/
 
-	<div id="respond">
-	
-		<h3><?php comment_form_title( __('Make a Comment', 'responsive-tabs' ), __('Reply to %s', 'responsive-tabs' ), true ); ?></h3>
-	
-		<div id="cancel-comment-reply">
-			<small><?php cancel_comment_reply_link() ?></small>
-		</div>
-	
-		<?php if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) { ?>
-			<p><?php printf(__('You must be <a href="%s">logged in</a> to comment.', 'responsive-tabs' ), wp_login_url( get_permalink() )); ?></p>
-		<?php } else {	?>
+$args = array(
+  'id_form'           => 'commentform',
+  'id_submit'         => 'submit',
+  'title_reply'       => __( 'Make a Comment', 'responsive-tabs' ),
+  'title_reply_to'    => __( 'Reply to %s', 'responsive-tabs' ),
+  'cancel_reply_link' => __( 'Cancel reply', 'responsive-tabs' ),
+  'label_submit'      => __( 'Post Comment', 'responsive-tabs' ),
 
-				<?php $email_author_reminder = ''; // filled in below subject to conditions ?>	
-		
-				<form action="<?php echo site_url(); ?>/wp-comments-post.php" method="post" id="commentform" name="commentform">
-				
-				<?php if ( is_user_logged_in() ) { ?>
-				
-					<p><?php printf( __('Logged in as <a href="%1$s">%2$s</a>.', 'responsive-tabs' ), get_edit_user_link(), $user_identity); ?> <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="<?php esc_attr_e( 'Log out of this account', 'responsive-tabs' ); ?>"><?php _e( 'Log out &raquo;', 'responsive-tabs' ); ?></a></p>
-				
-				<?php } else { ?>
-				
-					<?php if ( get_option ( 'require_name_email' ) ) {
-						$email_author_reminder = 'onBlur="checkNameEmailOnComments()"';
-					} 				
-					/* The onBlur function for the comment element alerts the user who has entered comment that s/he has not entered name or email -- 
-					*  user can proceed to submit form anyway.  This is a courtesy -- some browsers allow input to be lost if edits failed and must use back button. 
-					*/ 
-					?>
-				
-				<p><input type="text" name="author" id="author" value="<?php echo esc_attr( $comment_author ); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
-					<label for="author"><small><?php _e( 'Name', 'responsive-tabs' ); ?> <?php if ($req) _e('(required)', 'responsive-tabs' ); ?></small></label></p>
-					
-					<p><input type="text" name="email" id="email" value="<?php echo esc_attr( $comment_author_email ) ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
-					<label for="email"><small><?php _e( 'Mail (will not be published)', 'responsive-tabs' ); ?> <?php if ($req) _e( 'required', 'responsive-tabs' ); ?></small></label></p>
-					
-					<p><input type="text" name="url" id="url" value="<?php echo  esc_attr( $comment_author_url ); ?>" size="22" tabindex="3" />
-					<label for="url"><small><?php _e( 'Website', 'responsive-tabs' ); ?></small></label></p>
-						
-				<?php } ?>
-										
-				<p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4" <?php echo $email_author_reminder; ?>></textarea></p>
-				
-				<p><input name="submit" type="submit" id="submit" tabindex="5" value="<?php esc_attr_e( 'Submit Comment', 'responsive-tabs') ; ?>" />
-				<?php comment_id_fields(); ?>
-				</p>
-				
-				<?php do_action( 'comment_form', $post->ID ); ?>
-		
-			</form>
-	
-		<?php } // If not registration required or logged in ?>
-	</div>
+  'comment_field' =>  '<p class="comment-form-comment"><textarea id="comment" name="comment" cols="40" rows="10" aria-required="true"' .
+  		$email_author_reminder . '>' .
+    '</textarea></p>',
 
-<?php } // comments open?>
+  'must_log_in' => '<p class="must-log-in">' .
+    sprintf(
+      __( 'Please <a href="%s">log in</a> to post a comment.', 'responsive-tabs' ),
+      wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )
+    ) . '</p>',
+
+  'logged_in_as' => '<p class="logged-in-as">' .
+    sprintf(
+    __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>', 'responsive-tabs' ),
+      admin_url( 'profile.php' ),
+      $user_identity,
+      wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) )
+    ) . '</p>',
+
+  'comment_notes_before' => '<p class="comment-notes">' .
+    __( 'Your email address will not be published.' , 'responsive-tabs' ) .
+    '</p>',
+
+  'comment_notes_after' => '<p class="form-allowed-tags">' .
+    __( 'You can make the comment area bigger by pulling the arrow. If you are techie, you can use basic <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes to format your comment.', 'responsive-tabs' ) .
+ 	'</p>',
+
+  'fields' => apply_filters( 'comment_form_default_fields', array(
+
+    'author' =>
+      '<p class="comment-form-author">' . 
+      '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
+      '" size="22"' . $aria_req . ' /> ' .
+      '<label for="author">' . __( 'Name ', 'responsive-tabs' ) . '</label> ' .
+      ( $req ? '<span class="required">' . $required_text . '</span>' : '' ) . '</p>',
+
+    'email' =>
+      '<p class="comment-form-email">'.  
+      '<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) .
+      '" size="22"' . $aria_req . ' /> ' . 
+      ' <label for="email">' . __( 'Email ', 'responsive-tabs' ) . '</label> ' .
+      ( $req ? '<span class="required">' . $required_text . '</span>' : '' ) . '</p>',
+
+    'url' => 
+      '<p class="comment-form-url">' .
+      '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
+      '" size="22" /> <label for="url">' .
+      __( 'Website ', 'responsive-tabs' ) . '</label>' . '</p>'
+    )
+  ),
+);
+
+/* do comment form */
+comment_form($args); 
+

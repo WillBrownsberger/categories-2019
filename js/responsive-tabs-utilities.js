@@ -214,8 +214,10 @@ function getFirstChildWithTagName( element, tagName ) {
     
 function checkNameEmailOnComments() {  
 	
-	author 	= document.commentform.author.value;	
-	email 	= document.commentform.email.value;
+   commentform = document.getElementById('commentform');	
+	
+	author 	= commentform.author.value;	
+	email 	= commentform.email.value;
 	
 	atpos 	= email.indexOf("@");
 	dotpos 	= email.lastIndexOf(".");

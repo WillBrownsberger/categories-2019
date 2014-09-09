@@ -39,7 +39,7 @@ echo '<div id = "content-header">';
 		    var dropdown = document.getElementById("pubs");
 		    function onCatChange() {
 				if ( dropdown.options[dropdown.selectedIndex].value > '' ) {
-					location.href = "<?php echo get_option('home');
+					location.href = "<?php echo home_url();
 					?>/publications/"+dropdown.options[dropdown.selectedIndex].value;
 				}
 		    }

@@ -272,7 +272,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'   	=> 100,
 	    'description'	=> 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
 	    						Titles will be accordion titles.  Content will appear when clicked.  
-	    						<a href="http://responsive-tabs-wordpress-theme.com/setup-notes-for-responsive-tabs-theme/#accordion">More help &raquo;</a>',
+	    						<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>',
 	) );	
 		
 	$wp_customize->add_setting( 'front_page_accordion', array(

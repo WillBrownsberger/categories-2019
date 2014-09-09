@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 
 // support settings>reading>front page displays -- see http://codex.wordpress.org/Creating_a_Static_Front_Page#Configuration_of_front-page.php
 if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
-    include( get_page_template() );
+    get_template_part ( 'page' );
 } else { // use this template
  
 	get_header();

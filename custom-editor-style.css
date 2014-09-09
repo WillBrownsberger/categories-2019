@@ -1,0 +1,76 @@
+/*
+* Editor Styling -- Selected items from main Style Sheet
+*/
+
+/*
+* general html tag styles
+*
+*/
+
+a {
+	color: #555;
+	margin: 0px;
+	padding: 0px;
+}	
+
+a:hover,
+a:focus,
+a:active {
+	color: #aa5;
+	text-decoration: underline;
+}
+
+blockquote {
+	background: #f9f9f9;
+	border-left: 4px solid #d6d6d6;
+	margin: 20px;
+	overflow: auto;
+	padding: 0 0 10px 12px;
+}
+
+blockquote p {
+	font-family: 'Georgia', 'Times New Roman', Times, serif;
+	font-style: italic;
+	font-size: 100%;
+}
+
+body {
+	color: black;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	font-size: 1.6em;
+}
+
+h2 {
+	font-size: 1.2em;
+}
+
+h3 {
+	font-size: 1.1em;
+}
+
+h4 {
+	font-size: 1.0em;
+}
+
+h5 {
+	font-size: 0.9em;
+}
+
+h6 {
+	font-size: 0.8em;
+}
+
+
+
