@@ -107,10 +107,6 @@ while ( have_posts() ) : the_post();
 					'link_before' => '<span>',
 					'link_after'  => '</span>',
 					) );				
-			
-				if ( get_comments_number() > 2 && comments_open() ) { // jump to bottom of long comments list
-	  				echo '<h4><a href="#comment">Make a comment</a></h4>';
-				}
 
 				edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); ?>
 					

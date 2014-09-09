@@ -19,20 +19,6 @@ if ( post_password_required() ) { ?>
 		<?php	return;
 	}
 
-if ( have_comments() ) { ?>
-
-	<ol class="commentlist">
-		<?php wp_list_comments();?>
-	</ol>
-
-	<div class="navigation">
-		<div class="alignleft"><?php previous_comments_link( '&laquo; ' .__('older comments', 'responsive-tabs' ) ) ?></div>
-		<div class="alignright"><?php next_comments_link( __('newer comments', 'responsive-tabs' ) . ' &raquo;' ) ?></div>
-	</div>
-	<div class = "horbar-clear-fix"></div><?php
-}
-
-
 if ( comments_open() ) { 
 	/* set up standard wordpress comment form (which does its own condition processing) */
 	$commenter = wp_get_current_commenter();
@@ -106,5 +92,18 @@ if ( comments_open() ) {
 	/* do comment form */
 	comment_form($args); 
 } else {
-	echo '<h4>' . __( 'This thread is not open for comment at this time.', 'responsive-tabs' ) . '</h4>';
+	echo '<h4>' . __( 'Please note, this thread is not open for comment at this time.', 'responsive-tabs' ) . '</h4>';
+}
+
+if ( have_comments() ) { ?>
+
+	<ol class="commentlist">
+		<?php wp_list_comments();?>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><?php previous_comments_link( '&laquo; ' .__('older comments', 'responsive-tabs' ) ) ?></div>
+		<div class="alignright"><?php next_comments_link( __('newer comments', 'responsive-tabs' ) . ' &raquo;' ) ?></div>
+	</div>
+	<div class = "horbar-clear-fix"></div><?php
 }

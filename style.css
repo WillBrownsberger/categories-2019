@@ -435,7 +435,19 @@ ul.children {
 	padding-left: 20px; 
 } 
 
+/* comment form */
+#respond {
+	margin: 20px 0;
+	background: white;
+}
 
+#commentform {
+	padding: 0 20px 20px 20px;
+}
+
+.comment-reply-title {
+	padding: 20px 0 0 20px;
+}
 /* header bar formatting */
 #header-bar-spacer {
 	height: 60px; 
@@ -1350,6 +1362,14 @@ a img.aligncenter {
 	#wp-single-content {
 		padding: 0px;	
 	}
+	
+	#commentform {
+		padding: 0 0 20px 0;
+	}
+	
+	.comment-reply-title {
+		padding: 20px 0 0 0;
+	}	
 	
 	#content-header {
 		padding: 4px 0px;
