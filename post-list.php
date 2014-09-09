@@ -1,7 +1,7 @@
 <?php
 /*
  * File: post-list.php
- * Description: template part used to display list of posts in full width mode -- other templates handle header and page title 
+ * Description: template part used to display list of posts in full width mode  
  *
  * @package responsive-tabs
  *
@@ -18,8 +18,8 @@ if ( have_posts() ) {
 	'<ul class="post-list">' . 
 	  '<li class = "pl-odd">' .
 	  		'<ul class = "pl-headers">' .
-	  			'<li class="pl-post-title">' . __( 'Topic (comment count)', 'responsive-tabs' ) . '</li>' .
-	  			'<li class = "pl-post-author">' . __( 'Started by', 'responsive-tabs' ) . '</li>' .
+	  			'<li class="pl-post-title">' . __( 'Post (comment count)', 'responsive-tabs' ) . '</li>' .
+	  			'<li class = "pl-post-author">' . __( 'Author', 'responsive-tabs' ) . '</li>' .
 	  			'<li class = "pl-post-date-time">' . __( 'Date', 'responsive-tabs') .'</li>' .
 	  		'</ul>' .
 	  	'</li>'; 
@@ -32,7 +32,7 @@ if ( have_posts() ) {
 		$row_class = ( 0 == $count % 2 ) ? "pl-even" : "pl-odd";
 		$post_type = get_post_type();	
       
-		if( "post" == $post_type || "page" == $post_type ) { 
+		if( "post" == $post_type ) { 
 			$link 	= get_permalink();
   			$title 	= get_the_title();
   			$excerpt	= get_the_excerpt(); 

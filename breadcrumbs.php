@@ -30,7 +30,7 @@ if ( function_exists( 'bcn_display' ) ) {
 		$taxonomy = get_query_var('taxonomy');
 		/* construct breadcrumbs for templates */	
 	   if ( is_page() ) {
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'page_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' .  get_theme_mod( 'page_home' )  .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link;   	
 	   	$id = get_queried_object_id();
 	   	$ancestors = get_ancestors( $id, 'page' );
@@ -42,7 +42,7 @@ if ( function_exists( 'bcn_display' ) ) {
 	    			. '</a> &raquo; ';   	
 	   	}
 	   } elseif ( is_single() ) {
-			echo '<a href="/?frontpagetab=' . ( get_theme_mod( 'category_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			echo '<a href="/?frontpagetab=' .  get_theme_mod( 'category_home' )  .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			$categories = get_the_category();
 			if( $categories ) {
 				foreach( $categories as $category )	{
@@ -51,11 +51,11 @@ if ( function_exists( 'bcn_display' ) ) {
 				}
 			}
 		} elseif ( is_category() ) {
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'category_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' .  get_theme_mod( 'category_home' ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link;
 			echo strtolower( get_category_parents( $cat, true, ' &raquo; ' ) ); 	
 		} elseif ( is_date() ) {
-			$home_link 	= '<a href="/?frontpagetab=' . ( get_theme_mod( 'date_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link 	= '<a href="/?frontpagetab=' .  get_theme_mod( 'date_home' ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			$year = get_query_var( 'year' );
 			$year_link = '<a href="'. get_year_link( $year ) . '">'. $year . '</a> &raquo; ' ;
 			$monthnum = get_query_var( 'monthnum' );
@@ -68,16 +68,16 @@ if ( function_exists( 'bcn_display' ) ) {
 			} else $day_link = '';
 			echo $home_link. $year_link . $month_link . $day_link;		
 		} elseif ( is_author() ) {
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'author_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'author_home' ) . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link . __( 'posts by author &raquo; ', 'responsive-tabs'); 	
 		} elseif ( is_search() ) {
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'search_home' ) -1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'search_home' ) . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link . __( 'string search of titles and content &raquo;', 'responsive_tabs' ); 	
 		} elseif ( is_tag() ) {
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'tag_home' ) -1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'tag_home' )  . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link . __( 'search by tag &raquo;', 'responsive_tabs' ); 	
 		} elseif ( $taxonomy == 'publications' ) { /* supports TWCC's Clippings Plugin */
-			$home_link =  '<a href="/?frontpagetab=' . ( get_theme_mod( 'publications_home' ) - 1 ) .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
+			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'publications_home' ) . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link . __( 'search by publication &raquo;', 'responsive_tabs' ); 	
 		}
 	echo '</div>';
