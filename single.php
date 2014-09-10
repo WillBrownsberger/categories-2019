@@ -108,13 +108,10 @@ while ( have_posts() ) : the_post();
 					'link_after'  => '</span>',
 					) );				
 
-				edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); ?>
-					
-			</div><!-- .post --><?php
+				edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); 
 			
 			/* always do comments template -- it will check and show message if not open (contrast page.php) */		
 			comments_template();
-
 	
 			?> <div id="previous-post-link"> <?php
 				previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
@@ -124,8 +121,10 @@ while ( have_posts() ) : the_post();
 				next_post_link( '<strong>%link &raquo; </strong>', __( 'next post', 'responsive-tabs' ) ); 
 			?> </div> 
 			
-			<div class="horbar-clear-fix"></div><?php	
-					
+			<div class="horbar-clear-fix"></div>	
+
+			</div><!-- post -->		<?php
+
 		} else { // bbpress handles all its own meta information and replies listing 
 			the_content(); 
 		}

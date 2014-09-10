@@ -150,17 +150,16 @@ div#header-bar-wrapper.admin-bar-showing {
 	word-wrap: break-word;
 }
 
-/* content column one -- showing two width specs -- override if calc available*/
+/* content column one -- showing two width specs -- override if calc available; if not, js will fix */
 #content-wrapper {
-	background: #f0f0f0;
-	border-right: 20px solid white;
+	background: #f0f0f0; 
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
 	 float: left;
 	line-height: 1.5;
 	margin: 0;
-	padding: 20px 60px;
+	padding: 20px 20px 20px 40px;
 	width: 58%;
 	width: calc(740px);
 }
@@ -173,7 +172,7 @@ div#header-bar-wrapper.admin-bar-showing {
 	box-sizing: border-box;
 	float: left;
 	margin: 0px;
-	padding: 20px 30px;
+	padding: 20px 40px 20px 20px;
 	width: 42%;
 	width: calc(100% - 740px);
 }
@@ -509,7 +508,7 @@ ol.commentlist li {
 }
 
 ol.commentlist li.odd {
-	background: #ffffff;
+	background: #fafafa;
 }
 
 ol.commentlist li.even {
@@ -563,16 +562,16 @@ ul.children {
 
 /* comment form */
 #respond {
-	margin: 20px 0;
+	margin: 0;
 	background: white;
 }
 
 #commentform {
-	padding: 0 20px 20px 20px;
+	padding: 0 20px 20px 0px;
 }
 
 .comment-reply-title {
-	padding: 20px 0 0 20px;
+	padding: 20px 0 0 0;
 }
 /* header bar formatting */
 #header-bar-spacer {
@@ -1382,7 +1381,6 @@ a img.aligncenter {
 /* 58% = 740/1279 (smooth transition) */
 	#content-wrapper	{ 
 		width: 58%;
-		padding: 0px 30px;
 	}
 
 	#site-info-wrapper li.site-description {
@@ -1499,11 +1497,7 @@ a img.aligncenter {
 	#commentform {
 		padding: 0 0 20px 0;
 	}
-	
-	.comment-reply-title {
-		padding: 20px 0 0 0;
-	}	
-	
+
 	#content-header {
 		padding: 4px 0px;
 	}

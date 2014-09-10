@@ -46,12 +46,12 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 			?>			
 
 			<?php edit_post_link( __( 'Edit Page', 'responsive-tabs') , '<p>', '</p>' ); ?> 
-		</div>
+		
 		
 		<?php if ( comments_open() || get_comments_number() ) {			
 			comments_template();
 		}?>
-		
+		</div><!--wp-single-content -->
 	</div><?php // close content-wrapper and start php immediately so as to not create space in inline-block series
 			
 endwhile; // close the main loop 
