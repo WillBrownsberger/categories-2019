@@ -1,7 +1,7 @@
 /*
 Theme Name: Responsive Tabs 
 Theme URI: http://responsive-tabs-wordpress-theme.com
-Description: Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  It is visually elegant and minimizes page weight for rapid response.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy.  
+Description: Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  The front page content is entirely widgetized and the theme adds no unnecessary page weight.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy. Note: The theme layout does not accommodate an extra long site title, but there is plenty of room for identity information in the "highlight" area.     
 Version: 1.0
 Author: Will Brownsberger
 Author URI: http://willbrownsberger.com
@@ -624,7 +624,7 @@ ul.children {
 	height: 40px; 
 	margin: 15px 0 5px 0; 
 	padding: 0px;
-	width: 300px;
+	max-width: 200px; 
 }
 
 .search-submit,

@@ -6,10 +6,10 @@ Tested up to: 4.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Description: Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  It is visually elegant and minimizes page weight for rapid response.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy.
+Description: Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  The front page content is entirely widgetized and the theme adds no unnecessary page weight.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy. Note: The theme layout does not accommodate an extra long site title, but there is plenty of room for identity information in the "highlight" area.
 
 == Description ==
-Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  It is visually elegant and minimizes page weight for rapid response.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy. 
+Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  The front page content is entirely widgetized and the theme adds no unnecessary page weight.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy.  Note: The theme layout does not accommodate an extra long site title, but there is plenty of room for identity information in the "highlight" area.  
 
 The design premise of the theme is that (a) less can be more visually -- users should be able to focus on what they came to see; (b) at the same time, it should be obvious where to find any content even on a site with a wide range of content.  
 

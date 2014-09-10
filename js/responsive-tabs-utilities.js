@@ -52,6 +52,8 @@ function ResetSideMenu() {
 	var headerBarContentSpacer = document.getElementById ( "header-bar-content-spacer" );
 	var homeButton = document.getElementById ( "home-button");	
 	
+	menuButton.innerHTML = "MENU";	
+	
 	if ( undefined == homeButton ) {	// don't invoke this logic for retina-width templates
 		
 		if ( innerWindowWidth > 1579 ) {
