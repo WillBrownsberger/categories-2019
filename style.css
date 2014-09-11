@@ -947,7 +947,6 @@ ul.pl-post-item {
 	display: inline-block;
 	vertical-align: top;	
 	width: 20%;
-	word-wrap: breakword; 	
 }
 
 .pl-post-date-time {
