@@ -57,8 +57,8 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 		} else {
 			echo '<div id = "color-splash"></div>';
 		}
+	echo '<div id="front-page-mobile-color-splash"></div>'; // displays only in mobile mode (not show highlighted message in mobile)		
 	}	
-	echo '<div id="front-page-mobile-color-splash"></div>'; // displays only in mobile mode (not show highlighted message in mobile)
 	
 	/*
 	* tabs area

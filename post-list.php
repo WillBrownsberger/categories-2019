@@ -95,7 +95,8 @@ if ( have_posts() ) {
 		<div id="next-posts-link">  <?php
 			next_posts_link('<strong>Older Entries &raquo; </strong>');
 		?> </div>
-	</div> <?php
+	</div>
+	<div class = "horbar-clear-fix"></div><?php
 }	else {   
 	?>	<div id="not-found">
 		<h3>No posts found matching your search.</h3>

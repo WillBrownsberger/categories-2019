@@ -616,7 +616,7 @@ class Front_Page_Archives extends WP_Widget {
 			$output .=  '<ul class = "responsive-tabs-front-page-archives">' . /* use styling consistent with category list */
 		     	'<li class = "pl-odd">' .
 		     		'<ul class = "rtfpcl-category-headers">' .
-			     		'<li class="rtfpa-year">' . __( 'Posts by month', 'responsive-tabs' ) . '</li>'; 
+			     		'<li class="rtfpa-year">' . __( 'Posts', 'responsive-tabs' ) . '</li>'; 
 						for ( $month_index = 1; $month_index <= 12; $month_index++ ) {
 			     			$output .= '<li class="rtfpa-month">' . substr( date_i18n( "F Y ", mktime( 0, 0, 0, $month_index, 10 ) ), 0, 1 ) . '</li>';
 			     		}

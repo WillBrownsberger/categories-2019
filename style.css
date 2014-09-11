@@ -1166,7 +1166,7 @@ div#front-page-post-entry {
 
 .responsive-tabs-front-page-comment-list-headers,
 .rtfpcl-category-headers {
-	font-size: 14px;
+	font-size: 0.9em;
 	font-weight: 700;
 	list-style: none;
 	padding: 8px 8px;
@@ -1566,6 +1566,11 @@ a img.aligncenter {
 	.responsive-tabs-front-page-comment-date-time {
 		display: none;
 	}
+	
+	.responsive-tabs-front-page-archives,
+	.responsive-tabs-front-page-archives a {
+		font-size: 0.9em;	
+	}	
 	
 	.pl-headers {
 		display: none;
