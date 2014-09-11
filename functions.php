@@ -127,7 +127,7 @@ function responsive_tabs_widgets_init() {
 
 	register_sidebar( array(
 		'name' 				=> __( 'Side Menu Widget', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget on Side Menu Bar', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget on Side Menu Bar (recommended for menu extender like category links)', 'responsive-tabs' ),
 		'id' 					=> 'side_menu_widget',
 		'class' 				=> '',
 		'before_widget' 	=> '<div class = "side-menu-widget-wrapper"> ',
@@ -148,7 +148,7 @@ function responsive_tabs_widgets_init() {
 
 	register_sidebar( array(
 		'name' 				=> __( 'Page Sidebar',  'responsive-tabs' ),
-		'description' 		=> __( 'Displayed with Pages (except full-width pages)', 'responsive-tabs' ),
+		'description' 		=> __( 'Displayed with Pages', 'responsive-tabs' ),
 		'id' 					=> 'page_sidebar',
 		'before_widget' 	=> '<div class = "sidebar-widget-wrapper"> ',
 		'after_widget' 	=> '</div>',
@@ -159,7 +159,7 @@ function responsive_tabs_widgets_init() {
 
 	register_sidebar( array(
 		'name' 				=> __( 'BBPress Sidebar', 'responsive-tabs' ),
-		'description' 		=> __( 'Displayed with BBPress Topics and Posts', 'responsive-tabs' ),
+		'description' 		=> __( 'Displayed with BBPress Topics', 'responsive-tabs' ),
 		'id' 					=> 'bbpress_sidebar',
 		'before_widget' 	=> '<div class = "sidebar-widget-wrapper"> ',
 		'after_widget' 	=> '</div>',
@@ -207,8 +207,8 @@ add_theme_support( 'custom-background', $background_default );
 add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
 	add_image_size( 'front-page-thumb', 285, 214 ); //270 pixels wide (and unlimited height)
 	add_image_size( 'front-page-half-thumb', 133, 100 ); //135 pixels wide (and unlimited height)
-	add_image_size( 'post-content-width', 560, 420, true ); // fits post content width on desktop
-	add_image_size( 'full-width', 1140, 855, true ); // fits full width window (as on front page in single widget row) in desktop in maximum 
+	add_image_size( 'post-content-width', 640, 480 ); // fits post content width on desktop
+	add_image_size( 'full-width', 1140, 855 ); // fits full width window (as on front page in single widget row) in desktop in maximum 
 
 if ( ! isset( $content_width ) ) { // http://codex.wordpress.org/Content_Width
 	$content_width = 560;

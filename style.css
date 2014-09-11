@@ -1290,6 +1290,10 @@ a img.aligncenter {
     margin-right: auto
 }
 
+.wp-post-image {
+	padding: 20px 0 0 0;
+}
+
 .gallery-caption,
 .wp-caption {
     background: #fff;
