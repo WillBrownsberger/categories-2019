@@ -7,6 +7,7 @@
 *  -- Front Page Post Summary
 *  -- Front Page Text Widget
 *  -- Front Page Archives
+*  -- Front Page Links List
 *
 *	@package responsive-tabs  
 */
@@ -26,6 +27,7 @@ function register_responsive_tabs_widgets() {
 	register_widget ( 'Front_Page_Text_Widget' );
 	register_widget ( 'Front_Page_Archives' );
 	register_widget ( 'Front_Page_Latest_Posts' );
+	register_widget ( 'Front_Page_Links_List' );
 }
 
 /*
@@ -730,4 +732,143 @@ class Front_Page_Latest_Posts extends WP_Widget {
 }
 
 
+/*
+*
+* Create link list widget
+*/
 
+class Front_Page_Links_List extends WP_Widget {
+
+	function __construct() {
+		parent::__construct(
+			'responsive_tabs_links_list', // Base ID
+			__( 'Front Page Links List', 'responsive-tabs' ), // Name
+			array( 'description' => __( 'Show links (i.e., posts with post-format of link) with categories and tags in wide (responsive) format', 'responsive-tabs' ), ) // Args
+		);
+	}
+
+	function widget( $args, $instance ) {
+		extract( $args );	// Note -- no options for this widget (title equivalent is front page tab head), but arguments include $before_widget and $after_widget{
+		show_latest_links();
+	}
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title']  = esc_attr( $new_instance['title'] );
+		$instance['number'] = absint( $new_instance['number'] );
+		return $instance;
+	}
+
+	function form( $instance ) {
+		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 50;
+		/*?>
+		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
+		<?php*/
+	}
+	
+}
+
+function show_latest_links() {
+
+	$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+
+	// WP_Query arguments
+	$args = array ( // notes that posts_per_page driven by post setting -- cannot seem to drive separately, despite literature to the contrary
+		'tax_query'					 => array(
+												array(
+									            'taxonomy' => 'post_format',
+									            'field' => 'slug',
+									            'terms' => array( 'post-format-link' )
+												)
+												),
+		'post_status'            => 'publish',
+		'pagination'             => true,
+	 	'paged'                  => $page,
+		'ignore_sticky_posts'    => false,
+		'order'                  => 'DESC',
+		'orderby'                => 'date',
+	);
+
+	// The Query
+	$link_query = new WP_Query( $args );
+
+	if ( $link_query->have_posts() ) {
+
+		echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
+			'<ul class="post-list">' . 
+			'<li class = "pl-odd">' .
+				'<ul class = "pl-headers">' .
+					'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
+					'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive' ) . ' </li>' .
+					'<li class = "pl-post-date-time">'. __( 'Date', 'responsive' ) . '</li>' .
+				'</ul>' .
+			'</li>';
+			
+			$count = 1; 
+			while ( $link_query->have_posts() ) {
+				$link_query->the_post();
+				$link 	= responsive_tabs_url_grabber();
+				$title 	= get_the_title();
+				$excerpt	= get_the_content();
+				$read_more_pointer = ( 
+					comments_open() ? 
+						( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
+								'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
+								__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
+						: '' ) . 
+					'<a href="' .  responsive_tabs_url_grabber() . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
+				$count = $count + 1;
+				if( $count % 2 == 0 ) {
+					$row_class = "pl-even";
+				} else {
+					$row_class = "pl-odd";
+				}
+
+				echo '<li ' ;
+					post_class( $row_class ); 
+					echo '>' .
+					'<ul class="pl-post-item">' . 			
+						'<li class="pl-post-title">' .
+							'<a href="'  .  $link  . '" rel="bookmark" ' . 
+									'title="'  .  __( 'View item', 'responsive-tabs' )  . '"> '  .  
+									$title . ' ('. get_comments_number()  . ')' .
+							'</a>' . 
+						'</li>' .
+						'<li class="pl-post-author">';
+							the_category(', '); 
+							the_tags( ', ', ', ', '' ); 
+						echo '</li>' . 
+						'<li class="pl-post-date-time">'. get_the_date() .'</li>'.
+		         '</ul>' .
+					'<div class="pl-post-excerpt">' .
+						$excerpt . '<br />' . 
+						$read_more_pointer .  
+					'</div>' .         
+ 				'</li>';
+		 } // close while loop 
+		
+		echo '</ul><!-- close links list -->'; 
+		// show multipost pagination links
+
+		?> 
+		<div id = "next-previous-links">
+			<div id="previous-posts-link"> <?php
+				previous_posts_link('<strong>&laquo; Newer Links </strong>');
+			?> </div> <?php
+			?> <div id="next-posts-link">  <?php
+				next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
+			?> </div>
+			<div class = 'horbar-clear-fix'></div>
+		</div> <?php
+			
+	// handle not found conditions		
+	} else {	?>
+		<div id="not-found">
+			<h3>No links found.</h3>
+	</div>
+	<?php	}
+
+	// Restore original Post Data
+	wp_reset_postdata();
+}

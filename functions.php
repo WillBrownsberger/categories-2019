@@ -7,7 +7,7 @@
 * -- optionally suppresses bbpress breadcrumbs
 * -- registers menu
 * -- registers sidebars
-* -- adds theme support for header, background, thumbnails, html5
+* -- adds theme support for header, background, thumbnails, html5, feeds and post-format (link)
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds functions to create archive drop down of authors
 * -- adds function to sanitize a list of post id's
@@ -218,6 +218,8 @@ add_theme_support( 'html5', array( 'search-form' ) );
 
 add_theme_support( 'automatic-feed-links' );
 
+add_theme_support( 'post-formats', array( 'link'  ) );
+
 add_filter( 'widget_text', 'do_shortcode' );
 /*
 * add metabox for post width (see nonce technique at http://www.wproots.com/complex-meta-boxes-in-wordpress/) 
@@ -405,3 +407,14 @@ function responsive_tabs_add_editor_styles() {
     add_editor_style( 'custom-editor-style.css' );
 }
 add_action( 'after_setup_theme', 'responsive_tabs_add_editor_styles' );
+
+/*
+* From twentyeleven -- first link grabber
+* http://wordpress.org/support/topic/grab-first-link-from-post-for-external-link
+*/
+function responsive_tabs_url_grabber() {
+	if ( ! preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches ) )
+		return false;
+
+	return esc_url_raw( $matches[1] );
+}
