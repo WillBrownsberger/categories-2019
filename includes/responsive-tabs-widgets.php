@@ -7,6 +7,7 @@
 *  -- Front Page Post Summary
 *  -- Front Page Text Widget
 *  -- Front Page Archives
+*  -- Front Page Latest Posts
 *  -- Front Page Links List
 *
 *	@package responsive-tabs  
@@ -135,9 +136,9 @@ class Front_Page_Comment_List extends WP_Widget {
  		extract( $args, EXTR_SKIP );
  		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';
 
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 50;
+		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 20;
 		if ( ! $number ) {
- 			$number = 50;
+ 			$number = 20;
 		}
 
 		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
@@ -699,6 +700,8 @@ class Front_Page_Latest_Posts extends WP_Widget {
  		
  		echo '<!-- responsive-tabs Front_Page_Latest_Posts, includes/responsive-tabs-widgets.php -->';
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$include_cats_list = isset( $instance['include_cats_list'] ) ? explode(',', $instance['include_cats_list'] ) : '' ;
+		$exclude_cats_list = isset( $instance['exclude_cats_list'] ) ? explode(',', $instance['exclude_cats_list'] ) : '';		
 		
 		echo $before_widget  ;										// is blank in home widget areas
 		
@@ -706,27 +709,102 @@ class Front_Page_Latest_Posts extends WP_Widget {
 			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
 
-		/* get counts */		
-		get_template_part('post', 'list');
+		/* do query for posts meeting category screen */
+		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+		$query_args = array (
+			'post_status'            => 'publish',
+			'pagination'             => true,
+		 	'paged'                  => $page,
+			'ignore_sticky_posts'    => false,
+			'order'                  => 'DESC',
+			'orderby'                => 'date',
+		); 
+   	
+		if ( isset ( $include_cats_list[0] ) )	{
+			if ( $include_cats_list[0] > '' ) {
+				$query_args['category__in'] = $include_cats_list;
+			}		
+		}      
+
+		if ( isset ( $exclude_cats_list[0] ) )	{
+			if ( $exclude_cats_list[0] > '' ) {
+				$query_args['category__not_in'] = $exclude_cats_list;
+			}		
+		}      
+      
+		$latest_posts_query = new WP_Query($query_args); 
+
+		if ( $latest_posts_query->have_posts() ) {
+		
+			/* post list headers -- echoing to avoid white spaces in inline-block styling*/ 
+			echo '<!-- latest posts from /responsive-tabs/includes/responsive-tabs-widgets.php -->' . 
+			'<ul class="post-list">';
+			
+				get_template_part( 'post', 'listheader' ); 
+
+
+			/* post list -- tracks post-list.php,but has different query base */ 
+			global $responsive_tabs_post_list_line_count;  
+			$responsive_tabs_post_list_line_count = 1; 			 
+			
+			while ( $latest_posts_query->have_posts() ) {
+
+				$responsive_tabs_post_list_line_count = $responsive_tabs_post_list_line_count + 1;
+				$latest_posts_query->the_post();		
+				get_template_part ( 'post', 'listitems' );				
+
+			} ?> 
+			
+			</ul> <!-- post-list -->
+		
+			<div id = "next-previous-links">
+				<div id="previous-posts-link"><?php
+					previous_posts_link('<strong>&laquo; Newer Entries </strong>');
+				?> </div> 
+				<div id="next-posts-link">  <?php
+					next_posts_link('<strong>Older Entries &raquo; </strong>');
+				?> </div>
+			</div>
+			<div class = "horbar-clear-fix"></div><?php
+		
+		// handle not found conditions		
+		} else {	?>
+			<div id="not-found">
+				<h3><?php _e( 'No posts found. Check widget category settings.', 'responsive-tabs' ) ?></h3>
+		</div>
+		<?php	}
+
+	// Restore original Post Data
+	wp_reset_postdata();
 		
 		echo $after_widget ;									// is blank in home widget areas
 	}
 
 	function update( $new_instance, $old_instance ) {
-		
 		$instance = $old_instance;
-		
-		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance['title'] 				 = strip_tags( $new_instance['title'] ); // no tags in title
+		$instance['include_cats_list'] = responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
+		$instance['exclude_cats_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
 		return $instance;
 	}
-
 
 	function form( $instance ) {
 		
 		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? strip_tags( $instance['include_cats_list'] ) : '';
+		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? strip_tags( $instance['exclude_cats_list'] ) : '';
+		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+	 	
+		<p><label for="<?php echo $this->get_field_id( 'include_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>include</em>:<br /> (single or multiple separated by commas<br /> -- will not include subcategories; leave blank for all)<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'include_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'include_cats_list' ); ?>" type="text" value="<?php echo $include_cats_list; ?>" size="30" /></p>
+
+		<p><label for="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_cats_list' ); ?>" type="text" value="<?php echo $exclude_cats_list; ?>" size="30" /></p>
+		 	
+	 	
 	 	<?php
 	} 
 }
@@ -865,7 +943,7 @@ function show_latest_links() {
 	// handle not found conditions		
 	} else {	?>
 		<div id="not-found">
-			<h3>No links found.</h3>
+			<h3><?php _e( 'No links found.', 'responsive-tabs' ) ?></h3>
 	</div>
 	<?php	}
 

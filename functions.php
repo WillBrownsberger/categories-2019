@@ -4,6 +4,7 @@
 * Description: This file sets up theme
 * -- includes auxiliary files (theme customization, widgets, theme front page options)
 * -- registers and enqueues javascript for layout
+* -- minimize retrieval of latest posts on home page (so not waste resources in requery in widgets)
 * -- optionally suppresses bbpress breadcrumbs
 * -- registers menu
 * -- registers sidebars
@@ -13,7 +14,7 @@
 * -- adds function to sanitize a list of post id's
 * -- adds function to sanitize css/scripts (only balance tags)
 * -- adds filter hack to cover home page title
-* -- adds editor_tyle
+* -- adds editor style
 *
 * @package responsive-tabs
 *
@@ -70,6 +71,27 @@ if ( false === $tt_mod ) {
 	set_theme_mod( "page_home"				, "0" );
 	set_theme_mod( "header_image"			, get_template_directory_uri() . "/images/initial-header.png");
 }
+
+/*
+* minimize home page main query because will not be showing posts from this query
+* note that show_on_front == false is the condition under which a static front page other than the 
+* 	main responsive-tabs front page is shown
+*/
+
+function minimize_home_page_post_list( $query ) { 
+	
+    if ( is_admin() || ! $query->is_main_query() || 'posts' != get_option( 'show_on_front' ) )
+        return;
+
+    if ( is_home() ) {
+        // Retrieve no post for the original blog archive (minimize db access)
+        $query->set( 'p', '9999999999' );
+        $query->set( 'ignore_sticky_posts', true ); 
+        return;
+    }
+
+}
+add_action( 'pre_get_posts', 'minimize_home_page_post_list', 1 );
  
 /*
 *  optionally suppress bbpress bread crumbs on bbp template forms -- since may be loading broader breadcrumb plugins or offering own
