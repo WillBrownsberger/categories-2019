@@ -23,7 +23,31 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		<?php get_template_part( 'breadcrumbs' ); ?>
    	
 		<?php the_title( '<h1 class="post-title">', ' </h1> '); ?>
-	
+		
+		<h4>
+			<?php /* list child pages if any below title */
+			$page_child_query  = new WP_Query( 'post_type=page&post_parent=' . $post->ID );
+				if ( $page_child_query->have_posts() ) {
+					$child_count = 0;
+					while ( $page_child_query->have_posts() ) {
+						$page_child_query->the_post();
+						if ( $child_count > 0 ) {
+							 	  		echo ', ';
+							 	  } 
+						echo '<a href="' . get_the_permalink() . 
+							'" title = "' . sprintf( __( 'View child page %s', 'responsive-tabs' ) , get_the_title() ) . '">' . 
+							get_the_title() . '<a>';
+						$child_count = $child_count + 1;
+					}
+					echo '</ul>';
+				} else {
+					// no children found, do nothing
+				}
+				/* Restore original Post Data */
+				wp_reset_postdata();
+			?>	
+		</h4>
+
 	</div>
 		
 	<div id="full-width-content-wrapper">   
