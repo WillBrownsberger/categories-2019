@@ -26,7 +26,7 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		
 		<h4>
 			<?php /* list child pages if any below title */
-			$page_child_query  = new WP_Query( 'post_type=page&post_parent=' . $post->ID );
+			$page_child_query  = new WP_Query( 'post_type=page&orderby=title&order=asc&post_parent=' . $post->ID );
 				if ( $page_child_query->have_posts() ) {
 					$child_count = 0;
 					while ( $page_child_query->have_posts() ) {
