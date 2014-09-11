@@ -84,8 +84,8 @@ function minimize_home_page_post_list( $query ) {
         return;
 
     if ( is_home() ) {
-        // Retrieve no post for the original blog archive (minimize db access)
-        $query->set( 'p', '9999999999' );
+        // Retrieve only one for the original blog archive (minimize db access)
+        $query->set( 'posts_per_page', '1' );
         $query->set( 'ignore_sticky_posts', true ); 
         return;
     }
@@ -227,8 +227,8 @@ $background_default = array(
 add_theme_support( 'custom-background', $background_default );
 
 add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
-	add_image_size( 'front-page-thumb', 285, 214 ); //270 pixels wide (and unlimited height)
-	add_image_size( 'front-page-half-thumb', 133, 100 ); //135 pixels wide (and unlimited height)
+	add_image_size( 'front-page-thumb', 267, 200 ); 
+	add_image_size( 'front-page-half-thumb', 133, 100 ); 
 	add_image_size( 'post-content-width', 640, 480 ); // fits post content width on desktop
 	add_image_size( 'full-width', 1140, 855 ); // fits full width window (as on front page in single widget row) in desktop in maximum 
 

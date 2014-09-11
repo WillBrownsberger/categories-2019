@@ -751,11 +751,20 @@ ul.children {
 }
 
 .home-wide-widget-wrapper h2.widgettitle, 
-.home-narrow-widget-wrapper h2.widgettitle {
+.home-narrow-widget-wrapper h2.widgettitle,
+.home-narrow-widget-wrapper .attachment-front-page-thumb {
 	color: #555;
 	font-size: 1em;
 	margin: 10px 8px; 
 
+}
+
+.home-narrow-widget-wrapper .attachment-front-page-thumb {
+	margin: 0 8px;
+}
+
+.home-text-widget {
+	padding: 0 8px;
 }
 
 .bulk-image-float-left {
@@ -1290,9 +1299,10 @@ a img.aligncenter {
     margin-right: auto
 }
 
-.wp-post-image {
+.post .wp-post-image {
 	padding: 20px 0 0 0;
 }
+
 
 .gallery-caption,
 .wp-caption {

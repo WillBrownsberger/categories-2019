@@ -496,7 +496,7 @@ class Front_Page_Text_Widget extends WP_Widget {
 
 		$free_form_text 		= isset( $instance['free_form_text'] ) ? $instance['free_form_text'] : '';
 		if ( $free_form_text > '' ) {
-			$output .=  apply_filters( 'the_content', $free_form_text );		
+			$output .=  '<div class = "home-text-widget">' . apply_filters( 'the_content', $free_form_text ) . '</div>';		
 		} 	
 
 		$output .= '</div>'; // close textwidget or home_bulk_widget
@@ -756,7 +756,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 			} ?> 
 			
 			</ul> <!-- post-list -->
-		
+		   
 			<div id = "next-previous-links">
 				<div id="previous-posts-link"><?php
 					previous_posts_link('<strong>&laquo; Newer Entries </strong>');
@@ -766,7 +766,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 				?> </div>
 			</div>
 			<div class = "horbar-clear-fix"></div><?php
-		
+		  
 		// handle not found conditions		
 		} else {	?>
 			<div id="not-found">
