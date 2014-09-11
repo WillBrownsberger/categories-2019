@@ -177,6 +177,16 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'default' => '#333',
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
+	
+	$wp_customize->add_setting( 'list_odd_rows', array(
+	    'default' => '#f0f0f0',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+	
+	$wp_customize->add_setting( 'list_even_rows', array(
+	    'default' => '#fafafa',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
 
 	/* fonts */
 	
@@ -435,6 +445,20 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'priority'	=> 105,
 	) ) );  
 
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'list_even_rows', array(
+		'label'     => __( 'List Even Row Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'list_even_rows',
+		'priority'	=> 106,
+	) ) );  
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'list_odd_rows', array(
+		'label'     => __( 'List Odd Row Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'list_odd_rows',
+		'priority'	=> 107,
+	) ) );  
+	
 	/*  fonts  */
 	$wp_customize->add_control( 'body_text_font_size', array(
 	    'label'   	=> __('Body Font Size', 'responsive-tabs' ),

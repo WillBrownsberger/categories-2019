@@ -80,6 +80,15 @@ function responsive_tabs_customize_css() { ?>
 			color: <?php echo get_theme_mod( 'highlight_headline_link_hover_color' ); ?>;
 		}
 	
+		.pl-odd {
+			background-color: <?php echo get_theme_mod( 'list_odd_rows' ); ?>;		
+		}	
+	
+		.pl-even {
+			background-color: <?php echo get_theme_mod( 'list_even_rows' ); ?>;		
+		}	
+	
+	
 	 	div#side-menu.sidebar-menu {
 	 		background-image: url("<?php header_image(); ?>");
 	 	}
