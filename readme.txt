@@ -6,10 +6,10 @@ Tested up to: 4.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Description: Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  The front page content is entirely widgetized and the theme adds no unnecessary page weight.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy. Note: The theme layout does not accommodate an extra long site title, but there is plenty of room for identity information in the "highlight" area.
+Description: Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to be strong on content.  It takes advantage of all the power of Wordpress to organize content transparently. The front page content is entirely widgetized and the theme supports up to 16 tabbed content folders. It is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards, but it does not maximize image impact in the front page design.  Images can, however, easily be included in the various front page widget areas. The theme minimizes unnecessary page weight to assure good mobile response. Note: The theme layout does not accommodate an extra long Wordpress site title, but there is plenty of room for identity information in the optional “highlight” area immediately below the header which can be populated with bold text or with a widget which could include a banner or rotating images.
 
 == Description ==
-Responsive Tabs is a fully responsive theme that takes advantage of all the power of Wordpress to customize presentation and organize content.  The front page content is entirely widgetized and the theme adds no unnecessary page weight.  It has broad use for any organization seeking a clean, attractive, customized look and a clear content hierarchy.  Note: The theme layout does not accommodate an extra long site title, but there is plenty of room for identity information in the "highlight" area.  
+Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to be strong on content.  It takes advantage of all the power of Wordpress to organize content transparently. The front page content is entirely widgetized and the theme supports up to 16 tabbed content folders. It is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards, but it does not maximize image impact in the front page design.  Images can, however, easily be included in the various front page widget areas. The theme minimizes unnecessary page weight to assure good mobile response. Note: The theme layout does not accommodate an extra long Wordpress site title, but there is plenty of room for identity information in the optional “highlight” area immediately below the header which can be populated with bold text or with a widget which could include a banner or rotating images.  
 
 The design premise of the theme is that (a) less can be more visually -- users should be able to focus on what they came to see; (b) at the same time, it should be obvious where to find any content even on a site with a wide range of content.  
 
@@ -18,11 +18,12 @@ Major Design Features
 +++ Tabbed design -- let the user know what the site contains without overwhelming them.  
 +++ Great flexibility with a fully widgetized front page.
 +++ Fast load times due to disciplined approach to minimization of  page weight.
-+++ Full use of Wordpress's new customizer interface to allow easy font and color changes.
++++ Full use of Wordpress's new customizer interface to allow instant reorganization of the front page as well as easy font and color changes.
 +++ Elegant tiled approach for featuring favorite site content on the front page -- tiles for each favorite post will line up in rows of 4 in wide desktop view, but will reshuffle into rows of 3, 2 or 1 as the screenwidth decreases.
-+++ Custom widgets for front page use -- post summaries with images, wide-format category and comment lists, wide-format post archives.
++++ Custom widgets for front page use -- latest posts with category include/exclude, post summaries with images, wide-format category and comment lists, wide-format post archives.
 +++ Custom templates supporting navigation for all types of Wordpress archive.
-+++ Dropdown menu for the routine links like about, contact, etc. -- the things that users know to look for on every site.
++++ Full support for the Wordpress "link" post-format, with a special front page widget for displaying links to news items, etc.
++++ Dropdown menu for the routine links like about, contact, etc. -- the things that users know to look for on every site.  Expands to a left sidebar on very wide screens.
 +++ Footer accordion for standard reference content.
 +++ Wide format options for both pages and posts to accommodate  tables and other wide format content.
 +++ Standard plugin hooks with extra support for key plugins -- bbPress, popular Breadcrumb plugins, FrontEnd Post No Spam, Clippings.

@@ -33,18 +33,21 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
  		  	</ol>'   , 'responsive-tabs');
  	_e( 	'<h4>More about Content Options in Front Page Tabs</h4>
  			<ul>
+				<li>To show the standard latest posts list, put the Front Page Latest Posts widget into a tab.  The widget allows you to include or exclude categories.  
+ 		  			You could put multiple Front Page Latest Posts widgets under different tabs to break out special categories of emerging content.</li>
+ 		  		<li>For a list of links, put the Front Page Links List widget in a tab.  Note: The link list grabs the first link (href) in the post.  
+ 		  		   To make a post/link appear in the list, you need to select Link in the Format box while editing the post.</li> 	  	
  		  		<li>For a newspaper look, populate your landing tab widget area with 10 or 15 copies of the Front Page Post Summary widget.  
 	 		  		Use the Front Page Post Summary Widget to bring a post excerpt, featured-image and/or content to the front page -- 
 	 		  		either in full-width or 4-to-a-row format. In 4-to-a-row format, the widgets will show as rows of 2 to 4 tiles (depending on browser width) 
 	 		  		in desktop view but will reshuffle into a column in mobile view.</li>
 				<li>Use the other included Front Page widgets for a responsive category list, comment list or archive list 
 					formatted to take advantage of all screen sizes.</li>     		  		
- 		  		<li>To show the standard latest posts list, just use Latest Posts as a tab title and leave the widget area for the tab empty.  
- 		  			You can also use a different tab title and insert the Front Page Latest Posts widget.</li>
  		  		<li>To show plugin content with a shortcode in a tab, drop a text widget in the tab and put the shortcode in the text widget. 
  		  			Short codes that can look good in tabs include <a href="http://www.nextgen-gallery.com/nextgen-gallery-shortcodes/" target = "_blank">NextGen Gallery</a>,  
  		  			a <a href="http://tablepress.org/documentation/"  target = "_blank">TablePress table</a>, or 
-  						a <a href="http://codex.bbpress.org/shortcodes/"  target = "_blank">bbPress forum</a>.</li> 
+  						a <a href="http://codex.bbpress.org/shortcodes/"  target = "_blank">bbPress forum</a>.</li>
+  				<li>The theme includes responsive styling for bbPress forums and topics.</li> 
  		  	</ul>'   , 'responsive-tabs');   	
  	_e(	'<h4>Note: This page will disappear when you change this tab\'s title or content, but you can always get help in Appearance>Customize>Tab Titles or at ', 'responsive-tabs' );
 	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.com</a>.  The website offers additional examples.</h4>'; ?>
