@@ -36,10 +36,9 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 							 	  } 
 						echo '<a href="' . get_the_permalink() . 
 							'" title = "' . sprintf( __( 'View child page %s', 'responsive-tabs' ) , get_the_title() ) . '">' . 
-							get_the_title() . '<a>';
+							get_the_title() . '</a>';
 						$child_count = $child_count + 1;
 					}
-					echo '</ul>';
 				} else {
 					// no children found, do nothing
 				}

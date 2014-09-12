@@ -24,10 +24,7 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		<?php the_title( '<h1 class="post-title">', ' </h1> '); ?>
 
 		<h4>
-			
 			<?php /* list child pages if any below title */
-			
-			
 			$page_child_query  = new WP_Query( 'post_type=page&orderby=title&order=asc&post_parent=' . $post->ID );
 				if ( $page_child_query->have_posts() ) {
 					$child_count = 0;
@@ -38,10 +35,9 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 							 	  } 
 						echo '<a href="' . get_the_permalink() . 
 							'" title = "' . sprintf( __( 'View child page %s', 'responsive-tabs' ) , get_the_title() ) . '">' . 
-							get_the_title() . '<a>';
+							get_the_title() . '</a>';
 						$child_count = $child_count + 1;
 					}
-					echo '</ul>';
 				} else {
 					// no children found, do nothing
 				}
