@@ -690,7 +690,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		parent::__construct(
 			'responsive_tabs_latest_posts', // Base ID
 			__( 'Front Page Latest Posts', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Latest posts widget in wide (responsive) format for front page tabs or highlight area. Will not work in sidebar.', 'responsive-tabs' ), ) // Args
+			array( 'description' => __( 'Latest posts widget in wide (responsive) format for front page tabs or highlight area. Can include or exclude categories.', 'responsive-tabs' ), ) // Args
 		);
 	}
 

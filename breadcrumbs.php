@@ -76,9 +76,6 @@ if ( function_exists( 'bcn_display' ) ) {
 		} elseif ( is_tag() ) {
 			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'tag_home' )  . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
 			echo $home_link . __( 'search by tag &raquo;', 'responsive_tabs' ); 	
-		} elseif ( $taxonomy == 'publications' ) { /* supports TWCC's Clippings Plugin */
-			$home_link =  '<a href="/?frontpagetab=' . get_theme_mod( 'publications_home' ) . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
-			echo $home_link . __( 'search by publication &raquo;', 'responsive_tabs' ); 	
 		}
 	echo '</div>';
 } /* close else for breadcrumbs options set */

@@ -270,11 +270,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'default' => '0',
 	   'sanitize_callback' => 'sanitize_text_field'
 	) );
-			
-	$wp_customize->add_setting( 'publications_home' , array(
-	    'default' => '0',
-	   'sanitize_callback' => 'sanitize_text_field'
-	) );	
 	
 	/* accordions */
 	$wp_customize->add_section( 'footer_accordions_section' , array(
@@ -588,15 +583,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'settings' => 'page_home',
 	    'choices'  => $landing_tab_options_array,
 	    'priority'	=>	80,
-	) );
-
-	$wp_customize->add_control( 'publications_home', array(
-	    'label'   	=> __( 'Home tab for Clippings breadcrumb (if installed)', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
-	    'type'    	=> 'select',
-	    'settings' => 'publications_home',
-	    'choices'  => $landing_tab_options_array,
-	    'priority'	=> 90,
 	) );
 
 	$wp_customize->add_control( 'suppress_bbpress_breadcrumbs', array(
