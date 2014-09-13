@@ -49,7 +49,7 @@ Setting up your tabbed front page is straightforward using Wordpress widgets.
 -- Set up site identity header and optional headlines or headline widget. 
 -- Change colors, fonts and images to achieve the look you want.
 
-Let us know if you have questions or concerns -- help@responsive-tabs-wordpress-theme.com.
+Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-wp.com.
 
 
 == Changelog ==

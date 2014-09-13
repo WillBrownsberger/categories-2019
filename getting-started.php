@@ -16,9 +16,9 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 	<h1> <?php _e('Welcome to Responsive Tabs!', 'responsive-tabs' ); ?> </h1> 
  	<?php 	_e( 	'<h4>Overview of Responsive Tabs</h4>
  			<p>The Responsive Tabs theme gives you great structural flexibility in defining and redefining your front page content. 
- 			Visit <a href="http://responsive-tabs-wordpress-theme.com/">responsive-tabs-wordpress-theme.com</a> for more help and examples of this theme in action.  
+ 			Visit <a href="http://responsive-tabs-theme-for-wp.com/">responsive-tabs-theme-for-wp.com</a> for more help and examples of this theme in action.  
  			Visit <a href = "http://WillBrownsberger.com/">WillBrownsberger.com</a> for a more fully-developed implementation of this theme.  
- 			Please feel free to email <a href="mailto:help@responsive-tabs-wordpress-theme.com/">help@responsive-tabs-wordpress-theme.com</a> 
+ 			Please feel free to email <a href="mailto:help@responsive-tabs-theme-for-wp.com/">help@responsive-tabs-theme-for-wp.com</a> 
  			with any questions.</p>
 			<h4>Basic Setup</h4>    		  	
  		  	<ol>
@@ -50,5 +50,5 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
   				<li>The theme includes responsive styling for bbPress forums and topics.</li> 
  		  	</ul>'   , 'responsive-tabs');   	
  	_e(	'<h4>Note: This page will disappear when you change this tab\'s title or content, but you can always get help in Appearance>Customize>Tab Titles or at ', 'responsive-tabs' );
-	echo '<a href="http://responsive-tabs-wordpress-theme.com/" target = "_blank" >responsive-tabs-wordpress-theme.com</a>.  The website offers additional examples.</h4>'; ?>
+	echo '<a href="http://responsive-tabs-theme-for-wp.com/" target = "_blank" >responsive-tabs-theme-for-wp.com</a>.  The website offers additional examples.</h4>'; ?>
 </div><?php
