@@ -111,8 +111,10 @@ while ( have_posts() ) : the_post();
 				edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); 
 			
 			/* always do comments template -- it will check and show message if not open (contrast page.php) */		
-			comments_template();
-	
+			?> <div id="comments"> <?php		
+				comments_template();
+			?> </div> <?php
+				
 			?> <div id="previous-post-link"> <?php
 				previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
 			?> </div> <?php

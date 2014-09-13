@@ -55,11 +55,11 @@ add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
 $tt_mod = get_theme_mod( 'tab_titles' ) ;
 
 if ( false === $tt_mod ) {
-	set_theme_mod( "site_short_title"	, "Set mobile short title" );
-	set_theme_mod( "highlight_headline"	, "<p>Responsive Tabs</p><p>Theme Initialization</p>" );
-	set_theme_mod( "highlight_subhead"	, "<p>Set up your theme in Appearance>Customize</p>" );
-	set_theme_mod( "highlight_headline_small_screen" 	, "Highlight Headline Small Screen" );
-	set_theme_mod( "tab_titles"			, "Getting Started, Latest Posts" );
+	set_theme_mod( "site_short_title"	, __( 'Set mobile short title', 'responsive-tabs' ) );
+	set_theme_mod( "highlight_headline"	, '<p>' . __( 'Responsive Tabs', 'responsive-tabs' ) . '</p><p>' . __( 'Theme Setup', 'responsive-tabs' ) . '</p>' );
+	set_theme_mod( "highlight_subhead"	, '<p>'. __( 'Set up your theme in Appearance>Customize', 'responsive-tabs') . '</p>' );
+	set_theme_mod( "highlight_headline_small_screen" 	, __( 'Highlight Headline Small Screen', 'responsive-tabs' ) );
+	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, Latest Posts, Getting Started', 'responsive-tabs') );
 	set_theme_mod( "landing_tab"			, "0" );
 	set_theme_mod( "show_login_links"	, true );
 	set_theme_mod( "show_breadcrumbs"	, true );
@@ -84,7 +84,7 @@ function minimize_home_page_post_list( $query ) {
         return;
 
     if ( is_home() ) {
-        // Retrieve only one for the original blog archive (minimize db access)
+        // Retrieve only one for the original blog archive main query (minimize db access)
         $query->set( 'posts_per_page', '1' );
         $query->set( 'ignore_sticky_posts', true ); 
         return;
