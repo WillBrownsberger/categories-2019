@@ -53,7 +53,12 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
-Version 1.0 -- Initial Release
+Version 1.0 	(2014-09-11) 	-- Initial Submission to Wordpress 
+Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trademark policy
+Version 1.1 	(2014_xx-xx		-- Work in Progress notes
++ Improved consistency of options in widgets 
++ Add by-user include/exclude option and changed query mechanism for comments widget
++ Added featured images to page templates 
 
 == Upgrade Notice ==
-Up to date!
+Upgrade to 1.1 recommended for better widget functionality.

@@ -47,13 +47,17 @@ class Front_Page_Category_List extends WP_Widget {
 		);
 	}
 
-
 	function widget( $args, $instance ) {
+
+		extract( $args, EXTR_SKIP );	
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		
-		extract( $args );	// Note -- no options for this widget (title equivalent is front page tab head), but arguments include $before_widget and $after_widget
- 
 		echo '<!-- responsive-tabs front page category list widget -->' . $before_widget;
- 	 		
+
+		if ( $title ) {
+			echo $before_title . $title . $after_title; 	
+		} 		
+
 			// Category list headers
 			echo  '<ul class = "responsive-tabs-front-page-category-list">' .
 		     	'<li class = "pl-odd">' .
@@ -113,6 +117,22 @@ class Front_Page_Category_List extends WP_Widget {
 			echo "</ul>"; // responsive-tabs-front-page-category-list
 		echo $after_widget;
 	}
+	
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		return $instance;
+	}
+
+	function form( $instance ) {
+		
+		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+	 	<?php
+	} 	
+
 }
 
 /**
@@ -131,40 +151,46 @@ class Front_Page_Comment_List extends WP_Widget {
 	
 	function widget( $args, $instance ) {
 
-		global $comments, $comment;
-
  		extract( $args, EXTR_SKIP );
- 		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';
       
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
 		if ( ! $number ) {
  			$number = 10;
 		}
 
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		
+		$include_list = isset( $instance['include_users_list'] ) ? $instance['include_users_list'] : '' ;
+		$exclude_list = isset( $instance['exclude_users_list'] ) ? $instance['exclude_users_list'] : '';
+		$include_clause = $include_list > '' ? ( ' AND user_id IN (' . $include_list . ') ' ) : ''; 
+		$exclude_clause = $exclude_list > '' ? ( ' AND user_id NOT IN (' . $exclude_list . ') ' ) : '';
+				
 		/* pagination and link variables */
 		$active_tab 			= isset( $_GET[ 'frontpagetab' ] )  ? $_GET[ 'frontpagetab' ] : 0;
 		$comment_page			= isset( $_GET[ 'comment_widget_page' ] )  ? $_GET[ 'comment_widget_page' ] : 0;
 		$offset					= $comment_page * $number;
-
-		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
-
-		$args = array( 
-			'offset'			=> $offset,
-			'number' 		=> $number + 1, // retrieve one extra to see if should show a next page link 
-			'status' 		=> 'approve', 
-			'post_status' 	=> 'publish',
-			'orderby' 		=> 'post_ID',
-			'order' 			=> 'desc', 
-		);
-				
-		// comment query
-		$front_page_widget_comments_query = new WP_Comment_Query;
-		$comments = $front_page_widget_comments_query->query( $args );
 		
-		$output .= $before_widget;
+		global $wpdb;
+		$widget_comment_query = 
+			'SELECT comment_id, comment_date, comment_content, post_title FROM wp_comments c INNER JOIN wp_posts p on c.comment_post_ID = p.ID 
+			WHERE 
+				post_status = "publish" AND
+				comment_approved = 1 AND
+				( comment_type is NULL or comment_type = "" )' . 
+			$include_clause . $exclude_clause .
+			' ORDER BY comment_date_gmt DESC ' . 
+			'LIMIT ' . $offset . ', '  . ( $number + 1 ); 
+
+		$widget_comments = $wpdb->get_results( $widget_comment_query ); 
+
+		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';		
+		$output .= $before_widget  ;										// is blank in home widget areas
+		if ( $title ) {
+			$output .= $before_title . $title . $after_title; 	
+		} 		
 
 		$output .= '<ul class = "responsive-tabs-front-page-comment-list">';
-		if ( $comments ) {
+		if ( $widget_comments ) {
 
 			// comment list header
 			$output .= 
@@ -180,36 +206,26 @@ class Front_Page_Comment_List extends WP_Widget {
 			$count 			= 1; 	// for row style alternation and to test possibility that a page had only admin comments on it
 			$found_count 	= 0; // for next page switch	
 							
-			foreach ( (array) $comments as $comment) {
+			foreach ( (array) $widget_comments as $comment) {
 				
 				$found_count = $found_count + 1;
-											
-				$editor = FALSE;
-				if( $comment->user_id > 0 ) {
-					$editor = user_can( $comment->user_id, 'delete_others_posts' );
-				} 
-				if( ( ! $editor || ! $exclude_editorial_comments ) && $found_count < $number + 1 ) { // limit comment output to user comments, exclude editor and admin replies; don't over shoot to next page 
+
+				if( $found_count < $number + 1 ) { // don't over shoot to next page 
 				  	$count = $count + 1;
 				  	if( $count % 2 == 0 ) {
 				  		$row_class = "pl-even";
 				  	} else {
 				  		$row_class = "pl-odd";
 				  	}
-				  	
-				  	if ( $comment->comment_type > '' ) {  // for pingbacks and trackbacks, truncate author name which is article title and may be too long
-				  		$author_link = '<a href="' . esc_html( $comment->comment_author_url ) . '">' . esc_attr( substr( $comment->comment_author , 0 , 25 ) ) . '</a>';
-				  	} else {
-				  		$author_link = get_comment_author_link();
-				  	} 				  	
-				  		 
+
 				   $comment_date_time = new DateTime( $comment->comment_date );
 				   $output .=  
 				   '<li class="' . $row_class . '">' . 
    					'<ul class="responsive-tabs-front-page-comment-list-item">' . 
-							'<li class="responsive-tabs-front-page-comment-author">'. $author_link .  '</li>' . 
+							'<li class="responsive-tabs-front-page-comment-author">'. get_comment_author_link($comment->comment_id) .  '</li>' . 
 							'<li class="responsive-tabs-front-page-comment-post">' . 
-								'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' .	
-									esc_html( get_the_title( $comment->comment_post_ID ) ) . 
+								'<a href="' . esc_url( get_comment_link( $comment->comment_id ) ) . '">' .	
+									esc_html( $comment->post_title ) . 
 								'</a>'.
 							'</li>' .
 							'<li class="responsive-tabs-front-page-comment-date-time">' . 
@@ -217,22 +233,19 @@ class Front_Page_Comment_List extends WP_Widget {
 							'</li>' .
 						'</ul>' .
 						'<div class = "responsive-tabs-front-page-comment-excerpt">' . 
-							wp_kses_data( $this->get_long_comment_excerpt( $comment->comment_ID ) ) . '<br />' .
-							'<a href="'. esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . 
+							wp_kses_data( $this->get_long_comment_excerpt( $comment->comment_content ) ) . '<br />' .
+							'<a href="'. esc_url( get_comment_link( $comment->comment_id ) ) . '">' . 
 								__( 'View Comment in Context &raquo;', 'responsive-tabs' ) . 
 							'</a>' .
 						'</div>' .
 					'</li>';
 	    		}
 			}
-			if ( 0 == $count - 1 ) {  // $count starts at 1 and is incremented as comments are actually displayed
-				$output .= '<h3>' . sprintf ( __('The %s comments on this page are all from site administrators. <br /><br /> Administrator comments are set to not be displayed in this list.<br /><br /> 
-						You may continue to view older or newer comments.', 'responsive-tabs' ), $number ) . '</h3>'; 			
-			}
-		$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
-		
-			/* next previous comments list with same styles as next previous posts links */
-			/* note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget */
+	
+			$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
+			
+			// next previous comments list with same styles as next previous posts links 
+			// note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget 
 			$output .=	'<div id = "next-previous-links">'; 
 				if ( $comment_page > 0 ) {	
 					$output .= '<div id="previous-posts-link">' .
@@ -246,59 +259,76 @@ class Front_Page_Comment_List extends WP_Widget {
 				}
 			$output .= '</div>';
 			$output .=	'<div class = "horbar-clear-fix"></div>';
+			
  		} else {
- 			$output .= '<h3>' . __('No comments approved yet!', 'responsive-tabs' ) . '</h3>';
+ 			$output .= '<h3>' . __('No approved comments selected!', 'responsive-tabs' ) . '</h3>';
  		}		
 
 		$output .= $after_widget;
 
-		echo $output;
+		echo $output; 
 	}
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title']  = esc_attr( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
-		$instance['exclude_editorial_comments'] = absint( $new_instance['exclude_editorial_comments'] );		
+		$instance['include_users_list'] = responsive_tabs_clean_post_list( $new_instance['include_users_list'] );
+		$instance['exclude_users_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_users_list'] );
 		return $instance; 
 	}
 
 	function form( $instance ) {
-		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
-		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
+		
+		$number 								= isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
+		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : ''; // no tags in title
+		$include_users_list 				= isset( $instance['include_users_list'] ) ? strip_tags( $instance['include_users_list'] ) : '';
+		$exclude_users_list 				= isset( $instance['exclude_users_list'] ) ? strip_tags( $instance['exclude_users_list'] ) : '';
 		
 		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show per page:', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 	
-	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Do not display admin/editorial comments (will not be excluded from per page count, so number displayed will vary): ', 'responsive-tabs' ); ?></label><?php
-	   echo  '<input type="checkbox" id="'. $this->get_field_id('exclude_editorial_comments')  .'" name="'. $this->get_field_name('exclude_editorial_comments')  .'" value="1" ' . checked( '1',  $exclude_editorial_comments  , false ) .'/></p>';
+		<p><label for="<?php echo $this->get_field_id( 'include_users_list' ); ?>"><?php _e( 'ID number(s) of users to <em>include</em>:<br /> (single or multiple separated by commas<br /> -- leave blank for all)<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'include_users_list' ); ?>" name="<?php echo $this->get_field_name( 'include_users_list' ); ?>" type="text" value="<?php echo $include_users_list; ?>" size="30" /></p>
+
+		<p><label for="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>"><?php _e( 'ID number(s) of users to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_users_list' ); ?>" type="text" value="<?php echo $exclude_users_list; ?>" size="30" /></p>
+		<?php 	
 	}
 
 	/*
 	* long comment excerpt method
 	* derived from http://developer.wordpress.org/reference/functions/get_comment_excerpt/
 	*/
-	function get_long_comment_excerpt( $comment_ID = 0 ) {
-	    $comment = get_comment( $comment_ID );
-	    $comment_text = strip_tags( $comment->comment_content );
-	    $excerpt_array = explode( ' ', $comment_text );
-	    if( count ( $excerpt_array ) > 100) {
-	        $k = 100;
-	        $use_dotdotdot = 1;
-	    } else {
-	        $k = count( $excerpt_array );
-	        $use_dotdotdot = 0;
-	    }
+	function get_long_comment_excerpt( $comment_content ) {
+		
+		$clean_content = strip_tags( $comment_content, '<b><code><em><i><strike><strong>');
+
+		$excerpt_array = explode( ' ', $clean_content );
+		
+		if( count ( $excerpt_array ) > 100) {
+			$k = 100;
+			$use_dotdotdot = 1;
+		} else {
+			$k = count( $excerpt_array );
+			$use_dotdotdot = 0;
+		}
 	    
-	    $excerpt = '';
-	    for ( $i=0; $i<$k; $i++ ) {
-	        $excerpt .= $excerpt_array[$i] . ' ';
-	    }
-	
-	    $excerpt .= ( $use_dotdotdot ) ? '&hellip;' : '';
-	
-	    return apply_filters( 'get_comment_excerpt', $excerpt );
+		$excerpt = '';
+		for ( $i=0; $i<$k; $i++ ) {
+			$excerpt .= $excerpt_array[$i] . ' ';
+		}
+
+		$excerpt .= ( $use_dotdotdot ) ? '&hellip;' : '';
+
+		$excerpt = force_balance_tags( $excerpt );
+
+		return apply_filters( 'get_comment_excerpt', $excerpt );
+		
 	}
 }
 
@@ -864,8 +894,19 @@ class Front_Page_Links_List extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract( $args );	// Note -- no options for this widget (title equivalent is front page tab head), but arguments include $before_widget and $after_widget{
+		
+		extract( $args, EXTR_SKIP );	
+		
+		echo $before_widget;
+		
+		if ( $title ) {
+			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
+		} 		
+		
+		
 		show_latest_links();
+		
+		echo $after_widget;
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -876,11 +917,13 @@ class Front_Page_Links_List extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 50;
-		/*?>
-		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-		<?php*/
+		
+		$title  = isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		
+		?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+		<?php	 	
 	}
 	
 }

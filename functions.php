@@ -440,3 +440,4 @@ function responsive_tabs_url_grabber() {
 
 	return esc_url_raw( $matches[1] );
 }
+
