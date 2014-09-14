@@ -135,17 +135,22 @@ class Front_Page_Comment_List extends WP_Widget {
 
  		extract( $args, EXTR_SKIP );
  		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';
-
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 20;
+      
+		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
 		if ( ! $number ) {
- 			$number = 20;
+ 			$number = 10;
 		}
+
+		/* pagination and link variables */
+		$active_tab 			= isset( $_GET[ 'frontpagetab' ] )  ? $_GET[ 'frontpagetab' ] : 0;
+		$comment_page			= isset( $_GET[ 'comment_widget_page' ] )  ? $_GET[ 'comment_widget_page' ] : 0;
+		$offset					= $comment_page * $number;
 
 		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
 
 		$args = array( 
-			'comment_type' => '', 
-			'number' 		=> $number, 
+			'offset'			=> $offset,
+			'number' 		=> $number + 1, // retrieve one extra to see if should show a next page link 
 			'status' 		=> 'approve', 
 			'post_status' 	=> 'publish',
 			'orderby' 		=> 'post_ID',
@@ -153,9 +158,9 @@ class Front_Page_Comment_List extends WP_Widget {
 		);
 				
 		// comment query
-		$comments_query = new WP_Comment_Query;
-		$comments = $comments_query->query( $args );
-
+		$front_page_widget_comments_query = new WP_Comment_Query;
+		$comments = $front_page_widget_comments_query->query( $args );
+		
 		$output .= $before_widget;
 
 		$output .= '<ul class = "responsive-tabs-front-page-comment-list">';
@@ -172,26 +177,36 @@ class Front_Page_Comment_List extends WP_Widget {
 			'</li>';		
 			
 			// comment list items			
-			$count = 1; 			
+			$count 			= 1; 	// for row style alternation and to test possibility that a page had only admin comments on it
+			$found_count 	= 0; // for next page switch	
+							
 			foreach ( (array) $comments as $comment) {
-						
+				
+				$found_count = $found_count + 1;
+											
 				$editor = FALSE;
 				if( $comment->user_id > 0 ) {
 					$editor = user_can( $comment->user_id, 'delete_others_posts' );
 				} 
-				if( ! $editor || ! $exclude_editorial_comments ) { // limit comment output to user comments, exclude editor and admin replies 
-				  	$count = $count+1;
+				if( ( ! $editor || ! $exclude_editorial_comments ) && $found_count < $number + 1 ) { // limit comment output to user comments, exclude editor and admin replies; don't over shoot to next page 
+				  	$count = $count + 1;
 				  	if( $count % 2 == 0 ) {
 				  		$row_class = "pl-even";
 				  	} else {
 				  		$row_class = "pl-odd";
 				  	}
+				  	
+				  	if ( $comment->comment_type > '' ) {  // for pingbacks and trackbacks, truncate author name which is article title and may be too long
+				  		$author_link = '<a href="' . esc_html( $comment->comment_author_url ) . '">' . esc_attr( substr( $comment->comment_author , 0 , 25 ) ) . '</a>';
+				  	} else {
+				  		$author_link = get_comment_author_link();
+				  	} 				  	
 				  		 
 				   $comment_date_time = new DateTime( $comment->comment_date );
 				   $output .=  
 				   '<li class="' . $row_class . '">' . 
    					'<ul class="responsive-tabs-front-page-comment-list-item">' . 
-							'<li class="responsive-tabs-front-page-comment-author">'. get_comment_author_link() .  '</li>' . 
+							'<li class="responsive-tabs-front-page-comment-author">'. $author_link .  '</li>' . 
 							'<li class="responsive-tabs-front-page-comment-post">' . 
 								'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' .	
 									esc_html( get_the_title( $comment->comment_post_ID ) ) . 
@@ -210,8 +225,31 @@ class Front_Page_Comment_List extends WP_Widget {
 					'</li>';
 	    		}
 			}
- 		}
+			if ( 0 == $count - 1 ) {  // $count starts at 1 and is incremented as comments are actually displayed
+				$output .= '<h3>' . sprintf ( __('The %s comments on this page are all from site administrators. <br /><br /> Administrator comments are set to not be displayed in this list.<br /><br /> 
+						You may continue to view older or newer comments.', 'responsive-tabs' ), $number ) . '</h3>'; 			
+			}
 		$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
+		
+			/* next previous comments list with same styles as next previous posts links */
+			/* note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget */
+			$output .=	'<div id = "next-previous-links">'; 
+				if ( $comment_page > 0 ) {	
+					$output .= '<div id="previous-posts-link">' .
+							'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page - 1 ) . '">&laquo; ' . __( 'newer comments', 'responsive-tabs' ) . '</a></strong>' .					 
+					'</div>';
+				} 
+				if (  $number + 1 == $found_count ) { 
+					$output .=	'<div id="next-posts-link">' .
+							'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page + 1 ) . '">' . __( 'older comments', 'responsive-tabs' ) . ' &raquo;</a></strong>' .
+					'</div>'; 
+				}
+			$output .= '</div>';
+			$output .=	'<div class = "horbar-clear-fix"></div>';
+ 		} else {
+ 			$output .= '<h3>' . __('No comments approved yet!', 'responsive-tabs' ) . '</h3>';
+ 		}		
+
 		$output .= $after_widget;
 
 		echo $output;
@@ -226,14 +264,14 @@ class Front_Page_Comment_List extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 50;
+		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
 		$exclude_editorial_comments = ( isset( $instance['exclude_editorial_comments'] ) ) ? $instance['exclude_editorial_comments'] : false;
 		
 		?>
-		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:', 'responsive-tabs' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show per page:', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 	
-	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Exclude admin/editorial comments (will not be excluded from count): ', 'responsive-tabs' ); ?></label><?php
+	   <p><label for="<?php echo $this->get_field_id( 'exclude_editorial_comments' ); ?>"><?php _e( 'Do not display admin/editorial comments (will not be excluded from per page count, so number displayed will vary): ', 'responsive-tabs' ); ?></label><?php
 	   echo  '<input type="checkbox" id="'. $this->get_field_id('exclude_editorial_comments')  .'" name="'. $this->get_field_name('exclude_editorial_comments')  .'" value="1" ' . checked( '1',  $exclude_editorial_comments  , false ) .'/></p>';
 	}
 
