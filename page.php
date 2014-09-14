@@ -55,6 +55,8 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		$more = 1; 
 		?>
 		<div id = "wp-single-content">
+
+			<?php	the_post_thumbnail('post-content-width'); ?>
 		
 			<?php the_content(); ?> 
 
