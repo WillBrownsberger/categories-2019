@@ -37,6 +37,7 @@ Style CSS organized as follows
 	post styles
 	side menu
 	view frame and miscellaneous special page wrappers
+	welcome splash
 	widgets generally
 	widget -- rtfpcl
 	widget -- rtfpa
@@ -1145,6 +1146,47 @@ div#front-page-post-entry {
 	background: white;
 	margin: 10px 0;
 	padding: 10px 20px;
+}
+/* welcome splash */
+
+#welcome-splash {
+	background: #C6C2BA;
+	left: 0px;
+	min-height: 200vh;
+	opacity: 0.95;
+	position: absolute; 
+	right: 0px;	
+	top: 0px;	
+	z-index: 200;
+	width: 100%;
+} 
+
+#welcome-splash-content-wrapper {
+	background: white;
+	margin: 50px auto;
+	max-width: 960px;
+	padding: 40px;
+} 
+
+#welcome-splash-title {
+	background: white;
+	margin: 50px auto;
+	max-width: 960px;
+} 
+
+#welcome-splash-close {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ebebeb), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ebebeb 5%, #dfdfdf 100% );
+	border-radius: 4px; 
+	font-size: 1.5em;
+	padding: 4px 20px; 
+}
+
+#welcome-splash-close:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #cfcfcf), color-stop(1, #ebebeb) );
+	background:-moz-linear-gradient( center top, #cfcfcf 5%, #ebebeb 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cfcfcf', endColorstr='#ebebeb');
+	background-color:#dfdfdf;
 }
 
 /* widgets generally formatting */

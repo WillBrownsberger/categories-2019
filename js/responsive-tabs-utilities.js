@@ -231,3 +231,8 @@ function checkNameEmailOnComments() {
 	}
 
 }    
+
+function rtDestroyElement( onTheChoppingBlock ) {
+	var element = document.getElementById( onTheChoppingBlock );
+	element.parentNode.removeChild(element);
+}

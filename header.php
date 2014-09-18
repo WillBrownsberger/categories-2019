@@ -10,8 +10,15 @@
  
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." ); 
+
+// set latest visit cookie -- will turn this in to an option */
+$number_of_days = get_theme_mod( 'welcome_splash_expire' );
+$date_of_expiry = time() + 60 * 60 * 24 * $number_of_days ; 
+setcookie( "responsive-tabs-last-visit", time(), $date_of_expiry, "/" );
+
  
 ?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>
@@ -27,8 +34,20 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
     </head>
      
 <body <?php body_class(); ?>> 
+
 <!-- responsive-tabs header.php -->
 <?php
+/*
+* Show optional welcome message splash if no previous visit (could be cookie expired) OR in test mode OR reshow delay period exceeded
+*/
+if ( get_theme_mod( 'welcome_splash_page' ) > '' )	 { // only show if a page selected
+	$been_here_before =  isset( $_COOKIE['responsive-tabs-last-visit'] ) ? $_COOKIE['responsive-tabs-last-visit'] : 0; 
+	if ( 0 == $been_here_before || get_theme_mod( 'welcome_splash_test' ) || ( ( get_theme_mod( 'welcome_splash_delay' ) * 60 * 60 * 24 ) + $been_here_before < time() ) ) {
+		
+			get_template_part ( 'welcome', 'splash');
+	
+	} 
+}
 /*
 * Now construct login bar, banner area and sidemenu
 *
@@ -42,7 +61,7 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 <div id = "wrapper"><!-- sets boundaries on sidebar expansion -->
 
 	<div id="side-menu" class = "sidebar-menu">
-	
+
 		<?php if( is_active_sidebar( 'header_bar_widget' ) ) { ?>
 			<div id = "header-bar-widget-wrapper-side-menu-copy" >
 				<?php dynamic_sidebar( 'header_bar_widget' ); ?>

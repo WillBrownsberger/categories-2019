@@ -58,7 +58,8 @@ Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trad
 Version 1.1 	(2014_xx-xx		-- Work in Progress notes
 + Improved consistency of options in widgets 
 + Add by-user include/exclude option and changed query mechanism for comments widget
-+ Added featured images to page templates 
++ Added featured images to page templates
++ Added optional welcome splash page for first-time visitors or non-recent visitors 
 
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.

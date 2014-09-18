@@ -11,6 +11,7 @@
 * -- adds theme support for header, background, thumbnails, html5, feeds and post-format (link)
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds functions to create archive drop down of authors
+* -- adds function to sanitize an integer > 0 or empty;
 * -- adds function to sanitize a list of post id's
 * -- adds function to sanitize css/scripts (only balance tags)
 * -- adds filter hack to cover home page title
@@ -386,6 +387,19 @@ function responsive_tabs_clean_post_list($post_list)  {
 
 	return $post_list_clean;
 }
+
+/*
+* function to sanitize a value to an integer greater than zero
+*/
+function int_greater_than_zero( $value ) {
+	if( '' == $value ) {
+		return '';
+	}
+	$value_int = intval( $value );
+	$return_int =  $value_int < 1 ? 1  : $value_int;
+	return $return_int;
+}
+
 /*
 * function to sanitize a list of alphanumerics in comma separated string
 *

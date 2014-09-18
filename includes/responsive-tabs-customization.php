@@ -55,12 +55,22 @@ $landing_tab_options_array = array (
 	'14'		=> '14',
 	'15'		=> '15',
 );
+		
+$page_array					= get_pages();
+$page_dropdown_array 	= array();
+$page_dropdown_array[''] = 'No welcome splash page';
+
+foreach ( $page_array as $page ) {
+	$page_dropdown_array[$page->ID] = $page->post_title;
+}		
+
 							
 function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	global $font_family_array;
 	global $font_size_array;
 	global $landing_tab_options_array;
+	global $page_dropdown_array;
 
 	/* create custom call back for text area */
 	class Responsive_Tabs_Textarea_Control extends WP_Customize_Control { // http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
@@ -275,9 +285,9 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_section( 'footer_accordions_section' , array(
 	    'title'      	=> __( 'Footer Accordions', 'responsive-tabs' ),
 	    'priority'   	=> 100,
-	    'description'	=> 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
+	    'description'	=> __( 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
 	    						Titles will be accordion titles.  Content will appear when clicked.  
-	    						<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>',
+	    						<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>', 'responsive-tabs' ),
 	) );	
 		
 	$wp_customize->add_setting( 'front_page_accordion', array(
@@ -300,24 +310,50 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_section( 'css_scripts_section' , array(
 	    'title'      => __( 'Custom CSS and Scripts', 'responsive-tabs' ),
 	    'priority'   => 200,
-	    'description' => 'If you are an experienced user, you can enter custom css or scripts below.  Use caution -- the script entries are not filtered.', 
+	    'description' => __( 'If you are an experienced user, you can enter custom css or scripts below.  Use caution -- the script entries are not filtered.', 'responsive-tabs' ), 
 	) );	
 	
 	$wp_customize->add_setting( 'custom_css', array(
-	    'default' => __( '', 'responsive-tabs' ),
+	    'default' => '',
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
 	) );
 
 	$wp_customize->add_setting( 'header_scripts', array(
-	    'default' => __( '', 'responsive-tabs' ),
+	    'default' => '',
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
 	) );
 
 	$wp_customize->add_setting( 'footer_scripts', array(
-	    'default' => __( '', 'responsive-tabs' ),
+	    'default' => '',
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
 	) );
 	
+	/* welcome splash page */
+	$wp_customize->add_section( 'welcome_splash_page_section' , array(
+	    'title'      => __( 'Welcome Splash Page', 'responsive-tabs' ),
+	    'priority'   => 210,
+	    'description' => __( 'If you wish, select a page to show to first time visitors.  Can also be used to make a special announcement.', 'responsive-tabs' ) 
+	) );	
+		
+	$wp_customize->add_setting( 'welcome_splash_page', array(
+	    'default' => '',
+	    'sanitize_callback' => 'int_greater_than_zero'
+	) );
+
+	$wp_customize->add_setting( 'welcome_splash_expire', array(
+	    'default' => 365,
+	    'sanitize_callback' => 'int_greater_than_zero'
+	) );
+
+	$wp_customize->add_setting( 'welcome_splash_delay', array(
+	    'default' => 365,
+	    'sanitize_callback' => 'int_greater_than_zero'
+	) );
+	
+	$wp_customize->add_setting( 'welcome_splash_test', array(
+	    'default' => 0,
+	    'sanitize_callback' => 'int_greater_than_zero'
+	) );
 	/* CONTROLS
 	-------------------------------------------------------*/	
 	
@@ -631,7 +667,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	   'priority'   => 10,
 	) ) );
 
-	/* custom css & scripts controls */
+	
 	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'header_scripts', array(
 		'label'      => __( 'Header Scripts', 'responsive-tabs' ),
 		'section'    => 'css_scripts_section',
@@ -639,13 +675,49 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	   'priority'   => 20,
 	) ) );
 
-	/* custom css & scripts controls */
+	
 	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'footer_scripts', array(
 		'label'      => __( 'Footer Scripts', 'responsive-tabs' ),
 		'section'    => 'css_scripts_section',
 		'settings'   => 'footer_scripts',
 	   'priority'   => 30,
 	) ) );
+	
+	/* welcome splash page */
+
+	$wp_customize->add_control( 'welcome_splash_page', array(
+	    'label'   	=> __( 'Select welcome splash page (or none)', 'responsive-tabs' ),
+	    'section' 	=> 'welcome_splash_page_section',
+	    'type'    	=> 'select',
+	    'settings' => 'welcome_splash_page',
+	    'choices'  => $page_dropdown_array,
+	    'priority'	=>	10,
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_delay', array(
+		'label'      => __( 'Display to visitor if absent for (days)' , 'responsive-tabs' ),
+		'section'    => 'welcome_splash_page_section',
+		'settings'   => 'welcome_splash_delay',
+	   'priority'   => 20,
+	) ) );
+
+	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_expire', array(
+		'label'      => __( 'Forget visitor after (days)', 'responsive-tabs' ),
+		'section'    => 'welcome_splash_page_section',
+		'settings'   => 'welcome_splash_expire',
+	   'priority'   => 30,
+	) ) );
+	
+
+	$wp_customize->add_control( 'welcome_splash_test', array(
+	    'settings' => 'welcome_splash_test',
+	    'label'    => __( 'Test mode -- always show (do not save checked)', 'responsive-tabs' ),
+	    'section'  => 'welcome_splash_page_section',
+	    'type'     => 'checkbox',
+	    'priority'	=>	40,
+	) );
+
+
 }
 
 add_action('customize_register', 'responsive_tabs_theme_customizer');
