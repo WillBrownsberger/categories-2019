@@ -71,10 +71,10 @@ if (  $accordion_posts_list > '') {
 $show_welcome_splash		= get_theme_mod( 'welcome_splash_on' );
 echo '<div id="welcome-splash-show">' . $show_welcome_splash . '</div>';
 $expire_days 		= get_theme_mod( 'welcome_splash_expire' );
-$utc_of_expiry 	= time() + $expire_days * 60 * 60 * 24 ;
+$utc_of_expiry 	= time() + $expire_days * 60 * 60 * 24;
 echo '<div id="welcome-splash-utc-of-expiry">' . $utc_of_expiry . '</div>';
 $delay_days 		= get_theme_mod( 'welcome_splash_delay' );
-$delay_seconds		= $delay_days * 60 * 60 * 24;
+$delay_seconds		= $delay_days * 60 * 60 * 24; 
 echo '<div id="welcome-splash-delay-seconds">' . $delay_seconds . '</div>';
 echo '<div id="welcome-splash-admin-adj">' . is_admin_bar_showing() . '</div>';
  

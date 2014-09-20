@@ -268,14 +268,17 @@ function splashSiteInfo() {
 	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
 
 	var splash 					= document.getElementById( 'welcome-splash' );
-	var t 						= new Date().getTime() / 1000;
-   var delayExpire			= parseFloat( lastVisit ) + parseFloat ( splashDelay );
+	var t 						= new Date().getTime() ;
+   var delayExpire			= parseFloat( lastVisit ) + ( parseFloat ( splashDelay ) * 1000 );
    
-	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpire + '; path=/';	
+   var splashExpireToString  = new Date();
+   splashExpireToString.setTime( splashExpire * 1000 );
+   splashExpireString = splashExpireToString.toUTCString();
+   
+	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpireString + '; path=/';	
 	document.cookie 			= documentCookieString;
 	var testCookieEnabled	= ( document.cookie.indexOf( "responsive-tabs-last-visit" ) != -1 ) ? true : false
-	
-	
+		
 	splash.style.display = "none"; /* initialize as none -- http://stackoverflow.com/questions/6688638/document-getelementbyid-style-display-is-blank */
 	if ( '' == lastVisit && 1 == welcomeSplashShow && testCookieEnabled ) {
 		toggleSiteInfo();		
