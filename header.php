@@ -11,12 +11,6 @@
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." ); 
 
-// set latest visit control cookies (last visit is set in javascript to avoid possible caching problems)  */
-$number_of_days = get_theme_mod( 'welcome_splash_expire' );
-$date_of_expiry = time() + $number_of_days * 60 * 60 * 24 ; 
-setcookie( "responsive-tabs-splash-expire", $date_of_expiry , $date_of_expiry, "/" );
-setcookie( "responsive-tabs-splash-delay", ( get_theme_mod( 'welcome_splash_delay' ) * 60 * 60 * 24 ), $date_of_expiry, "/" );
- 
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +33,8 @@ setcookie( "responsive-tabs-splash-delay", ( get_theme_mod( 'welcome_splash_dela
 <?php
 /*
 * Format optional welcome splash or site info message if selected in customize.  Display controlled on client -- initial css is display:none.
+* Display options are passed as hidden areas in footer.php
+*
 */
  
 if ( get_theme_mod( 'welcome_splash_on' ) || get_theme_mod( 'welcome_splash_site_info_on' ) ) { 

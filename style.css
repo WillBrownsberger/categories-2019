@@ -646,8 +646,7 @@ ul.children {
 }
 
 #site-info-wrapper .site-title  a,
-.site-description, 
-.welcome-splash-site-info {
+.site-description {
 	margin: 0px;	
 	padding-left:  10px;
 	text-decoration: none; 
@@ -661,7 +660,7 @@ ul.children {
 	font-size: 36px;
 }
 
-#site-info-wrapper li.site-title-short {
+#site-info-wrapper a.site-title-short {
 	display: none;
 }
 
@@ -1154,12 +1153,11 @@ div#front-page-post-entry {
 	margin: 10px 0;
 	padding: 10px 20px;
 }
-/* welcome splash */ 
-
+/* welcome splash */
 #welcome-splash-site-info-button {
 	background: #C6C2BA;
 	border: 0px;
-	bottom: 0.5ex;
+	bottom: 0.45ex;
 	color: white;
 	font-size: 19px;
 	font-weight: 700;
@@ -1167,6 +1165,12 @@ div#front-page-post-entry {
 	padding: 0px 8px 0px 8px;
 	position: relative;
 	vertical-align: baseline;
+}
+
+.welcome-splash-site-info {
+	margin: 0px;
+	padding-left:  20px;
+	text-decoration: none;
 }
 
 #welcome-splash-site-info-button:hover {
@@ -1215,6 +1219,13 @@ div#front-page-post-entry {
 	background:-moz-linear-gradient( center top, #cfcfcf 5%, #ebebeb 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cfcfcf', endColorstr='#ebebeb');
 	background-color:#dfdfdf;
+}
+
+#welcome-splash-show,
+#welcome-splash-utc-of-expiry,
+#welcome-splash-delay-seconds,
+#welcome-splash-admin-adj {
+	display: none;
 }
 
 /* widgets generally formatting */
@@ -1620,8 +1631,8 @@ a img.aligncenter {
 		height: 224px; 
 	}
 
-	#site-info-wrapper li.site-title-short	{
-		display: block;
+	#site-info-wrapper a.site-title-short {
+		display: inline;
 	}
 	
 	#welcome-splash-content-wrapper {
@@ -1629,8 +1640,7 @@ a img.aligncenter {
 		padding: 30px 10px;
 	} 
 
-	#site-info-wrapper li.welcome-splash-site-info, /* this line is a hack -- showing the button inside the short title li -- otherwise doesn't stay inline */
-	#site-info-wrapper li.site-title-long { /* this line is not a hack -- the responsive shift from long title to short title */
+	#site-info-wrapper a.site-title-long { 
 		display: none;
 	}
 

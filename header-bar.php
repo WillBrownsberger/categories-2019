@@ -30,20 +30,15 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
 		<?php } ?>
 		
 		<ul id = "site-info-wrapper">
-			<li class="site-title site-title-long">
-				 <a href="<?php echo( home_url( '/' ) ); ?>" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>"><?php esc_html( trim( bloginfo( 'name' ) ) ); ?></a>
-			</li>
-			<li class = "site-title site-title-short">
-				 <a href="<?php echo( home_url( '/' ) ); ?>" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>"><?php echo esc_html( trim( get_theme_mod( 'site_short_title' ) ) ); ?></a>
-				<?php if( get_theme_mod( 'welcome_splash_site_info_on' ) ) { ?>
-					 <button id = "welcome-splash-site-info-button" onclick = "toggleSiteInfo()">?</button>
-				<?php } ?>
+			<li class="site-title">
+				 <a href="<?php echo( home_url( '/' ) ); ?>" class="site-title-long" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>"><?php esc_html( trim( bloginfo( 'name' ) ) ); ?></a>
+				 <a href="<?php echo( home_url( '/' ) ); ?>" class="site-title-short" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>"><?php echo esc_html( trim( get_theme_mod( 'site_short_title' ) ) ); ?></a>
 			</li>
 			<li class="site-description"><?php esc_html( bloginfo( 'description' ) ); ?></li>
 			<?php if( get_theme_mod( 'welcome_splash_site_info_on' ) ) { ?>
-			<li class = "welcome-splash-site-info">
-				<button id = "welcome-splash-site-info-button" onclick = "toggleSiteInfo()">?</button>
-			</li>
+				<li class = "welcome-splash-site-info">
+					<button id = "welcome-splash-site-info-button" onclick = "toggleSiteInfo()">?</button>
+				</li>
 			<?php } ?>
 		</ul>
 		<div class="horbar-clear-fix"></div>  

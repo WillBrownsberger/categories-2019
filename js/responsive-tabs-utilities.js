@@ -237,35 +237,50 @@ function checkNameEmailOnComments() {
 /* operates site info toggle */
 function toggleSiteInfo() {
 
-	var splash = document.getElementById( 'welcome-splash' );
-	var display = splash.style.display;
+	var splash 			= document.getElementById( 'welcome-splash' );
+	var display 		= splash.style.display;
+	var docElem 		= document.documentElement;
+	var body 			= document.body;
+	var infoButton 	= document.getElementById ( 'welcome-splash-site-info-button' );
+	var adminAdj 		= document.getElementById ( 'welcome-splash-admin-adj' ).innerHTML	
+	
+	var adj = adminAdj ? 92 : 60;
+	var scroll 		= window.pageYOffset || docElem.scrollTop || body.scrollTop;		
+	scroll = scroll + adj ; /* height of header bar */
 
 	if ( "block" == display ) {
 		splash.style.display = "none";
+		infoButton.innerHTML		= "?";
 	} else {
 		splash.style.display = "block";
+		infoButton.innerHTML		= "x";
+		splash.style.top = scroll + 'px';
 	} 
-	
+
 }
 
 /* manages display of site info based on last-visited cookie */
 function splashSiteInfo() {
 
+	var welcomeSplashShow 	= document.getElementById( 'welcome-splash-show' ).innerHTML
+	var splashExpire 			= document.getElementById( 'welcome-splash-utc-of-expiry' ).innerHTML
+	var splashDelay 			= document.getElementById( 'welcome-splash-delay-seconds' ).innerHTML
 	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
-	var splashDelay 			= rtgetCookie( 'responsive-tabs-splash-delay' );
-	var splashExpire 			= rtgetCookie( 'responsive-tabs-splash-expire' );	
+
 	var splash 					= document.getElementById( 'welcome-splash' );
 	var t 						= new Date().getTime() / 1000;
    var delayExpire			= parseFloat( lastVisit ) + parseFloat ( splashDelay );
    
 	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpire + '; path=/';	
-	document.cookie = documentCookieString;
+	document.cookie 			= documentCookieString;
+	var testCookieEnabled	= ( document.cookie.indexOf( "responsive-tabs-last-visit" ) != -1 ) ? true : false
 	
-	splash.style.display = "none"; /* initialize as none -- need to, despite css */	
-	if ( '' == lastVisit ) {
-		splash.style.display = "block";			
-	} else if ( delayExpire < parseFloat(t) ) {
-		splash.style.display = "block";
+	
+	splash.style.display = "none"; /* initialize as none -- http://stackoverflow.com/questions/6688638/document-getelementbyid-style-display-is-blank */
+	if ( '' == lastVisit && 1 == welcomeSplashShow && testCookieEnabled ) {
+		toggleSiteInfo();		
+	} else if ( delayExpire < parseFloat(t) && 1 == welcomeSplashShow && testCookieEnabled ) {
+		toggleSiteInfo();
 	} 
 
 }

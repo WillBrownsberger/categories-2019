@@ -188,6 +188,24 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
 
+	$wp_customize->add_setting( 'welcome_splash_background_color', array(
+	    'default' => '#c6c2ba',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+	
+	$wp_customize->add_setting( 'welcome_splash_body_color', array(
+	    'default' => '#ffffff',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+	
+	$wp_customize->add_setting( 'welcome_splash_border_color', array(
+	    'default' => '#909090',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+
+
+
+
 	/* fonts */
 	
 	$wp_customize->add_section( 'responsive_tabs_fonts' , array(
@@ -480,6 +498,27 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'settings'  => 'list_odd_rows',
 		'priority'	=> 107,
 	) ) );  
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, '', array(
+		'label'     => __( 'Welcome Splash Background Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'welcome_splash_background_color',
+		'priority'	=> 108,
+	) ) );  
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'welcome_splash_body_color', array(
+		'label'     => __( 'Welcome Splash Body Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'welcome_splash_body_color',
+		'priority'	=> 109,
+	) ) );  
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'welcome_splash_border_color', array(
+		'label'     => __( 'Welcome Splash Border Color', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'welcome_splash_border_color',
+		'priority'	=> 110,
+	) ) );  	
 	
 	/*  fonts  */
 	$wp_customize->add_control( 'body_text_font_size', array(

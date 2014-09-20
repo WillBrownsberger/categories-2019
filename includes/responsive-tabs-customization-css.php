@@ -58,8 +58,8 @@ function responsive_tabs_customize_css() { ?>
 	  	
 		.post-list li.sticky {
 			border-left: 8px solid <?php echo get_theme_mod( 'sticky_post_border_color' ); ?>;
-		}	  	
-	  			
+		}	
+		
 		#highlight-headline,
 		#highlight-subhead	{
 			color: <?php echo get_theme_mod( 'highlight_headline_color' ); ?>;
@@ -98,6 +98,15 @@ function responsive_tabs_customize_css() { ?>
 		.site-title-short a {
 			font-family: <?php echo get_theme_mod( 'site_info_font_family' ); ?>;
 		}
+
+		#welcome-splash-content-wrapper {
+			background-color: <?php echo get_theme_mod( 'welcome_splash_body_color' ); ?>;		
+			border-color: 		<?php echo get_theme_mod( 'welcome_splash_border_color' ); ?>;
+		}  
+		
+		#welcome-splash {
+			background-color: <?php echo get_theme_mod( 'welcome_splash_background_color'); ?>;		
+		}			
 	
 		@media only screen and (max-width: 840px) {
 			#highlight-headline	{
