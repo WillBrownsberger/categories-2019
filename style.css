@@ -1183,10 +1183,13 @@ div#front-page-post-entry {
 	display: none; 
 	left: 0px;
 	opacity: 0.95;
+	margin: 0 auto;
+	max-width: 1460px;
+	min-height: 300vh;
 	position: absolute; 
 	right: 0px;	
 	top: 0px;	
-	z-index: 200;
+	z-index: 8;
 	width: 100%;
 } 
 
@@ -1195,7 +1198,7 @@ div#front-page-post-entry {
 	border: solid 2px #999;
 	margin: 50px auto;
 	max-width: 640px;
-	min-height: 100vh;
+	min-height: 80vh;
 	padding: 40px;
 } 
 
