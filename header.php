@@ -11,11 +11,11 @@
 /* assure that will die if accessed directly */ 
 defined( 'ABSPATH' ) or die( "Unauthorized direct script access." ); 
 
-// set latest visit cookie -- will turn this in to an option */
+// set latest visit control cookies (last visit is set in javascript to avoid possible caching problems)  */
 $number_of_days = get_theme_mod( 'welcome_splash_expire' );
-$date_of_expiry = time() + 60 * 60 * 24 * $number_of_days ; 
-setcookie( "responsive-tabs-last-visit", time(), $date_of_expiry, "/" );
-
+$date_of_expiry = time() + $number_of_days * 60 * 60 * 24 ; 
+setcookie( "responsive-tabs-splash-expire", $date_of_expiry , $date_of_expiry, "/" );
+setcookie( "responsive-tabs-splash-delay", ( get_theme_mod( 'welcome_splash_delay' ) * 60 * 60 * 24 ), $date_of_expiry, "/" );
  
 ?>
 
@@ -38,16 +38,19 @@ setcookie( "responsive-tabs-last-visit", time(), $date_of_expiry, "/" );
 <!-- responsive-tabs header.php -->
 <?php
 /*
-* Show optional welcome message splash if no previous visit (could be cookie expired) OR in test mode OR reshow delay period exceeded
+* Format optional welcome splash or site info message if selected in customize.  Display controlled on client -- initial css is display:none.
 */
-if ( get_theme_mod( 'welcome_splash_page' ) > '' )	 { // only show if a page selected
-	$been_here_before =  isset( $_COOKIE['responsive-tabs-last-visit'] ) ? $_COOKIE['responsive-tabs-last-visit'] : 0; 
-	if ( 0 == $been_here_before || get_theme_mod( 'welcome_splash_test' ) || ( ( get_theme_mod( 'welcome_splash_delay' ) * 60 * 60 * 24 ) + $been_here_before < time() ) ) {
-		
-			get_template_part ( 'welcome', 'splash');
-	
-	} 
-}
+ 
+if ( get_theme_mod( 'welcome_splash_on' ) || get_theme_mod( 'welcome_splash_site_info_on' ) ) { 
+	if( is_active_sidebar( 'welcome_splash_widget' ) ) { ?> 
+	 <div id="welcome-splash"><div id="welcome-splash-content-wrapper">
+			<?php dynamic_sidebar( 'welcome_splash_widget' ); ?> 
+			<?php wp_meta();	// hook for bottom of sidebar content ?>
+			<button id="welcome-splash-close" onclick="toggleSiteInfo()">Thanks. Got it.</button>
+		</div></div>
+	<?php }
+} 
+
 /*
 * Now construct login bar, banner area and sidemenu
 *

@@ -126,7 +126,7 @@ add_action( 'wp_head', 'responsive_tabs_output_header_scripts', 999 );
 function responsive_tabs_output_footer_scripts() {  
 	if ( ! is_user_logged_in() && get_theme_mod( 'footer_scripts' ) > '') {
 		echo  '<!-- responsive-tab script directly input in admin>appearance>customize (echoed in responsive-tabs-customization-css.php)-->' .  
-			get_theme_mod( 'footer_scripts' );
+			get_theme_mod( 'footer_scripts' ); 
 	}
 }
 add_action( 'wp_footer', 'responsive_tabs_output_footer_scripts' );

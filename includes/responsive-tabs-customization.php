@@ -55,22 +55,12 @@ $landing_tab_options_array = array (
 	'14'		=> '14',
 	'15'		=> '15',
 );
-		
-$page_array					= get_pages();
-$page_dropdown_array 	= array();
-$page_dropdown_array[''] = 'No welcome splash page';
-
-foreach ( $page_array as $page ) {
-	$page_dropdown_array[$page->ID] = $page->post_title;
-}		
-
 							
 function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	global $font_family_array;
 	global $font_size_array;
 	global $landing_tab_options_array;
-	global $page_dropdown_array;
 
 	/* create custom call back for text area */
 	class Responsive_Tabs_Textarea_Control extends WP_Customize_Control { // http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
@@ -332,14 +322,17 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_section( 'welcome_splash_page_section' , array(
 	    'title'      => __( 'Welcome Splash Page', 'responsive-tabs' ),
 	    'priority'   => 210,
-	    'description' => __( 'If you wish, select a page to show to first time visitors.  Can also be used to make a special announcement.', 'responsive-tabs' ) 
+	    'description' => __( 'These switches control whether widgets in the Site Info Splash widget area are shown.', 'responsive-tabs' ) 
 	) );	
-		
-	$wp_customize->add_setting( 'welcome_splash_page', array(
-	    'default' => '',
-	    'sanitize_callback' => 'int_greater_than_zero'
+
+	$wp_customize->add_setting( 'welcome_splash_site_info_on', array(
+	    'default' => 0,
 	) );
 
+	$wp_customize->add_setting( 'welcome_splash_on', array(
+	    'default' => 0,
+	) );
+		
 	$wp_customize->add_setting( 'welcome_splash_expire', array(
 	    'default' => 365,
 	    'sanitize_callback' => 'int_greater_than_zero'
@@ -350,10 +343,8 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'int_greater_than_zero'
 	) );
 	
-	$wp_customize->add_setting( 'welcome_splash_test', array(
-	    'default' => 0,
-	    'sanitize_callback' => 'int_greater_than_zero'
-	) );
+	
+	
 	/* CONTROLS
 	-------------------------------------------------------*/	
 	
@@ -685,38 +676,35 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	
 	/* welcome splash page */
 
-	$wp_customize->add_control( 'welcome_splash_page', array(
-	    'label'   	=> __( 'Select welcome splash page (or none)', 'responsive-tabs' ),
-	    'section' 	=> 'welcome_splash_page_section',
-	    'type'    	=> 'select',
-	    'settings' => 'welcome_splash_page',
-	    'choices'  => $page_dropdown_array,
+	$wp_customize->add_control( 'welcome_splash_site_info_on', array(
+	    'settings' => 'welcome_splash_site_info_on',
+	    'label'    => __( 'Show site info as drop down under "?" in menu bar ', 'responsive-tabs' ),
+	    'section'  => 'welcome_splash_page_section',
+	    'type'     => 'checkbox',
 	    'priority'	=>	10,
+	) );
+	
+	$wp_customize->add_control( 'welcome_splash_on', array(
+	    'settings' => 'welcome_splash_on',
+	    'label'    => __( 'Show site info as welcome splash', 'responsive-tabs' ),
+	    'section'  => 'welcome_splash_page_section',
+	    'type'     => 'checkbox',
+	    'priority'	=>	20,
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_delay', array(
 		'label'      => __( 'Display to visitor if absent for (days)' , 'responsive-tabs' ),
 		'section'    => 'welcome_splash_page_section',
 		'settings'   => 'welcome_splash_delay',
-	   'priority'   => 20,
+	   'priority'   => 30,
 	) ) );
 
 	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_expire', array(
 		'label'      => __( 'Forget visitor after (days)', 'responsive-tabs' ),
 		'section'    => 'welcome_splash_page_section',
 		'settings'   => 'welcome_splash_expire',
-	   'priority'   => 30,
+	   'priority'   => 40,
 	) ) );
-	
-
-	$wp_customize->add_control( 'welcome_splash_test', array(
-	    'settings' => 'welcome_splash_test',
-	    'label'    => __( 'Test mode -- always show (do not save checked)', 'responsive-tabs' ),
-	    'section'  => 'welcome_splash_page_section',
-	    'type'     => 'checkbox',
-	    'priority'	=>	40,
-	) );
-
 
 }
 

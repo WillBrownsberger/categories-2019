@@ -59,7 +59,7 @@ Version 1.1 	(2014_xx-xx		-- Work in Progress notes
 + Improved consistency of options in widgets 
 + Add by-user include/exclude option and changed query mechanism for comments widget
 + Added featured images to page templates
-+ Added optional welcome splash page for first-time visitors or non-recent visitors 
++ Added optional welcome splash widget area for first-time visitors or non-recent visitors 
 
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.

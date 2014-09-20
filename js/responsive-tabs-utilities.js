@@ -72,12 +72,14 @@ function ResetSideMenu() {
 
 // on load function
 function ResponsiveTabs() {
-	
+		
 	AccordionInit();
 	ResetSideMenu();
 	if ( ! TestSupportCalc() ) {
 		ResizeMajorContentAreas();
 	}
+	splashSiteInfo();
+	
 }
 
 // this handles case where user opens menu and then resizes window with menu open
@@ -224,7 +226,7 @@ function checkNameEmailOnComments() {
 	atpos 	= email.indexOf("@");
 	dotpos 	= email.lastIndexOf(".");
 	
-	if ( author.length < 1) { 
+	if ( author.length < 1 ) { 
 		alert ( 'Please enter a Name.' );
 	} else if ( atpos< 1 || dotpos<atpos+2 || dotpos+2>= email.length ) {
 		alert ( 'Please enter a valid email address.' );
@@ -232,7 +234,47 @@ function checkNameEmailOnComments() {
 
 }    
 
-function rtDestroyElement( onTheChoppingBlock ) {
-	var element = document.getElementById( onTheChoppingBlock );
-	element.parentNode.removeChild(element);
+/* operates site info toggle */
+function toggleSiteInfo() {
+
+	var splash = document.getElementById( 'welcome-splash' );
+	var display = splash.style.display;
+
+	if ( "block" == display || '' == display ) {
+		splash.style.display = "none";
+	} else {
+		splash.style.display = "block";
+	} 
 }
+
+/* manages display of site info based on last-visited cookie */
+function splashSiteInfo() {
+
+	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
+	var splashDelay 			= rtgetCookie( 'responsive-tabs-splash-delay' );
+	var splashExpire 			= rtgetCookie( 'responsive-tabs-splash-expire' );	
+	var splash 					= document.getElementById( 'welcome-splash' );
+	var t 						= new Date().getTime() / 1000;
+   var delayExpire			= parseFloat( lastVisit ) + parseFloat ( splashDelay );
+   
+	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpire + '; path=/';	
+	document.cookie = documentCookieString;
+	
+	if ( '' == lastVisit ) {
+		splash.style.display = "block";			
+	} else if ( delayExpire < parseFloat(t) ) {
+		splash.style.display = "block";
+	} 
+
+}
+	
+function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
+} 

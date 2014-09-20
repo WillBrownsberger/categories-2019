@@ -646,7 +646,8 @@ ul.children {
 }
 
 #site-info-wrapper .site-title  a,
-.site-description {
+.site-description, 
+.welcome-splash-site-info {
 	margin: 0px;	
 	padding-left:  10px;
 	text-decoration: none; 
@@ -774,11 +775,17 @@ ul.children {
 	padding-right: 4px;
 }
 
+/* pad text in Front Page Summary Widget */
 .bulk-text-padding-wrapper {
 	padding: 0 8px 8px 8px;
 }
-/* styling for one to a row home widgets */
 
+/* but not if already padded in welcome splash */
+.welcome-splash-widget-wrapper .bulk-text-padding-wrapper {
+	padding: 0;
+}
+
+/* styling for one to a row home widgets */
 .home-wide-widget-wrapper {
 /* no styling */	
 }
@@ -1147,12 +1154,30 @@ div#front-page-post-entry {
 	margin: 10px 0;
 	padding: 10px 20px;
 }
-/* welcome splash */
+/* welcome splash */ 
+
+#welcome-splash-site-info-button {
+	background: #C6C2BA;
+	border: 0px;
+	bottom: 0.5ex;
+	color: white;
+	font-size: 19px;
+	font-weight: 700;
+	margin: 0; 
+	padding: 0px 8px 0px 8px;
+	position: relative;
+	vertical-align: baseline;
+}
+
+#welcome-splash-site-info-button:hover {
+	background: #D2CEC6;
+	color: black;
+}
 
 #welcome-splash {
 	background: #C6C2BA;
+	display: none; 
 	left: 0px;
-	min-height: 200vh;
 	opacity: 0.95;
 	position: absolute; 
 	right: 0px;	
@@ -1163,8 +1188,10 @@ div#front-page-post-entry {
 
 #welcome-splash-content-wrapper {
 	background: white;
+	border: solid 2px #999;
 	margin: 50px auto;
-	max-width: 960px;
+	max-width: 640px;
+	min-height: 100vh;
 	padding: 40px;
 } 
 
@@ -1178,8 +1205,9 @@ div#front-page-post-entry {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ebebeb), color-stop(1, #dfdfdf) );
 	background:-moz-linear-gradient( center top, #ebebeb 5%, #dfdfdf 100% );
 	border-radius: 4px; 
-	font-size: 1.5em;
+	font-size: 1.2em;
 	padding: 4px 20px; 
+	margin: 20px 0 0 0;
 }
 
 #welcome-splash-close:hover {
@@ -1595,8 +1623,14 @@ a img.aligncenter {
 	#site-info-wrapper li.site-title-short	{
 		display: block;
 	}
+	
+	#welcome-splash-content-wrapper {
+		margin: 10px auto;
+		padding: 30px 10px;
+	} 
 
-	#site-info-wrapper li.site-title-long {
+	#site-info-wrapper li.welcome-splash-site-info, /* this line is a hack -- showing the button inside the short title li -- otherwise doesn't stay inline */
+	#site-info-wrapper li.site-title-long { /* this line is not a hack -- the responsive shift from long title to short title */
 		display: none;
 	}
 

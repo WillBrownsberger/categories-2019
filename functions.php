@@ -11,7 +11,7 @@
 * -- adds theme support for header, background, thumbnails, html5, feeds and post-format (link)
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds functions to create archive drop down of authors
-* -- adds function to sanitize an integer > 0 or empty;
+* -- adds function to sanitize an integer > 0;
 * -- adds function to sanitize a list of post id's
 * -- adds function to sanitize css/scripts (only balance tags)
 * -- adds filter hack to cover home page title
@@ -113,6 +113,17 @@ add_action( 'init', 'responsive_tabs_register_menus' );
 */
 function responsive_tabs_widgets_init() {
 	
+	register_sidebar( array(
+		'name' 				=> __( 'Site Info Splash', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget area for site info dropdown and/or welcome splash for new visitors (display settings under Customize menu) ', 'responsive-tabs' ),
+		'id' 					=> 'welcome_splash_widget',
+		'class' 				=> '',
+		'before_widget' 	=> '<div class = "welcome-splash-widget-wrapper"> ',
+		'after_widget' 	=> '</div>',
+		'before_title' 	=> '<h1 class = "welcome-splash-title">',
+		'after_title' 		=> '</h1>',
+	) );
+
 	for ( $index = 0; $index <= 15; $index++ ) { // register widget areas for each tab
 		register_sidebar( array(
 				'name' 				=> __( 'Tab ', 'responsive-tabs' ) . $index,
@@ -392,9 +403,6 @@ function responsive_tabs_clean_post_list($post_list)  {
 * function to sanitize a value to an integer greater than zero
 */
 function int_greater_than_zero( $value ) {
-	if( '' == $value ) {
-		return '';
-	}
 	$value_int = intval( $value );
 	$return_int =  $value_int < 1 ? 1  : $value_int;
 	return $return_int;
