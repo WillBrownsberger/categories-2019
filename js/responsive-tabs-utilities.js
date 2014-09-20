@@ -240,11 +240,12 @@ function toggleSiteInfo() {
 	var splash = document.getElementById( 'welcome-splash' );
 	var display = splash.style.display;
 
-	if ( "block" == display || '' == display ) {
+	if ( "block" == display ) {
 		splash.style.display = "none";
 	} else {
 		splash.style.display = "block";
 	} 
+	
 }
 
 /* manages display of site info based on last-visited cookie */
@@ -260,6 +261,7 @@ function splashSiteInfo() {
 	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpire + '; path=/';	
 	document.cookie = documentCookieString;
 	
+	splash.style.display = "none"; /* initialize as none -- need to, despite css */	
 	if ( '' == lastVisit ) {
 		splash.style.display = "block";			
 	} else if ( delayExpire < parseFloat(t) ) {
