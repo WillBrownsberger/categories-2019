@@ -71,7 +71,7 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 					) );				
 			?>
 					
-			<?php edit_post_link( __( 'Edit Page', 'responsive-tabs' ), '<p>', '</p>' ); ?> 
+			<?php edit_post_link( __( 'Edit Page #', 'responsive-tabs') . get_the_id() , '<p>', '</p>' ); ?>
 		</div>
 		
 		<?php if ( comments_open() || get_comments_number() ) {			
