@@ -262,9 +262,10 @@ function toggleSiteInfo() {
 /* manages display of site info based on last-visited cookie */
 function splashSiteInfo() {
 
-	var welcomeSplashShow 	= document.getElementById( 'welcome-splash-show' ).innerHTML
-	var splashExpire 			= document.getElementById( 'welcome-splash-utc-of-expiry' ).innerHTML
-	var splashDelay 			= document.getElementById( 'welcome-splash-delay-seconds' ).innerHTML
+	var welcomeSplashShow 	= document.getElementById( 'welcome-splash-show' ).innerHTML;
+	var splashExpire 			= document.getElementById( 'welcome-splash-utc-of-expiry' ).innerHTML;
+	var splashDelay 			= document.getElementById( 'welcome-splash-delay-seconds' ).innerHTML;
+	var alertClass 			= document.getElementById( 'welcome-splash-alert-class' ).innerHTML;
 	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
 
 	var splash 					= document.getElementById( 'welcome-splash' );
@@ -285,6 +286,10 @@ function splashSiteInfo() {
 	} else if ( delayExpire < parseFloat(t) && 1 == welcomeSplashShow && testCookieEnabled ) {
 		toggleSiteInfo();
 	} 
+	
+	if ( "none" == splash.style.display && splash.getElementsByClassName( alertClass ).length > 0  ) {
+		toggleSiteInfo(); /* show splash if includes an alert from a form submission */
+	}
 
 }
 	

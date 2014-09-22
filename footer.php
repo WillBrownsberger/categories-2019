@@ -77,6 +77,7 @@ $delay_days 		= get_theme_mod( 'welcome_splash_delay' );
 $delay_seconds		= $delay_days * 60 * 60 * 24; 
 echo '<div id="welcome-splash-delay-seconds">' . $delay_seconds . '</div>';
 echo '<div id="welcome-splash-admin-adj">' . is_admin_bar_showing() . '</div>';
+echo '<div id="welcome-splash-alert-class">' . get_theme_mod( 'welcome_splash_alert_class' ) . '</div>';
  
 wp_footer(); 
 ?>

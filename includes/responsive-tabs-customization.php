@@ -350,7 +350,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_setting( 'welcome_splash_on', array(
 	    'default' => 0,
 	) );
-		
+
 	$wp_customize->add_setting( 'welcome_splash_expire', array(
 	    'default' => 365,
 	    'sanitize_callback' => 'int_greater_than_zero'
@@ -360,7 +360,12 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'default' => 365,
 	    'sanitize_callback' => 'int_greater_than_zero'
 	) );
-	
+
+		
+	$wp_customize->add_setting( 'welcome_splash_alert_class', array(
+	    'default' => '',
+	    'sanitize_callback' => 'sanitize_text_field'
+	) );	
 	
 	
 	/* CONTROLS
@@ -744,6 +749,14 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'settings'   => 'welcome_splash_expire',
 	   'priority'   => 40,
 	) ) );
+
+	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_alert_class', array(
+		'label'      => __( 'Enter a css classname which, if present as form response in the splash page, should force display of the page.' , 'responsive-tabs' ),
+		'section'    => 'welcome_splash_page_section',
+		'settings'   => 'welcome_splash_alert_class',
+	   'priority'   => 50,
+	) ) );
+
 
 }
 

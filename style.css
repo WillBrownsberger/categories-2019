@@ -1227,6 +1227,7 @@ div#front-page-post-entry {
 #welcome-splash-show,
 #welcome-splash-utc-of-expiry,
 #welcome-splash-delay-seconds,
+#welcome-splash-alert-class,
 #welcome-splash-admin-adj {
 	display: none;
 }
