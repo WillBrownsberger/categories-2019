@@ -1212,7 +1212,7 @@ div#front-page-post-entry {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ebebeb), color-stop(1, #dfdfdf) );
 	background:-moz-linear-gradient( center top, #ebebeb 5%, #dfdfdf 100% );
 	border-radius: 4px; 
-	font-size: 1.2em;
+	font-size: 1em;
 	padding: 4px 20px; 
 	margin: 20px 0 0 0;
 }

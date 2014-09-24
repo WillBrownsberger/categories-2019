@@ -34,14 +34,21 @@ Major Design Features
 Setting up your tabbed front page is straightforward using Wordpress widgets.
 
 1.	Standard theme install -- install the theme files in a subdirectory called responsive-tabs in the wp-content/themes subdirectory.
-2. From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
-3. To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
+2. Go to Appearance>Customize>Site Title & Tagline. Choose a relatively brief site title and tagline (roughly 20 characters each) and a 2-3 character "Site Short Title". Overlong
+   titles will overflow and drop out of  the convenient fixed title bar, especially on smaller screens.  Check how your titles perform in different window widths.
+   As you narrow the screen width, you will see the tagline disappear and then, at smarthphone width, the short title replace the full site title.
+3. Add additional branding/identity information in one or both of two ways which allow an unlimited amount of content in a responsive format:
+   (A) Populate the Site Info Splash widget area and configure it either as a dropdown (under a "?" on the header bar) or as a first-time visitor splash (settings for this are under 
+   Appearance>Customize>Welcome Splash Page). (B) Populate the Front Page Highlight Area -- either by adding a widget ( possible graphics ) to the Highlight Area or 
+   directly enter text for this area in Appearance>Customize>Front Page Highlight.
+4. From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
+5. To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
    Favorites, Latest Posts, Latest Comments
-4. You will see your new tabs momentarily in the customizer. Click on one and the Widget area for that Tab will show as a section in the customizer.
-5. Populate the widget and repeat for each tab.
-6. If you want people to land on something other than the left most tab (Tab 0), enter the number for that tab.
-7. Save Changes
-8. You can set all other theme options in Appearance>Customize.
+6. You will see your new tabs momentarily in the customizer. Click on one and the Widget area for that Tab will show as a section in the customizer.
+7. Populate the widget and repeat for each tab.
+8. If you want people to land on something other than the left most tab (Tab 0), enter the number for that tab.
+9. Save Changes
+10.You can set all other theme options in Appearance>Customize.
 -- Go to Appearance>Customize>Navigation to select a menu to put in the Main Menu location that will appear in the left sidebar (in widescreen view) or under the drop down (in screens less than 1580 pixels wide).  Or go to Appearance>Menus to create a menu if you are starting from scratch.  Check "Show Login Links in Main Menu" to optionally append profile, dashboard and login/out links to the main menu. Check Show Theme Breadcrumbs to see breadcrumb navigation on pages other than the front page.  (The theme will recognize also installation of popular breadcrumb plugins and ignore theme breadcrumb settings.)
 -- If you are not seeing your front page, check Appearance>Customize>Static Front Page -- make sure that it is set to Your Latest Posts. That setting will invoke the Responsive Tabs tabbed front page.  However, you can also choose A Static Page and that will bypass the Responsive Tabs front page.
 -- If you are an experienced user, can add custom CSS and scripts.
@@ -55,11 +62,12 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 == Changelog ==
 Version 1.0 	(2014-09-11) 	-- Initial Submission to Wordpress 
 Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trademark policy
-Version 1.1 	(2014_xx-xx		-- Work in Progress notes
+Version 1.1 	(2014-09-24)   -- Enhancements and improved documentation 
 + Improved consistency of options in widgets 
 + Add by-user include/exclude option and changed query mechanism for comments widget
 + Added featured images to page templates
-+ Added optional welcome splash widget area for first-time visitors or non-recent visitors 
++ Added optional welcome splash widget area for first-time visitors or non-recent visitors; also configurable as drop down from title bar
++ Changed initialization values for new website installs. 
 
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.

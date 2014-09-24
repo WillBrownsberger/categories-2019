@@ -22,6 +22,13 @@ defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
  			with any questions.</p>
 			<h4>Basic Setup</h4>    		  	
  		  	<ol>
+ 		  	   <li>Go to Appearance>Customize>Site Title & Tagline. Choose a relatively brief site title and tagline (roughly 20 characters each) and a 2-3 character "Site Short Title". Overlong
+ 		  	   titles will overflow and drop out of  the convenient fixed title bar, especially on smaller screens.  Check how your titles perform in different window widths.
+ 		  	   As you narrow the screen width, you will see the tagline disappear and then, at smarthphone width, the short title replace the full site title.
+ 		  	   <li>Add additional branding/identity information in one or both of two ways which allow an unlimited amount of content in a responsive format:
+ 		  	   (A) Populate the Site Info Splash widget area and configure it either as a dropdown (under a "?" on the header bar) or as a first-time visitor splash (settings for this are under 
+ 		  	   Appearance>Customize>Welcome Splash Page). (B) Populate the Front Page Highlight Area -- either by adding a widget ( possible graphics ) to the Highlight Area or 
+ 		  	   directly enter text for this area in Appearance>Customize>Front Page Highlight.</li> 
  		  		<li>Enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so: <br />
  		  		<code>Favorites, Latest Posts, Latest Comments</code></li>
  		  		<li>You will see your new tabs momentarily in the customizer.  Click on a tab title, while still in the customizer, and the Widget area 

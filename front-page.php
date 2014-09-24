@@ -121,9 +121,6 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 				} else { 
 					if ( strtolower( trim( $tab_titles_array[$active_tab] ) ) == "getting started" ) {
 						get_template_part( 'getting', 'started');					
-					} else if ( strtolower( trim( $tab_titles_array[$active_tab] ) ) == "latest posts" ) { 				
-					// display standard latest posts list
-					   get_template_part('post','list'); 
 					} else { ?>
 						<div class = "responsive-tabs-notice">
 							<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h3> 

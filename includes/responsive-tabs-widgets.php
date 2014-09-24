@@ -896,6 +896,7 @@ class Front_Page_Links_List extends WP_Widget {
 	function widget( $args, $instance ) {
 		
 		extract( $args, EXTR_SKIP );	
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		
 		echo $before_widget;
 		

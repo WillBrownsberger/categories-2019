@@ -87,7 +87,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_section( 'responsive_tabs_highlight' , array(
 	    'title'      => __( 'Front Page Highlight', 'responsive-tabs' ),
 	    'priority'   => 30,
-  	    'description' => 'Enter short a message to highlight for front page users.  Or make these areas blank to just show a color bar. 
+  	    'description' => 'Enter additional branding information or short a message to highlight for front page users.  Or make these areas blank to just show a color bar. 
   	    	You can also put a widget in the highlight area.  Set Colors and Fonts (not applicable to widget content) in the Colors and Fonts sections of the customizer. 
 	    	<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>' 
 	) );
@@ -117,7 +117,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );	
 	
 	$wp_customize->add_setting( 'tab_titles', array(
-	    'default' => __( 'This is Tab 0, Latest Posts, Getting Started','responsive-tabs' ),
+	    'default' => __( 'This is Tab 0, Getting Started','responsive-tabs' ),
 	    'sanitize_callback' => 'responsive_tabs_title_list'
 	) );
 	

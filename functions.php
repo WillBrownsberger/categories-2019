@@ -60,7 +60,7 @@ if ( false === $tt_mod ) {
 	set_theme_mod( "highlight_headline"	, '<p>' . __( 'Responsive Tabs', 'responsive-tabs' ) . '</p><p>' . __( 'Theme Setup', 'responsive-tabs' ) . '</p>' );
 	set_theme_mod( "highlight_subhead"	, '<p>'. __( 'Set up your theme in Appearance>Customize', 'responsive-tabs') . '</p>' );
 	set_theme_mod( "highlight_headline_small_screen" 	, __( 'Highlight Headline Small Screen', 'responsive-tabs' ) );
-	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, Latest Posts, Getting Started', 'responsive-tabs') );
+	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, Getting Started', 'responsive-tabs') );
 	set_theme_mod( "landing_tab"			, "0" );
 	set_theme_mod( "show_login_links"	, true );
 	set_theme_mod( "show_breadcrumbs"	, true );
