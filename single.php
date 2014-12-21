@@ -7,8 +7,7 @@
  *
  */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 // note: no "not found" condition for single.php -- handled by 404.php
 while ( have_posts() ) : the_post();	

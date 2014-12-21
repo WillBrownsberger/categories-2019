@@ -21,8 +21,7 @@
 *
 */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 /*
 * include theme customizer scripts
@@ -255,6 +254,7 @@ add_theme_support( 'automatic-feed-links' );
 add_theme_support( 'post-formats', array( 'link'  ) );
 
 add_filter( 'widget_text', 'do_shortcode' );
+
 /*
 * add metabox for post width (see nonce technique at http://www.wproots.com/complex-meta-boxes-in-wordpress/) 
 */
@@ -271,9 +271,9 @@ function responsive_tabs_call_meta_box( $post_type, $post ) {
 add_action( 'add_meta_boxes', 'responsive_tabs_call_meta_box', 10, 2 );
 
 /* display meta box post width options */
-function responsive_tabs_post_width_meta_box($post, $args) {
-   
-	wp_nonce_field( site_url(__FILE__), 'responsive_tabs_meta_box_noncename' );
+function responsive_tabs_post_width_meta_box( $post, $args ) {
+
+	wp_nonce_field( 'responsive_tabs_post_width', 'responsive_tabs_meta_box_noncename' );
               
 	$post_width_options = array(
 		'0' => array(
@@ -309,7 +309,7 @@ function responsive_tabs_post_width_meta_box($post, $args) {
 
 /* save width from meta box */
 function responsive_tabs_save_meta_box( $post_id, $post ) {
-	
+
    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
        return;
 	}
@@ -317,13 +317,16 @@ function responsive_tabs_save_meta_box( $post_id, $post ) {
 	if( ! current_user_can('edit_post', $post_id)) {
       	return;
 	}
-		
-   if( isset( $_POST['responsive_tabs_meta_box_noncename'] ) && wp_verify_nonce( $_POST['responsive_tabs_meta_box_noncename'], site_url( __FILE__ ) ) && check_admin_referer( site_url( __FILE__) , 'responsive_tabs_meta_box_noncename' ) ) {
+
+   if( isset ($_POST['_twcc_post_width'] )  ) { // test whether metabox form has been displayed -- action save_post is fired on new post creation before there is a nonce in the form
+      check_admin_referer(  'responsive_tabs_post_width', 'responsive_tabs_meta_box_noncename' ); /* will die if not verified */
    	update_post_meta( $post_id, '_twcc_post_width', $_POST['_twcc_post_width'] );
-   }
+   } 
+   
    return;
    
 }
+
 add_action( 'save_post', 'responsive_tabs_save_meta_box', 10, 2 );
 
 /*

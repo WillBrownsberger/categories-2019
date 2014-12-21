@@ -7,8 +7,7 @@
 *
 */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 ?>
 <!-- responsive-tabs header-bar.php -->
 <div id="header-bar-spacer"></div>

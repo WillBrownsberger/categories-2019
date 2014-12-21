@@ -16,8 +16,7 @@
 *
 */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 if ( ! ( // if NOT a bbpress list . . .
 		bbp_is_forum_archive() || 

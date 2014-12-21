@@ -7,8 +7,7 @@
  *
  */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 echo ' <!-- post-listheader.php start list -->'. /* post list headers -- echoing to avoid white spaces in inline-block styling*/
   '<li class = "pl-odd">' .

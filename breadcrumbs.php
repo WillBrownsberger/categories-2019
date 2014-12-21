@@ -8,8 +8,7 @@
  *
  */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 /* test for installed breadcrumb plugins and display them -- credit for these lines to Cyberchimps Responsive */
 if ( function_exists( 'bcn_display' ) ) {  

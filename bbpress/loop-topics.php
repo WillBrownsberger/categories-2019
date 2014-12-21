@@ -17,8 +17,7 @@
 *
 */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 ?>
 <!-- responsive-tabs/bbpress/loop-topics.php -->
 <?php do_action( 'bbp_template_before_topics_loop' ); ?>

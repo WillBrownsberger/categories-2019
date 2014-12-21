@@ -8,8 +8,7 @@
 * 
 */ 
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
  ?>
  <!-- getting started.php -->
 <div class = "responsive-tabs-notice">

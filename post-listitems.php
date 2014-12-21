@@ -7,8 +7,7 @@
  *
  */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 global $responsive_tabs_post_list_line_count;  
 

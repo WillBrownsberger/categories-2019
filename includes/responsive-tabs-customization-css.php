@@ -7,8 +7,7 @@
 * @package responsive-tabs
 *
 */
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 
 add_action( 'customize_register', 'responsive_tabs_theme_customizer' );
 

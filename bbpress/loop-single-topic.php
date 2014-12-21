@@ -18,8 +18,7 @@
 *
 */
 
-/* assure that will die if accessed directly */ 
-defined( 'ABSPATH' ) or die( "Unauthorized direct script access." );
+
 ?>
 <!-- responsive-tabs/bbpress/loop-single-topic.php -->
 <ul id="bbp-topic-<?php bbp_topic_id(); ?>" <?php bbp_topic_class(); ?>>
