@@ -44,6 +44,10 @@ function responsive_tabs_theme_setup() {
 		 	get_template_directory_uri() . '/js/responsive-tabs-utilities.js'
 		);
 		wp_enqueue_script('responsive-tabs-utilities');
+		
+		if ( is_singular() && get_option( 'thread_comments' ) ) {
+			wp_enqueue_script( 'comment-reply' );		
+		} 
 	} 		
 }
 add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
@@ -415,7 +419,7 @@ function int_greater_than_zero( $value ) {
 * function to sanitize a list of alphanumerics in comma separated string
 *
 */
-function responsive_tabs_title_list($title_list)  { 
+function responsive_tabs_title_list( $title_list )  { 
    	
    $title_list_array = explode( ',', $title_list);
 	$title_list_clean = '';      
