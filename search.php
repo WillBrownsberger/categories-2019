@@ -23,10 +23,10 @@ $query_vars = $wp_query->query_vars;
 	
 	<?php get_template_part( 'breadcrumbs' ); ?> 
 	
- 	<h1> <?php printf( __( 'Search for "%1$s" found %2$s posts.' ), $query_vars['s'], $total_results ) ?></h1>
+ 	<h1> <?php printf( __( 'Search for "%1$s" found %2$s posts.' ), esc_html( $query_vars['s'] ), $total_results ) ?></h1>
  	
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
-		<input type="search" class="search-field" placeholder="<?php _e( 'Search', 'responsive-tabs') ?> &hellip;" value="<?php echo $query_vars['s']; ?>" name="s" />
+		<input type="search" class="search-field" placeholder="<?php _e( 'Search', 'responsive-tabs') ?> &hellip;" value="<?php echo esc_html( $query_vars['s'] ); ?>" name="s" />
 	</form>
 
 </div> <!-- content-header -->   

@@ -15,7 +15,7 @@ $row_class = ( 0 == $responsive_tabs_post_list_line_count % 2 ) ? "pl-even" : "p
 $post_format = get_post_format();	
 
 if ( 'link' == $post_format ) {
-	$link 	= responsive_tabs_url_grabber();
+	$link 	= esc_url( responsive_tabs_url_grabber() );
 	$title 	= __( 'Link: ', 'responsive-tabs' ) . get_the_title(); 
 	$excerpt	= get_the_content();
 	$read_more_pointer = ( 
@@ -24,12 +24,12 @@ if ( 'link' == $post_format ) {
 						'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
 						__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
 				: '' ) . 
-			'<a href="' .  responsive_tabs_url_grabber() . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
+			'<a href="' . esc_url( responsive_tabs_url_grabber() ) . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
 } else { 
 	$link 	= get_permalink();
-  			$title 	= get_the_title();
-  			$excerpt	= get_the_excerpt();
-  			$read_more_pointer = '<a href="' . $link .'" rel="bookmark" ' . 
+	$title 	= get_the_title();
+	$excerpt	= get_the_excerpt();
+	$read_more_pointer = '<a href="' . $link .'" rel="bookmark" ' . 
 			'title="'. __( 'Read the rest of this post', 'responsive_tabs' ) . '">' . __( 'Read More', 'responsive-tabs' ) . ' &raquo; </a>'; 
 } 
 			

@@ -38,17 +38,17 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 		  	echo '<div id = "highlight-text-area">';
 				if( $highlight_headline > '    ' )	{
 			      echo '<div  id="highlight-headline">' .
-			 		  	$highlight_headline .  
+			 		  	$highlight_headline  .  
 			      '</div>';
 				}
 				if( $highlight_subhead > '    ' ) {          
 					echo '<div  id="highlight-subhead">' .
-						$highlight_subhead  .  
+						$highlight_subhead .  
 					'</div>';
 				} 
 				if( $highlight_headline_small_screen > '    ' ) {          
 			      echo '<div  id="highlight-headline-small-screen">' .
-			      	$highlight_headline_small_screen  .  
+			      	$highlight_headline_small_screen .  
 			      '</div>';
 				}        
 			echo '</div>
@@ -85,7 +85,7 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
    		<ul class = "main-tabs-headers"><?php
 		   	$tab_title_count = 0;
 		    	foreach ( $tab_titles_array as $tab_title ) {
-		    		$nav_tab_active = $active_tab == $tab_title_count ? 'nav-tab-active' : 'nav-tab-inactive';
+		    		$nav_tab_active = ( $active_tab == $tab_title_count ) ? 'nav-tab-active' : 'nav-tab-inactive';
 					echo '<li class="' . $nav_tab_active . '"><a href="/?frontpagetab=' . $tab_title_count . '"> '. esc_html( trim( $tab_title ) )  .'</a></li>';
 					$tab_title_count = $tab_title_count + 1;    			
 				} ?> 

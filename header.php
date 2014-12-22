@@ -83,7 +83,7 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 						echo '<li><a href="/wp-admin">' . __( 'dashboard', 'responsive-tabs' ) . '</a></li>';
 					} else {
 		           	if (class_exists('bbPress')) { //  is_plugin_active('bbpress/bbpress.php')
-		           		$profile_link = '/forums/users/'. $current_user->user_login;
+		           		$profile_link = esc_url( '/forums/users/'. $current_user->user_login );
 		           	} else {
 		   				$profile_link = '/wp-admin/profile.php';
 		   			}

@@ -5,7 +5,8 @@
 *  -- menu show/hide
 *  -- front page accordion show/hide
 * 	-- manages column widths on load for older browsers (if don't support css calc)
-*  -- covers what appears to be wordpress bug
+*  -- protects against wordpress comment text loss possibility with older browsers
+*	-- supports show/hide of info splash
 *
 *
 * @package responsive
@@ -52,9 +53,9 @@ function ResetSideMenu() {
 	var headerBarContentSpacer = document.getElementById ( "header-bar-content-spacer" );
 	var homeButton = document.getElementById ( "home-button");	
 	
-	menuButton.innerHTML = "MENU";	
-	
 	if ( undefined == homeButton ) {	// don't invoke this logic for retina-width templates
+
+		menuButton.innerHTML = "MENU";
 		
 		if ( innerWindowWidth > 1579 ) {
 			menuButton.style.display = "none";	
@@ -269,6 +270,10 @@ function splashSiteInfo() {
 	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
 
 	var splash 					= document.getElementById( 'welcome-splash' );
+	if ( splash === null ) {
+		return; // quit if not showing splash -- e.g., retina display;	
+	}	
+	
 	var t 						= new Date().getTime() ;
    var delayExpire			= parseFloat( lastVisit ) + ( parseFloat ( splashDelay ) * 1000 );
    

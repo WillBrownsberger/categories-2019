@@ -484,7 +484,7 @@ sub {
 	-moz-box-sizing: border-box; 
 	 box-sizing: border-box;
 	float: left;
-	height: 100px;
+	height: 40px;
 	margin: 0;
 	padding: 0;
   	width: 100%;	
@@ -730,7 +730,7 @@ ul.children {
 	  height: 200px;
 	  margin: 0;
 	  overflow: hidden;
-	  padding: 0;
+	  padding: 0 8px;
 	  width: 25%;
 }
 
@@ -1556,10 +1556,6 @@ a img.aligncenter {
 	#view-frame.front-page-view #color-splash { /* if no headline, so showing color splash, kill it when mobile comes out */
 		display: none;
 	}	
-	
-	#color-splash 	{
-			height: 40px;
-	}
 	
 	/* mobile tabs styling */
 	#main-tabs-dropdown-wrapper {

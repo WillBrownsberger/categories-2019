@@ -23,7 +23,7 @@ if ( comments_open() ) {
 	$commenter = wp_get_current_commenter();
 	$req = get_option( 'require_name_email' );
 	$aria_req = ( $req ? " aria-required='true'" : '' );
-	$required_text = __('(required)', 'responsive-tabs' );
+	$required_text = __( '(required)', 'responsive-tabs' );
 	$email_author_reminder =  ( $req ? ' onBlur="checkNameEmailOnComments()" ' : '' );
 		/* The onBlur function for the comment element alerts the user who has entered comment that s/he has not entered name or email without leaving form -- 
 		*  user can proceed to submit form anyway.  This is a courtesy -- some browsers allow input to be lost if edits failed and must use back button. 
@@ -51,7 +51,7 @@ if ( comments_open() ) {
 	    sprintf(
 	    __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>', 'responsive-tabs' ),
 	      admin_url( 'profile.php' ),
-	      $user_identity,
+	      esc_html( $user_identity ),
 	      wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) )
 	    ) . '</p>',
 	

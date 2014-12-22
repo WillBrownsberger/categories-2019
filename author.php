@@ -25,7 +25,7 @@ $curauth = ( get_query_var( 'author_name' ) ) ? get_user_by( 'slug', get_query_v
 	 
  	<h1><?php echo $curauth->display_name; ?> </h1>
 
-	<?php responsive_tabs_author_dropdown (); ?>
+	<?php echo responsive_tabs_author_dropdown (); ?>
 	
 </div>
 

@@ -68,6 +68,12 @@ Version 1.1 	(2014-09-24)   -- Enhancements and improved documentation
 + Added featured images to page templates
 + Added optional welcome splash widget area for first-time visitors or non-recent visitors; also configurable as drop down from title bar
 + Changed initialization values for new website installs. 
-
+Version 1.2		(2014-12-23)	-- Responses to review feedback
++	Remove test of ABSPATH definition in all modules (unnecessary)
++	Modify nonce checking in post width metabox ( functions.php ) to eliminate bad reference to site_url(__FILE__) and clean up logic
++  Move enqueue of comments-reply from header and retina-header to setup
++	Add declaration of text domain to style.css ( text domain already used in all output ) 
++	Eliminate unnecessary query and array match in responsive_tabs_author_dropdown
++	Eliminate references to publication custom taxonomy
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.

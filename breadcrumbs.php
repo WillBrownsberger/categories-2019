@@ -26,7 +26,6 @@ if ( function_exists( 'bcn_display' ) ) {
 } elseif ( true === get_theme_mod( 'show_breadcrumbs' ) ) {
    echo '<div id="breadcrumbs">';		  			
 		global $wp_locale; 
-		$taxonomy = get_query_var('taxonomy');
 		/* construct breadcrumbs for templates */	
 	   if ( is_page() && ! is_front_page() ) {
 			$home_link =  '<a href="/?frontpagetab=' .  get_theme_mod( 'page_home' )  .'">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';

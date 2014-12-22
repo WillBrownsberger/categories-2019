@@ -339,51 +339,33 @@ add_action( 'save_post', 'responsive_tabs_save_meta_box', 10, 2 );
 *
 */
 
-/* 
-* author drop down derived from:
-*	https://core.trac.wordpress.org/browser/tags/3.9.1/src/wp-includes/author-template.php#L0
-*	http://codex.wordpress.org/Template_Tags/wp_list_authors
+/*
+*	Author drop down menu 
 */
 
 function responsive_tabs_author_dropdown($args = '') {
 
 	global $wpdb;
-	
-	$query_args = array(
-		'orderby' => 'name', 
-		'order' => 'ASC', 
-		'number' => '',
-		'fields' => 'ids', 
-	);
 
-	$authors = get_users( $query_args );
-
-	$author_count = array();
-	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' and post_status = 'publish' GROUP BY post_author") as $row ) {{}
-	   $author_count[$row->post_author] = $row->count;
-	}
+	$author_count_array = $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' and post_status = 'publish' GROUP BY post_author" ); 
 
    $return = 
    '<select id="author-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">' .
   		'<option value="">' . __( 'Select Author', 'responsive-tabs' ) . '</option>';
 
-		foreach ( $authors as $author_id ) {
-			$author = get_userdata( $author_id );
-			$posts = isset( $author_count[$author->ID] ) ? $author_count[$author->ID] : 0;
-			if ( !$posts ) {
-				continue;
-			}
+		foreach ( $author_count_array as $author_count_object ) {
+			$author = get_userdata( $author_count_object->post_author );
 			$link 	= '';
 			$name 	= $author->display_name;
 			$return 	.= '<option value = "';
-			$link 	= get_author_posts_url( $author->ID, $author->user_nicename ) . '"> ' . $name . ' ('. $posts . ')';
+			$link 	= get_author_posts_url( $author->ID, $author->user_nicename ) . '"> ' . esc_html( $name ) . ' ('. $author_count_object->count . ')';
 			$return 	.= $link;
 		  	$return 	.= '</option>';
 		}
+		
 	$return .= '</select>';
 
-	echo  $return;
-
+	return ( $return );
 }
 	
 
@@ -467,6 +449,6 @@ function responsive_tabs_url_grabber() {
 	if ( ! preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches ) )
 		return false;
 
-	return esc_url_raw( $matches[1] );
+	return ( $matches[1] );
 }
 
