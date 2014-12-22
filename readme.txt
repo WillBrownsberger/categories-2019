@@ -75,5 +75,9 @@ Version 1.2		(2014-12-23)	-- Responses to review feedback
 +	Add declaration of text domain to style.css ( text domain already used in all output ) 
 +	Eliminate unnecessary query and array match in responsive_tabs_author_dropdown
 +	Eliminate references to publication custom taxonomy
++	Review all modules for sanitization and fix a few instances of missing output sanitization
++	Add parentheses to clarify $nav_tab_active class selection
++	Eliminate unnecessary error generating calls to ResetSideMenu in case of retina header display
++	Styling tweaks
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.
