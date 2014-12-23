@@ -8,8 +8,6 @@
  *
  */
 
-
-
 /* test for installed breadcrumb plugins and display them -- credit for these lines to Cyberchimps Responsive */
 if ( function_exists( 'bcn_display' ) ) {  
 	echo '<div id="breadcrumbs">';		

@@ -2,20 +2,19 @@
 /*
 * File: functions.php
 * Description: This file sets up theme
-* -- includes auxiliary files (theme customization, widgets, theme front page options)
-* -- registers and enqueues javascript for layout
-* -- minimize retrieval of latest posts on home page (so not waste resources in requery in widgets)
+* -- includes theme customizer and widget files
+* -- registers and enqueues javascripts ( layout and comments-reply )
+* -- minimizes retrieval of latest posts on home page (so not waste resources in requery in widgets)
 * -- optionally suppresses bbpress breadcrumbs
 * -- registers menu
 * -- registers sidebars
-* -- adds theme support for header, background, thumbnails, html5, feeds and post-format (link)
+* -- adds theme support for header, background, thumbnails, html5, feeds, post-format (link), title-tags
+* -- adds shortcode filter to widgets
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
-* -- adds functions to create archive drop down of authors
-* -- adds function to sanitize an integer > 0;
-* -- adds function to sanitize a list of post id's
-* -- adds function to sanitize css/scripts (only balance tags)
-* -- adds filter hack to cover home page title
+* -- adds streamlined function to create archive drop down of authors
+* -- adds several special-purpose sanitize callback functions for use with theme customizer
 * -- adds editor style
+* -- adds 2011 url grabber function
 *
 * @package responsive-tabs
 *
@@ -35,7 +34,7 @@ include get_template_directory() . '/includes/responsive-tabs-customization-css.
 include get_template_directory() . '/includes/responsive-tabs-widgets.php'; 				
 
 /*
-* enqueue script for layout -- menu control and legacy browser-width
+* enqueue script for layout -- menu control and legacy browser-width ( and also enqueue comment-reply )
 */ 
 function responsive_tabs_theme_setup() {
 	if ( !is_admin() ) {
@@ -81,7 +80,6 @@ if ( false === $tt_mod ) {
 * note that show_on_front == false is the condition under which a static front page other than the 
 * 	main responsive-tabs front page is shown
 */
-
 function minimize_home_page_post_list( $query ) { 
 	
     if ( is_admin() || ! $query->is_main_query() || 'posts' != get_option( 'show_on_front' ) )
@@ -103,6 +101,7 @@ add_action( 'pre_get_posts', 'minimize_home_page_post_list', 1 );
 if ( true === get_theme_mod( 'suppress_bbpress_breadcrumbs' ) ) { 
 		add_filter( 'bbp_no_breadcrumb', '__return_true' );
 }
+
 /*
 * set up menu
 */
@@ -222,41 +221,49 @@ add_action( 'widgets_init', 'responsive_tabs_widgets_init' );
 * theme support items
 *
 */
-
-$header_default = array(
-	'width'         => 300,
-	'height'        => 250,
-	'header-text'   => false,
-	'uploads'       => true,
-	'default'		 => get_template_directory_uri() . '/images/initial-header.png',
-);
-add_theme_support( 'custom-header', $header_default ); // note -- installed as background image in theme customizer
-
-$background_default = array(
-	'default-color'          => 'C6C2BA',
-	'default-image'          => '',
-	'wp-head-callback'       => '_custom_background_cb',
-	'admin-head-callback'    => '',
-	'admin-preview-callback' => ''
-);
-add_theme_support( 'custom-background', $background_default );
-
-add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
-	add_image_size( 'front-page-thumb', 267, 200 ); 
-	add_image_size( 'front-page-half-thumb', 133, 100 ); 
-	add_image_size( 'post-content-width', 640, 480 ); // fits post content width on desktop
-	add_image_size( 'full-width', 1140, 855 ); // fits full width window (as on front page in single widget row) in desktop in maximum 
-
-if ( ! isset( $content_width ) ) { // http://codex.wordpress.org/Content_Width
-	$content_width = 560;
+function responsive_tabs_theme_support_setup() {
+	
+	$header_default = array(
+		'width'         => 300,
+		'height'        => 250,
+		'header-text'   => false,
+		'uploads'       => true,
+		'default'		 => get_template_directory_uri() . '/images/initial-header.png',
+	);
+	add_theme_support( 'custom-header', $header_default ); // note -- installed as background image in theme customizer
+	
+	$background_default = array(
+		'default-color'          => 'C6C2BA',
+		'default-image'          => '',
+		'wp-head-callback'       => '_custom_background_cb',
+		'admin-head-callback'    => '',
+		'admin-preview-callback' => ''
+	);
+	add_theme_support( 'custom-background', $background_default );
+	
+	add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
+		add_image_size( 'front-page-thumb', 267, 200 ); 
+		add_image_size( 'front-page-half-thumb', 133, 100 ); 
+		add_image_size( 'post-content-width', 640, 480 ); // fits post content width on desktop
+		add_image_size( 'full-width', 1140, 855 ); // fits full width window (as on front page in single widget row) in desktop in maximum 
+	
+	if ( ! isset( $content_width ) ) { // http://codex.wordpress.org/Content_Width
+		$content_width = 560;
+	}
+	
+	add_theme_support( 'html5', array( 'search-form' ) );
+	
+	add_theme_support( 'automatic-feed-links' );
+	
+	add_theme_support( 'post-formats', array( 'link'  ) );
+	
+	/* https://make.wordpress.org/core/2014/10/29/title-tags-in-4-1 */
+   add_theme_support( 'title-tag' );
+   
 }
+add_action( 'after_setup_theme', 'responsive_tabs_theme_support_setup' );
 
-add_theme_support( 'html5', array( 'search-form' ) );
-
-add_theme_support( 'automatic-feed-links' );
-
-add_theme_support( 'post-formats', array( 'link'  ) );
-
+/* support short codes in widgets */
 add_filter( 'widget_text', 'do_shortcode' );
 
 /*
@@ -330,36 +337,34 @@ function responsive_tabs_save_meta_box( $post_id, $post ) {
    return;
    
 }
-
 add_action( 'save_post', 'responsive_tabs_save_meta_box', 10, 2 );
-
-/*
-*
-* functions to create archive drop downs
-*
-*/
 
 /*
 *	Author drop down menu 
 */
 
-function responsive_tabs_author_dropdown($args = '') {
+function responsive_tabs_author_dropdown() {
 
 	global $wpdb;
 
-	$author_count_array = $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' and post_status = 'publish' GROUP BY post_author" ); 
+	$author_count_array = $wpdb->get_results(
+		"
+		SELECT DISTINCT post_author, display_name, COUNT(p.ID) AS post_count 
+		FROM $wpdb->posts p INNER JOIN $wpdb->users u on u.id = p.post_author 
+		WHERE post_type = 'post' AND post_status = 'publish' 
+		GROUP BY post_author 
+		ORDER BY display_name
+		" 
+		); 
 
    $return = 
    '<select id="author-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">' .
   		'<option value="">' . __( 'Select Author', 'responsive-tabs' ) . '</option>';
 
 		foreach ( $author_count_array as $author_count_object ) {
-			$author = get_userdata( $author_count_object->post_author );
-			$link 	= '';
-			$name 	= $author->display_name;
-			$return 	.= '<option value = "';
-			$link 	= get_author_posts_url( $author->ID, $author->user_nicename ) . '"> ' . esc_html( $name ) . ' ('. $author_count_object->count . ')';
-			$return 	.= $link;
+			$name 	= $author_count_object->display_name;
+			$return 	.= '<option value = "' . get_author_posts_url( $author_count_object->post_author ) . '"> ';
+				$return .= esc_html( $name ) . ' ('. $author_count_object->post_count . ')';
 		  	$return 	.= '</option>';
 		}
 		
@@ -370,7 +375,7 @@ function responsive_tabs_author_dropdown($args = '') {
 	
 
 /*
-* function to sanitize a list of post id's to a comma separated string of numerics
+* function to sanitize a list of post id's to a comma separated string of numerics ( used for theme customizer sanitize callback )
 *
 */
 function responsive_tabs_clean_post_list($post_list)  { 
@@ -389,16 +394,25 @@ function responsive_tabs_clean_post_list($post_list)  {
 }
 
 /*
-* function to sanitize a value to an integer greater than zero
+* function to sanitize a boolean field ( used for theme customizer sanitize callback )
 */
-function int_greater_than_zero( $value ) {
+
+function responsive_tabs_sanitize_boolean ( $value ) {
+	return ( is_bool( $value ) ? $value : false );
+	
+}
+
+/*
+* function to sanitize a value to an integer greater than zero ( used for theme customizer sanitize callback )
+*/
+function responsive_tabs_int_greater_than_zero( $value ) {
 	$value_int = intval( $value );
 	$return_int =  $value_int < 1 ? 1  : $value_int;
 	return $return_int;
 }
 
 /*
-* function to sanitize a list of alphanumerics in comma separated string
+* function to sanitize a list of alphanumerics in comma separated string ( used for theme customizer sanitize callback )
 *
 */
 function responsive_tabs_title_list( $title_list )  { 
@@ -415,12 +429,14 @@ function responsive_tabs_title_list( $title_list )  {
 
 	return $title_list_clean;
 }
+
 /*
-* Null function to pass through scripts/css with minimal sanitization
+* Null function to pass through scripts/css with minimal sanitization ( used for theme customizer sanitize callback )
 */
-function responsive_tabs_pass_through($unfiltered) {
-	return force_balance_tags($unfiltered);
+function responsive_tabs_pass_through( $unfiltered ) {
+	return force_balance_tags( $unfiltered );
 }
+
 /*
 * Hack to cover title for home page -- http://codex.wordpress.org/Function_Reference/wp_title > Covering Homepage
 */

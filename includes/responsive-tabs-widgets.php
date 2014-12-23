@@ -1,7 +1,7 @@
 <?php
 /*
 *	File: responsive-tabs-widgets.php
-*	Description: Adds widgets for use in tabs on front page
+*	Description: Adds wide-format widgets for use in tabs on front page
 *	-- Front Page Category List
 *  -- Front Page Comment List
 *  -- Front Page Post Summary
@@ -119,13 +119,13 @@ class Front_Page_Category_List extends WP_Widget {
 	
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance['title'] = apply_filters( 'title_save_pre', $new_instance['title'] ); // no tags in title
 		return $instance;
 	}
 
 	function form( $instance ) {
 		
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$title  = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -135,8 +135,8 @@ class Front_Page_Category_List extends WP_Widget {
 }
 
 /**
- * Recent_Comments widget class derived (with changes) from WP_widget_comment_list in standard package default-widgets.php
- * Simplified widget and formats wide and adds fuller excerpts
+ * Recent comments widget -- with include/exclude of authors and pagination
+ * Format is wide and includes longer excerpts than standard
  */
 class Front_Page_Comment_List extends WP_Widget {
 
@@ -171,14 +171,18 @@ class Front_Page_Comment_List extends WP_Widget {
 		
 		global $wpdb;
 		$widget_comment_query = 
-			'SELECT comment_id, comment_date, comment_content, post_title FROM wp_comments c INNER JOIN wp_posts p on c.comment_post_ID = p.ID 
+			"
+			SELECT comment_id, comment_date, comment_content, post_title 
+			FROM $wpdb->comments c INNER JOIN $wpdb->posts p on c.comment_post_ID = p.ID 
 			WHERE 
-				post_status = "publish" AND
+				post_status = 'publish' AND
 				comment_approved = 1 AND
-				( comment_type is NULL or comment_type = "" )' . 
-			$include_clause . $exclude_clause .
-			' ORDER BY comment_date_gmt DESC ' . 
-			'LIMIT ' . $offset . ', '  . ( $number + 1 ); 
+				( comment_type is NULL or comment_type = '')  
+			$include_clause   
+			$exclude_clause 
+			ORDER BY comment_date_gmt DESC  
+			LIMIT  $offset , 
+			" . ( $number + 1 );
 
 		$widget_comments = $wpdb->get_results( $widget_comment_query ); 
 
@@ -223,7 +227,7 @@ class Front_Page_Comment_List extends WP_Widget {
    					'<ul class="responsive-tabs-front-page-comment-list-item">' . 
 							'<li class="responsive-tabs-front-page-comment-author">'. get_comment_author_link($comment->comment_id) .  '</li>' . 
 							'<li class="responsive-tabs-front-page-comment-post">' . 
-								'<a href="' . esc_url( get_comment_link( $comment->comment_id ) ) . '">' .	
+								'<a href="' . get_comment_link( $comment->comment_id ) . '">' .	
 									esc_html( $comment->post_title ) . 
 								'</a>'.
 							'</li>' .
@@ -232,8 +236,8 @@ class Front_Page_Comment_List extends WP_Widget {
 							'</li>' .
 						'</ul>' .
 						'<div class = "responsive-tabs-front-page-comment-excerpt">' . 
-							wp_kses_data( $this->get_long_comment_excerpt( $comment->comment_content ) ) . '<br />' .
-							'<a href="'. esc_url( get_comment_link( $comment->comment_id ) ) . '">' . 
+							apply_filters( 'comment_text', $this->get_long_comment_excerpt( $comment->comment_content ) ) . '<br />' .
+							'<a href="'. get_comment_link( $comment->comment_id ) . '">' . 
 								__( 'View Comment in Context &raquo;', 'responsive-tabs' ) . 
 							'</a>' .
 						'</div>' .
@@ -270,7 +274,7 @@ class Front_Page_Comment_List extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title']  = esc_attr( $new_instance['title'] );
+		$instance['title']  = apply_filters( 'title_save_pre', $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
 		$instance['include_users_list'] = responsive_tabs_clean_post_list( $new_instance['include_users_list'] );
 		$instance['exclude_users_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_users_list'] );
@@ -280,9 +284,9 @@ class Front_Page_Comment_List extends WP_Widget {
 	function form( $instance ) {
 		
 		$number 								= isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : ''; // no tags in title
-		$include_users_list 				= isset( $instance['include_users_list'] ) ? strip_tags( $instance['include_users_list'] ) : '';
-		$exclude_users_list 				= isset( $instance['exclude_users_list'] ) ? strip_tags( $instance['exclude_users_list'] ) : '';
+		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$include_users_list 				= isset( $instance['include_users_list'] ) ? responsive_tabs_clean_post_list( $instance['include_users_list'] ) : '';
+		$exclude_users_list 				= isset( $instance['exclude_users_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_users_list'] ) : '';
 		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
@@ -332,6 +336,7 @@ class Front_Page_Comment_List extends WP_Widget {
 }
 
 /*
+*
 * Widget to ease population of front page widget area -- creates essentially text widgets with links and images based on post numbers selected
 *
 */
@@ -351,7 +356,6 @@ class Front_Page_Post_Summary extends WP_Widget {
  		extract( $args, EXTR_SKIP );
  		
  		$output = '<!-- responsive-tabs Front_Page_Post_Summary widget, includes/responsive-tabs-widgets.php -->';
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		$output .=  $before_widget;										// is blank in home widget areas
 		
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
@@ -367,6 +371,7 @@ class Front_Page_Post_Summary extends WP_Widget {
 			$responsive_tabs_both_image_width 	= 'post-content-width';
 		}		
 
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		if ( $title ) {
 			$output .= $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
@@ -431,11 +436,10 @@ class Front_Page_Post_Summary extends WP_Widget {
 		
 		$instance = $old_instance;
 		
-		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance['title'] 								= apply_filters( 'title_save_pre', $new_instance['title'] ); // no tags in title
 		$instance['post_list'] 							= responsive_tabs_clean_post_list( $new_instance['post_list'] );
 		$instance['single_display_mode'] 			= strip_tags( $new_instance['single_display_mode'] );
 		$instance['responsive_tabs_widget_width'] = strip_tags( $new_instance['responsive_tabs_widget_width'] );
-		$instance['free_form_text'] 					= wp_kses_post( $new_instance['free_form_text'] );
 		
 		return $instance;
 	}
@@ -443,8 +447,8 @@ class Front_Page_Post_Summary extends WP_Widget {
 
 	function form( $instance ) {
 		
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
-		$post_list 							= isset( $instance['post_list'] ) ? strip_tags( $instance['post_list'] ) : '';
+		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$post_list 							= isset( $instance['post_list'] ) ? responsive_tabs_clean_post_list( $instance['post_list'] ) : '';
 		$single_display_mode 			= isset( $instance['single_display_mode'] ) ? strip_tags( $instance['single_display_mode'] ) : 'excerpt';
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? strip_tags( $instance ['responsive_tabs_widget_width'] ) : 'pebble';
 		
@@ -526,11 +530,11 @@ class Front_Page_Post_Summary extends WP_Widget {
 	 	'</select><br />';
 	} 
 }
-/*
-* Front Page Text Widget
-*/
 
-class Front_Page_Text_Widget extends WP_Widget {
+/*
+* Front Page Text Widget -- text widgets with user optional width settings for tab population
+*/
+class Front_Page_Text_Widget extends WP_Widget {  
 
 	function __construct() {
 		parent::__construct(
@@ -545,12 +549,12 @@ class Front_Page_Text_Widget extends WP_Widget {
  		extract( $args, EXTR_SKIP );
  		
  		$output = '<!-- responsive-tabs Front_Page_Text_Widget, includes/responsive-tabs-widgets.php -->';
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base  );
 		$output .=  $before_widget;										// is blank in home widget areas
 		
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? $instance['responsive_tabs_widget_width'] : 'pebble';			
 
-		/* set up for variable widget widget */
+		// set up for variable widget widget 
 		if ( 'pebble' == $responsive_tabs_widget_width ) {
 			$output .= '<div class = "home-narrow-widget-wrapper">'; // div limits height and width and floats the widgets left
 		} else {
@@ -563,7 +567,7 @@ class Front_Page_Text_Widget extends WP_Widget {
 
 		$free_form_text 		= isset( $instance['free_form_text'] ) ? $instance['free_form_text'] : '';
 		if ( $free_form_text > '' ) {
-			$output .=  '<div class = "home-text-widget">' . apply_filters( 'the_content', $free_form_text ) . '</div>';		
+			$output .=  '<div class = "home-text-widget">' . apply_filters( 'widget_text', $free_form_text ) . '</div>';		
 		} 	
 
 		$output .= '</div>'; // close textwidget or home_bulk_widget
@@ -574,21 +578,19 @@ class Front_Page_Text_Widget extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		
-		$instance = $old_instance;
-		
-		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance 											= $old_instance;
+		$instance['title'] 								= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
 		$instance['responsive_tabs_widget_width'] = strip_tags( $new_instance['responsive_tabs_widget_width'] );
-		$instance['free_form_text'] 					= wp_kses_post( $new_instance['free_form_text'] );
+		$instance['free_form_text'] 					= apply_filters( 'content_save_pre', $new_instance['free_form_text'] ) ;
 		return $instance;
 	}
 
 
 	function form( $instance ) {
 		
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		$responsive_tabs_widget_width = isset( $instance['responsive_tabs_widget_width'] ) ? strip_tags( $instance ['responsive_tabs_widget_width'] ) : 'pebble';
-		$free_form_text 					= isset( $instance['free_form_text'] ) ? wp_kses_post( $instance ['free_form_text'] ) : '';		
+		$free_form_text 					= isset( $instance['free_form_text'] ) ? apply_filters ( 'widget_text', $instance ['free_form_text'] ) : '';		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -631,7 +633,7 @@ class Front_Page_Text_Widget extends WP_Widget {
 
 
 /*
-* Front Archive Widget
+* Front Page Archive Widget
 */
 
 class Front_Page_Archives extends WP_Widget {
@@ -649,7 +651,7 @@ class Front_Page_Archives extends WP_Widget {
  		extract( $args, EXTR_SKIP );
  		
  		$output = '<!-- responsive-tabs Front_Page_Archives, includes/responsive-tabs-widgets.php -->';
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base ) ;
 		
 		$output .=  $before_widget  ;										// is blank in home widget areas
 		
@@ -660,10 +662,14 @@ class Front_Page_Archives extends WP_Widget {
 		/* get counts */		
 		global $wpdb;
 		$month_counts = $wpdb->get_results( 
-			'SELECT YEAR(post_date) AS YEAR, MONTH(post_date) AS MONTH, count(ID) AS POST_COUNT from wp_posts 
-			WHERE post_status = "publish" AND post_type = "post" 
-			GROUP BY YEAR(post_date), MONTH(post_date)' 
-			, OBJECT );
+			"
+			SELECT YEAR(post_date) AS YEAR, MONTH(post_date) AS MONTH, count(ID) AS POST_COUNT 
+			FROM $wpdb->posts 
+			WHERE post_status = 'publish' AND post_type = 'post' 
+			GROUP BY YEAR(post_date), MONTH(post_date)
+			" 
+			, OBJECT 
+			);
 		
 		/* prepare to display counts */
 		$month_count_array 	= array();
@@ -729,17 +735,15 @@ class Front_Page_Archives extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		
-		$instance = $old_instance;
-		
-		$instance['title'] 								= strip_tags( $new_instance['title'] ); // no tags in title
+		$instance 				= $old_instance;
+		$instance['title'] 	= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
 		return $instance;
 	}
 
 
 	function form( $instance ) {
 		
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -748,7 +752,7 @@ class Front_Page_Archives extends WP_Widget {
 }
 
 /*
-* Front Page Latest Posts Widget
+* Front Page Latest Posts Widget -- post list in wide format with include/exclude options by category
 */
 
 class Front_Page_Latest_Posts extends WP_Widget {
@@ -848,8 +852,8 @@ class Front_Page_Latest_Posts extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title'] 				 = strip_tags( $new_instance['title'] ); // no tags in title
+		$instance 							 = $old_instance;
+		$instance['title'] 				 = apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
 		$instance['include_cats_list'] = responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
 		$instance['exclude_cats_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
 		return $instance;
@@ -857,15 +861,15 @@ class Front_Page_Latest_Posts extends WP_Widget {
 
 	function form( $instance ) {
 		
-		$title  								= isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
-		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? strip_tags( $instance['include_cats_list'] ) : '';
-		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? strip_tags( $instance['exclude_cats_list'] ) : '';
+		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['include_cats_list'] ) : '';
+		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_cats_list'] ) : '';
 		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 	 	
-		<p><label for="<?php echo $this->get_field_id( 'include_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>include</em>:<br /> (single or multiple separated by commas<br /> -- will not include subcategories; leave blank for all)<br />', 'responsive-tabs' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'include_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>include</em>:<br /> (single or multiple separated by commas -- will not include subcategories; leave blank for all)<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'include_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'include_cats_list' ); ?>" type="text" value="<?php echo $include_cats_list; ?>" size="30" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
@@ -904,130 +908,128 @@ class Front_Page_Links_List extends WP_Widget {
 		} 		
 		
 		
-		show_latest_links();
+		$this->show_latest_links();
 		
 		echo $after_widget;
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title']  = esc_attr( $new_instance['title'] );
-		$instance['number'] = absint( $new_instance['number'] );
+		$instance 				= $old_instance;
+		$instance['title']  	= apply_filters( 'title_save_pre',  $new_instance['title'] );
 		return $instance;
 	}
 
 	function form( $instance ) {
 		
-		$title  = isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
-		
+		$title  = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 		<?php	 	
 	}
 	
-}
 
-function show_latest_links() {
-
-	$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-
-	// WP_Query arguments
-	$args = array ( // notes that posts_per_page driven by post setting -- cannot seem to drive separately, despite literature to the contrary
-		'tax_query'					 => array(
-												array(
-									            'taxonomy' => 'post_format',
-									            'field' => 'slug',
-									            'terms' => array( 'post-format-link' )
-												)
-												),
-		'post_status'            => 'publish',
-		'pagination'             => true,
-	 	'paged'                  => $page,
-		'ignore_sticky_posts'    => false,
-		'order'                  => 'DESC',
-		'orderby'                => 'date',
-	);
-
-	// The Query
-	$link_query = new WP_Query( $args );
-
-	if ( $link_query->have_posts() ) {
-
-		echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
-			'<ul class="post-list">' . 
-			'<li class = "pl-odd">' .
-				'<ul class = "pl-headers">' .
-					'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
-					'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive' ) . ' </li>' .
-					'<li class = "pl-post-date-time">'. __( 'Date', 'responsive' ) . '</li>' .
-				'</ul>' .
-			'</li>';
+	function show_latest_links() {
+	
+		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+	
+		// WP_Query arguments
+		$args = array ( // notes that posts_per_page driven by post setting -- cannot seem to drive separately, despite literature to the contrary
+			'tax_query'					 => array(
+													array(
+										            'taxonomy' => 'post_format',
+										            'field' => 'slug',
+										            'terms' => array( 'post-format-link' )
+													)
+													),
+			'post_status'            => 'publish',
+			'pagination'             => true,
+		 	'paged'                  => $page,
+			'ignore_sticky_posts'    => false,
+			'order'                  => 'DESC',
+			'orderby'                => 'date',
+		);
+	
+		// The Query
+		$link_query = new WP_Query( $args );
+	
+		if ( $link_query->have_posts() ) {
+	
+			echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
+				'<ul class="post-list">' . 
+				'<li class = "pl-odd">' .
+					'<ul class = "pl-headers">' .
+						'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
+						'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive' ) . ' </li>' .
+						'<li class = "pl-post-date-time">'. __( 'Date', 'responsive' ) . '</li>' .
+					'</ul>' .
+				'</li>';
+				
+				$count = 1; 
+				while ( $link_query->have_posts() ) {
+					$link_query->the_post();
+					$link 	= esc_url( responsive_tabs_url_grabber() );
+					$title 	= get_the_title();
+					$excerpt	= get_the_content();
+					$read_more_pointer = ( 
+						comments_open() ? 
+							( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
+									'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
+									__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
+							: '' ) . 
+						'<a href="' .  $link . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
+					$count = $count + 1;
+					if( $count % 2 == 0 ) {
+						$row_class = "pl-even";
+					} else {
+						$row_class = "pl-odd";
+					}
+	
+					echo '<li ' ;
+						post_class( $row_class ); 
+						echo '>' .
+						'<ul class="pl-post-item">' . 			
+							'<li class="pl-post-title">' .
+								'<a href="'  .  $link  . '" rel="bookmark" ' . 
+										'title="'  .  __( 'View item', 'responsive-tabs' )  . '"> '  .  
+										$title . ' ('. get_comments_number()  . ')' .
+								'</a>' . 
+							'</li>' .
+							'<li class="pl-post-author">';
+								the_category(', '); 
+								the_tags( ', ', ', ', '' ); 
+							echo '</li>' . 
+							'<li class="pl-post-date-time">'. get_the_date() .'</li>'.
+			         '</ul>' .
+						'<div class="pl-post-excerpt">' .
+							$excerpt . '<br />' . 
+							$read_more_pointer .  
+						'</div>' .         
+	 				'</li>';
+			 } // close while loop 
 			
-			$count = 1; 
-			while ( $link_query->have_posts() ) {
-				$link_query->the_post();
-				$link 	= responsive_tabs_url_grabber();
-				$title 	= get_the_title();
-				$excerpt	= get_the_content();
-				$read_more_pointer = ( 
-					comments_open() ? 
-						( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
-								'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
-								__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
-						: '' ) . 
-					'<a href="' .  responsive_tabs_url_grabber() . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
-				$count = $count + 1;
-				if( $count % 2 == 0 ) {
-					$row_class = "pl-even";
-				} else {
-					$row_class = "pl-odd";
-				}
-
-				echo '<li ' ;
-					post_class( $row_class ); 
-					echo '>' .
-					'<ul class="pl-post-item">' . 			
-						'<li class="pl-post-title">' .
-							'<a href="'  .  $link  . '" rel="bookmark" ' . 
-									'title="'  .  __( 'View item', 'responsive-tabs' )  . '"> '  .  
-									$title . ' ('. get_comments_number()  . ')' .
-							'</a>' . 
-						'</li>' .
-						'<li class="pl-post-author">';
-							the_category(', '); 
-							the_tags( ', ', ', ', '' ); 
-						echo '</li>' . 
-						'<li class="pl-post-date-time">'. get_the_date() .'</li>'.
-		         '</ul>' .
-					'<div class="pl-post-excerpt">' .
-						$excerpt . '<br />' . 
-						$read_more_pointer .  
-					'</div>' .         
- 				'</li>';
-		 } // close while loop 
-		
-		echo '</ul><!-- close links list -->'; 
-		// show multipost pagination links
-
-		?> 
-		<div id = "next-previous-links">
-			<div id="previous-posts-link"> <?php
-				previous_posts_link('<strong>&laquo; Newer Links </strong>');
-			?> </div> <?php
-			?> <div id="next-posts-link">  <?php
-				next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
-			?> </div>
-			<div class = 'horbar-clear-fix'></div>
-		</div> <?php
-			
-	// handle not found conditions		
-	} else {	?>
-		<div id="not-found">
-			<h3><?php _e( 'No links found.', 'responsive-tabs' ) ?></h3>
-	</div>
-	<?php	}
-
-	// Restore original Post Data
-	wp_reset_postdata();
+			echo '</ul><!-- close links list -->'; 
+			// show multipost pagination links
+	
+			?> 
+			<div id = "next-previous-links">
+				<div id="previous-posts-link"> <?php
+					previous_posts_link('<strong>&laquo; Newer Links </strong>');
+				?> </div> <?php
+				?> <div id="next-posts-link">  <?php
+					next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
+				?> </div>
+				<div class = 'horbar-clear-fix'></div>
+			</div> <?php
+				
+		// handle not found conditions		
+		} else {	?>
+			<div id="not-found">
+				<h3><?php _e( 'No links found.', 'responsive-tabs' ) ?></h3>
+		</div>
+		<?php	}
+	
+		// Restore original Post Data
+		wp_reset_postdata();
+	}
 }

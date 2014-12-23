@@ -2,7 +2,7 @@
 /*
 * File: responsive-tabs-customization.php
 *			
-* Handles all theme options through theme customizer interface (excepting structural options -- tabs, accordions, custom css/scripts and breadcrumbs)
+* Handles ALL theme options through theme customizer interface
 *
 * @package responsive-tabs
 *
@@ -247,16 +247,19 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	
 	$wp_customize->add_setting( 'show_login_links', array(
 	    'default' => true,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 	
 	/* breadcrumbs control -- overridden if major breadcrumb plugin is installed */
 
 	$wp_customize->add_setting( 'show_breadcrumbs', array(
 	    'default' => true,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean', 
 	) );
 	
 	$wp_customize->add_setting( 'suppress_bbpress_breadcrumbs', array(
 	    'default' => true,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 
 	$wp_customize->add_setting( 'category_home' , array(
@@ -345,20 +348,22 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_setting( 'welcome_splash_site_info_on', array(
 	    'default' => 0,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 
 	$wp_customize->add_setting( 'welcome_splash_on', array(
 	    'default' => 0,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 
 	$wp_customize->add_setting( 'welcome_splash_expire', array(
 	    'default' => 365,
-	    'sanitize_callback' => 'int_greater_than_zero'
+	    'sanitize_callback' => 'responsive_tabs_int_greater_than_zero'
 	) );
 
 	$wp_customize->add_setting( 'welcome_splash_delay', array(
 	    'default' => 365,
-	    'sanitize_callback' => 'int_greater_than_zero'
+	    'sanitize_callback' => 'responsive_tabs_int_greater_than_zero'
 	) );
 
 		
