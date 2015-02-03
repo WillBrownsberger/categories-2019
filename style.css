@@ -1,0 +1,1692 @@
+/*
+Theme Name: Responsive Tabs 
+Theme URI: 	http://responsive-tabs-theme-for-wp.com
+Author URI:
+Description: Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to be strong on content.  It takes advantage of all the power of Wordpress to organize content transparently. The front page content is entirely widgetized and the theme supports up to 16 tabbed content folders. It is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards, but it does not maximize image impact in the front page design.  Images can, however, easily be included in the various front page widget areas. The theme minimizes unnecessary page weight to assure good mobile response. Note: The theme layout does not accommodate an extra long Wordpress site title, but there is plenty of room for identity information in the optional “highlight” area immediately below the header which can be populated with bold text or with a widget which could include a banner or rotating images.     
+Version: 1.2
+Author: Will Brownsberger
+Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
+Text Domain: responsive-tabs
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Style CSS organized as follows
+ -- Grid elements (all elements that can break grid structure)
+ -- general html tag styles 
+ -- #id styles (with associated class and element styling within/pertaining to that id)
+	accordion
+	bottom widget 
+	breadcrumbs
+	color splash
+	comments
+	header
+	highlight
+	home widgets 
+	horizontal bar
+	main tabs
+	new post widget 	
+	post styles
+	side menu
+	view frame and miscellaneous special page wrappers
+	welcome splash
+	widgets generally
+	widget -- rtfpcl
+	widget -- rtfpa
+ -- required Wordpress core styles 
+ -- media queries
+
+*/
+
+
+/*
+* Main Grid components -- isolated here for visibility arranged from container to interior and from left to right within container.
+* 
+* Grid designed to add to 1580 wide view in full view -- responsive down to 320 for mobile.
+*
+* See media queries at end of this file for grid specs for mobile and small desktops
+*
+* See /js/resize.js for javascript to support older browser in grid resizing (and also necessary menu dropdown)
+*
+* Double width specs where using css3 calc for minimum fouc in older browsers
+*/
+
+/* this element which appears below the footer is tested to determine whether css calc syntax is unavailable in the brower and window resizing is necessary in resize.js */
+
+#calctest{
+	color: green;
+	width: calc(3px);
+}
+
+div#header-bar-wrapper.no-admin-bar {
+	height: 60px;
+	left: 0;
+	position: fixed;
+	right: 0;	
+	top: 0;	
+	z-index: 10;
+}
+
+div#header-bar-wrapper.admin-bar-showing {
+	height: 60px;
+	left: 0px;
+	position: fixed;
+	right: 0px;	
+	top: 32px;	
+	z-index: 10;
+}
+
+#header-bar {
+	background: white; 
+	height: 60px; 
+	margin: 0 auto;	
+	max-width: 1460px;
+	padding: 0px 60px; 
+	width: auto;
+}
+/* 
+* note: omitting width auto specification in the fixed element appears to be important in IE9 -- 
+* this element seeks max-width b/c has elements floated both left and right.
+*/
+
+#wrapper {
+	background: #fff;
+	margin: 0 auto;
+	max-width: 1460px;
+	min-height: 100vh;
+	padding: 0 60px;
+	overflow: hidden;
+	width: auto;
+}
+
+#side-menu.sidebar-menu {
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	margin: 0 20px 0 0;
+	padding: 250px 0 0 0;
+	width: 300px;
+}
+
+#side-menu.dropdown-menu {
+	background: #555;
+	color: white;
+	display: none;
+	left: 0;
+	margin: 0;
+	opacity: 0.9;
+	padding: 0 0 0 60px;
+	position: fixed;
+	right: 320px;
+	width: 320px;
+	top: 80px;
+	z-index: 10;
+}
+/* primary content container -- all except header, menu and footer*/
+#view-frame {
+	background: #fff;
+	float: left;
+	margin: 0;
+	padding: 0;
+  	width: 840px;
+  	width: calc(100% - 320px);
+	word-wrap: break-word;
+}
+
+#retina-view-frame {
+	background: #fff;
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	word-wrap: break-word;
+}
+
+/* content column one -- showing two width specs -- override if calc available; if not, js will fix */
+#content-wrapper {
+	background: #f0f0f0; 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	 float: left;
+	line-height: 1.5;
+	margin: 0;
+	padding: 20px 20px 20px 40px;
+	width: 58%;
+	width: calc(740px);
+}
+
+/* content column two */
+#right-sidebar-wrapper {
+	background: #f0f0f0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	float: left;
+	margin: 0px;
+	padding: 20px 40px 20px 20px;
+	width: 42%;
+	width: calc(100% - 740px);
+}
+
+/* -- no styling below this line should affect the grid layout -- */
+
+/*
+* general html tag styles
+*
+*/
+
+a {
+	color: #555;
+	margin: 0px;
+	padding: 0px;
+}	
+
+a:hover,
+a:focus,
+a:active {
+	color: #aa5;
+	text-decoration: underline;
+}
+
+blockquote {
+	background: #f9f9f9;
+	border-left: 4px solid #d6d6d6;
+	margin: 20px;
+	overflow: auto;
+	padding: 0 0 10px 12px;
+}
+
+blockquote p {
+	font-family: 'Georgia', 'Times New Roman', Times, serif;
+	font-style: italic;
+	font-size: 100%;
+}
+
+body {
+	background: rgb(198,194,186);
+	color: black;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+}
+
+/* definition styles from twentyfourteen */
+
+
+dl {
+	margin-bottom: 24px;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: 24px;
+}
+
+div {
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	font-size: 1.6em;
+}
+
+h2 {
+	font-size: 1.2em;
+}
+
+h3 {
+	font-size: 1.1em;
+}
+
+h4 {
+	font-size: 1.0em;
+}
+
+h5 {
+	font-size: 0.9em;
+}
+
+h6 {
+	font-size: 0.8em;
+}
+
+img {
+	margin: 0;
+	max-width: 100%;
+	padding: 0;
+	vertical-align: middle;
+}
+
+/* Limit widths of text elements, but not headers or tables in full-width mode */
+#full-width-content-wrapper a, 
+#full-width-content-wrapper p, 
+#full-width-content-wrapper li,
+#full-width-content-wrapper li li,
+#full-width-content-wrapper li li li {
+	max-width: 640px; 
+}
+
+#retina-full-width-content-wrapper a, 
+#retina-full-width-content-wrapper p, 
+#retina-full-width-content-wrapper li,
+#retina-full-width-content-wrapper li li,
+#retina-full-width-content-wrapper li li li {
+	max-width: 640px; 
+}
+
+/* table styles from twentyfourteen */
+
+table,
+th,
+td {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	border-width: 1px 0 0 1px;
+	margin-bottom: 24px;
+	width: 100%;
+}
+
+caption,
+th,
+td {
+	font-weight: normal;
+	text-align: left;
+}
+
+th {
+	border-width: 0 1px 1px 0;
+	font-weight: bold;
+}
+
+td {
+	border-width: 0 1px 1px 0;
+}
+
+/* specialized font styling tags from twentyfourteen */
+
+address {
+	font-style: italic;
+	margin-bottom: 24px;
+}
+abbr[title] {
+	border-bottom: 1px dotted #2b2b2b;
+	cursor: help;
+}
+
+small {
+	font-size: smaller;
+}
+
+big {
+	font-size: 125%;
+}
+q,
+cite,
+dfn,
+em,
+i {
+	font-style: italic;
+}
+
+code,
+kbd,
+tt,
+var,
+samp,
+pre {
+	font-family: monospace, serif;
+	font-size: 15px;
+	-webkit-hyphens: none;
+	-moz-hyphens:    none;
+	-ms-hyphens:     none;
+	hyphens:         none;
+	line-height: 1.6;
+   white-space: pre-wrap;       /* CSS 3 */
+   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+   white-space: -pre-wrap;      /* Opera 4-6 */
+   white-space: -o-pre-wrap;    /* Opera 7 */
+   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+b,
+strong {
+	font-weight: 700;
+}
+
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+blockquote em,
+blockquote i,
+blockquote cite {
+	font-style: normal;
+}
+
+sup,
+sub {
+	font-size: 75%;
+	height: 0;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub {
+	top: .5ex;
+}
+
+/*
+*
+* #id styles in alphabetical order
+*
+*
+*/
+
+/* accordion */
+#accordion-wrapper {
+	background: white;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+   margin: 0;
+   padding: 5px 0 0 0;   
+  	width: 100%;
+}          
+
+/* gray tones - here round corners border radius */
+.accordionItem h2{
+	background: #d3d3d3;
+	border: 1px solid #777;
+	font-size: 12pt;
+	font-weight: normal;
+	margin: 0 0 4px 0;
+	padding: 7px 8px; 
+}
+
+.accordionItem.hide h2 { 
+	border: 1px solid #ccc;
+
+}
+
+.accordionItem h2:hover { 
+	background-color: #e0e0e0; 
+	border: 1px solid #555;
+}
+
+.accordionItem.hide div { 
+	display: none; 
+}
+
+.accordionItem h2:hover { 
+	cursor: pointer; 
+}
+
+.accordionItem div { 
+	background-color: #fff;	
+	margin-bottom: 5px; 
+	padding: 1em 0.4em; 
+}
+
+/* bottom widget */
+#bottom-widget-area {
+	background: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	font-size: 0.6em;
+	margin: 0;
+	padding: 0px 8px; 
+}
+
+#bottom-widget-area h3 {
+	margin-top: 0px; 
+}
+
+/* breadcrumbs */
+#breadcrumbs {
+	clear: both; 
+	font-size: 14px;
+	font-style: italic; 
+	padding: 0 0 20px 0;
+}
+
+/* #color-splash appears on non-front pages */
+#color-splash {
+	background: #D10A0A;
+	border-bottom: 20px solid white;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	 box-sizing: border-box;
+	float: left;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+  	width: 100%;	
+}
+
+#front-page-mobile-color-splash {
+	display: none;
+}
+
+/* comments formatting */
+
+ol.commentlist {
+  	list-style: none; 
+	margin: 0;
+	padding: 0;
+}
+
+ol.commentlist li {
+	padding: 20px 0 0 0;
+	margin: 0;
+}
+
+ol.commentlist li.odd {
+	background: #fafafa;
+}
+
+ol.commentlist li.even {
+	background: #f3f3f3;
+}
+
+.comment-author {
+ 	display: inline-block; 
+}
+
+.comment-author::after {
+ 	content: " said on ";  
+}
+
+.says
+{
+	display: none;
+}
+
+.comment-body {
+	padding: 20px;  
+}
+
+.comment-meta {
+	display: inline-block; 
+}
+
+.comment-meta a {
+	color: black; 
+	text-decoration: none;
+}
+
+.comment-meta::after {
+ 	content: ": ";  
+}
+
+.bypostauthor {
+   /* not styled */ 
+}
+
+.navigation {
+	background: white;
+	margin-top: 0px; 
+}
+
+ul.children {
+	list-style: none;
+	list-style-position: inside; 
+	padding-left: 20px; 
+} 
+
+/* comment form */
+#respond {
+	margin: 0;
+	background: white;
+}
+
+#commentform {
+	padding: 0 20px 20px 0px;
+}
+
+.comment-reply-title {
+	padding: 20px 0 0 0;
+}
+/* header bar formatting */
+#header-bar-spacer {
+	height: 60px; 
+	width:100%;
+}
+
+#header-bar-content-spacer {
+	float: left;
+	height: 40px;
+	margin: 0;	
+	padding: 0;
+	width: 320px;
+}
+
+#side-menu-button {
+	background: #C6C2BA;
+	border: 0px;
+	color: white;
+	display: none;
+	float: left;
+	font-size: 19px;
+	margin: 15px 20px 15px 0px; 
+	padding: 0px 8px 0px 8px;
+}
+
+#side-menu-button:hover {
+	background: #D2CEC6;
+	color: black;
+}
+
+#home-button {
+	background: #C6C2BA;
+	border: 0px;
+	color: white;
+	float: left;
+	font-size: 32px;
+	margin: 10px 0 0 0; 
+	padding: 0px 8px 0px 8px;
+	text-decoration: none;
+}
+
+#home-button:hover {
+	color: black;
+}
+
+#header-bar-widget-wrapper {
+	float: left;
+	height: 40px; 
+	margin: 15px 0 5px 0; 
+	padding: 0px;
+	max-width: 200px; 
+}
+
+.search-submit,
+.screen-reader-text, 
+#searchsubmit,
+#searchform .screen-reader-text { 
+	display: none;
+}
+
+#site-info-wrapper {
+	float: right;
+	line-height: 30px;
+	margin: 15px 0px 0px 0px; 
+	padding: 0;
+}
+
+#site-info-wrapper li {
+	display: inline; 	
+	list-style-type: none;
+}
+
+#site-info-wrapper .site-title  a,
+.site-description {
+	margin: 0px;	
+	padding-left:  10px;
+	text-decoration: none; 
+}
+
+.site-description {
+	font-size: 27px;
+}
+
+.site-title {
+	font-size: 36px;
+}
+
+#site-info-wrapper a.site-title-short {
+	display: none;
+}
+
+
+/* highlight area */
+#highlight-text-area {
+	background: #436A88;
+	color: white; 
+	font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	min-height: 250px;
+/* min-height to match logo */	
+}
+
+/* use line height to determine spacing between paragraphs and fill in padding for the area */
+#highlight-headline {
+	font-size: 52px;
+	font-weight: 400; 
+	letter-spacing: 1px;
+	line-height: 1.3;
+	padding: 25px 0 25px 90px; 
+	text-align: left;
+}
+
+#highlight-subhead {
+	font-size: 24px;
+	font-weight: 400; 
+	letter-spacing: 1px;
+	line-height: 1;
+	padding: 0 0 25px 90px; 
+	text-align: left;
+}
+
+#highlight-headline-small-screen {
+	display: none;
+	font-size: 24px;
+	font-weight: 400; 
+	letter-spacing: 1px;
+	line-height: 1;
+	padding: 0 0 25px 90px; 
+	text-align: left;
+}
+
+#highlight-headline-small-screen p,
+#highlight-headline p,
+#highlight-subhead p {
+	margin: 0;
+}
+
+#highlight-headline a  {
+	color: #fff;
+	text-decoration: none;
+}
+
+#highlight-headline a:hover {
+	color: #ccc;
+}
+
+
+/* formatting for content presented as collection of small regular widgets in larger area */
+
+.home-narrow-widget-wrapper {
+	  background: inherit;  
+	 -webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box; 
+	  box-sizing: border-box;
+	  float: left;
+	  height: 200px;
+	  margin: 0;
+	  overflow: hidden;
+	  padding: 0 8px;
+	  width: 25%;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+1) {
+	background:#fafafa;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+2) {
+	background:#f0f0f0;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+3) {
+	background:#fcfcfc;
+}
+
+.home-narrow-widget-wrapper:nth-of-type(5n+4) {
+	background:#f4f4f4;
+}
+
+.home-wide-widget-wrapper h2.widgettitle, 
+.home-narrow-widget-wrapper h2.widgettitle,
+.home-narrow-widget-wrapper .attachment-front-page-thumb {
+	color: #555;
+	font-size: 1em;
+	margin: 10px 8px; 
+
+}
+
+.home-narrow-widget-wrapper .attachment-front-page-thumb {
+	margin: 0 8px;
+}
+
+.home-text-widget {
+	padding: 0 8px;
+}
+
+.bulk-image-float-left {
+	float: left;
+	padding-top: 0px;
+	margin-top: 0px;
+	padding-right: 4px;
+}
+
+/* pad text in Front Page Summary Widget */
+.bulk-text-padding-wrapper {
+	padding: 0 8px 8px 8px;
+}
+
+/* but not if already padded in welcome splash */
+.welcome-splash-widget-wrapper .bulk-text-padding-wrapper {
+	padding: 0;
+}
+
+/* styling for one to a row home widgets */
+.home-wide-widget-wrapper {
+/* no styling */	
+}
+
+/* can be used in narrow widget, but is invoked if displaying image and whole content of post in summary */
+.bulk-image-float-left-large {
+	float: left;
+	padding-top: 0px;
+	margin-top: 0px;
+	padding-right: 8px;
+}
+
+/* horizontal bar */
+.horbar-clear-fix {
+	clear: both;
+	display: block;
+	height: 0px; 
+	margin: 0px; 
+	width: 100%;
+}
+
+/* main tabs styling */
+#main-tabs-wrapper {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	padding: 20px 0 0 0; 
+	width: 100%; 
+}
+
+#main-tabs {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	background: white;
+	border: 1px solid #ccc;
+	border-radius: 0px; 
+	display: block;
+	padding: 0px 0px; 
+	width: 100%; 
+}
+
+#main-tabs-dropdown-wrapper {
+	display: none;
+}
+
+.main-tabs-headers {
+	background: #ccc;
+	padding: 0px; 
+	float: left;
+	font-weight: bold; 
+	margin: 0;
+	width: 100%;
+}
+
+.main-tabs-headers li {
+	background: #ddd;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom-width: 0;
+	border-top-left-radius: 4px; 
+	border-top-right-radius: 4px; 
+	float: left;
+	list-style: none;
+	margin: 0.3em 0 0 0.3em;
+	padding: 0.6em 24px;
+	position: relative;
+	top: 0;
+	white-space: nowrap;
+}
+
+li.nav-tab-inactive:hover {
+	background: #e9e9e9;
+}
+
+.main-tabs-headers li:first-child {
+	margin: 0.3em 0 0 8px;
+}
+
+li.nav-tab-active  {
+	background: #f6f6f6;
+}
+
+.main-tab-content {
+	background: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	clear: both;
+	padding: 1px 0 0 0;
+}
+
+#main-tabs a {
+	text-decoration: none;
+}
+
+.responsive-tabs-notice {
+	background: #eef;
+	border: 1px solid #aaa;
+	margin: 20px;
+	padding: 20px;
+}
+
+/* post styles */
+
+#content-header,
+#content-header h1,
+#content-header h4 {
+	background: white; 	
+	margin: 0; 
+}
+
+#content-header {
+	padding: 20px 8px; 
+}
+
+#content-subheader h4 {
+	padding-bottom: 16px; 
+}
+
+#not-found {
+	background: white;
+	padding: 60px 60px 200px 60px;
+}
+
+.post-list {
+	list-style: none;
+	margin: 0;
+	padding-left: 0px;
+}
+
+/* note: these styles also control background colors in widget and comment lists */
+.pl-odd {
+	background: #f0f0f0;
+}
+
+.pl-even {
+	background: #fafafa;
+}
+
+.post-list li.sticky {
+	border-left: 8px solid #333;
+}
+
+.sticky {
+	/* not styled except in ul.post-list */
+}
+
+ul.pl-headers {
+	font-size: 14px;
+	font-weight: 700;
+	list-style: none;
+	padding: 8px 8px;
+}
+
+ul.pl-post-item {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	display: inline-block;
+	list-style: none;	
+	padding: 8px 8px;
+	vertical-align: top;
+	width: 100%; 
+}
+
+.pl-post-title {
+	display: inline-block;
+	vertical-align: top;	
+	width: 60%; 	
+	}
+
+.pl-post-author {
+	display: inline-block;
+	vertical-align: top;	
+	width: 20%;
+}
+
+.pl-post-date-time {
+	display: inline-block;
+	vertical-align: top;	
+	width: 20%; 	
+	}
+
+
+.pl-post-excerpt {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+	display: block;
+	font-size: 0.9em; 
+	margin: 0; 
+	padding: 8px 8px 20px 60px;
+	width: 60%; 
+}
+
+div.post { /* note that li elements in post-list.php also take this class */ 
+	background: white;
+	padding: 24px 20px; 
+}
+
+
+.post-title {
+	margin: 5px 0px;
+}
+
+.post-response-count {
+	font-size: 0.8em;
+}
+
+.post-author {
+	font-style: italic;
+}
+
+.post-info {
+	font-style: italic;
+	}
+
+#post-list-wrapper {
+	padding: 0;
+}
+
+#post-list-wrapper h1 {
+	padding: 8px; 
+	margin: 8px; 
+}
+
+#post-list-wrapper h2 {
+	margin: 0px; 
+}
+
+.upper-page-links {
+	display: inline;
+}
+
+.lower-page-links {
+	font-style: italic;
+}
+
+.lower-page-links a {
+	color: red;
+}
+
+
+#previous-post-link {
+	float: left;
+}
+
+#next-post-link {
+	float: right;
+}
+
+#next-previous-links {
+	background: #fafafa;	
+	float: left;
+	line-height: 30px;
+	width: 100%;
+}
+
+#previous-posts-link {
+	float: left;
+	padding-left: 20px; 
+}
+
+#next-posts-link {
+	float: right;
+	padding-right: 20px; 
+}
+
+a.read-more-link {
+	display: inline;
+}
+
+/* #side-menu -- see also grid section */
+
+
+#header-bar-widget-wrapper-side-menu-copy {
+	display: none;
+	height: 40px; 
+	margin: 15px 0 5px 0; 
+	padding: 0px;
+	width: 250px;
+}
+
+#main-menu-and-login-ul { 
+	font-size: 1.2em;
+	list-style:none;
+	padding-left: 0px;
+}
+
+#main-menu-and-login-ul li a { 
+	display: block;  
+	line-height: 28px; 
+  	text-decoration: none;  
+}
+
+#side-menu.dropdown-menu a {
+  	color: white;
+}
+
+#main-menu-and-login-ul li a:before { 
+	content: '>';
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li li a:before { 
+	content: ">>";
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li li li a:before { 
+	content: ">>>";
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li li li li a:before { 
+	content: ">>>>";
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li li li li li a:before { 
+	content: ">>>>>";
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li li li li li li a:before { 
+	content: ">>>>>>";
+	color: #ccc;
+}
+
+#main-menu-and-login-ul li a:hover {  
+	-moz-box-shadow:10px 10px 20px #000000;
+	-webkit-box-shadow:10px 10px 20px #000000;
+	box-shadow:10px 10px 20px #000000; 
+}
+
+#side-menu-widget-area {
+	width: 260px;
+}
+
+/* gray background for backpage view-frame */
+#view-frame.back-page-view {
+	background: #f0f0f0;
+}
+
+/* single column for bbpress lists in forum.php */
+#bbpress-list-wrapper {
+	background: white;
+	margin: 0;
+	padding: 0;
+}
+/* wrapper for pages reproduced in front page tabs */
+div#front-page-post-entry {
+	padding: 0 20px 20px 20px;
+}
+
+#wp-single-content {
+	background: white;
+	padding: 24px 20px; 
+}
+
+/* wrapper for use on non-sidebar pages, like  forum.php */
+#full-width-content-wrapper {
+	background: white;
+	margin: 10px 0;
+	padding: 10px 20px;
+}
+/* welcome splash */
+#welcome-splash-site-info-button {
+	background: #C6C2BA;
+	border: 0px;
+	bottom: 0.45ex;
+	color: white;
+	font-size: 19px;
+	font-weight: 700;
+	margin: 0; 
+	padding: 0px 8px 0px 8px;
+	position: relative;
+	vertical-align: baseline;
+}
+
+.welcome-splash-site-info {
+	margin: 0px;
+	padding-left:  20px;
+	text-decoration: none;
+}
+
+#welcome-splash-site-info-button:hover {
+	background: #D2CEC6;
+	color: black;
+}
+
+#welcome-splash {
+	background: #C6C2BA;
+	display: none; 
+	left: 0px;
+	opacity: 0.95;
+	margin: 0 auto;
+	max-width: 1460px;
+	min-height: 95vh;
+	position: absolute; 
+	right: 0px;	
+	top: 0px;	
+	z-index: 8;
+	width: 100%;
+} 
+
+#welcome-splash-content-wrapper {
+	background: white;
+	border: solid 2px #999;
+	margin: 50px auto;
+	max-width: 640px;
+	min-height: 80vh;
+	padding: 40px;
+} 
+
+#welcome-splash-title {
+	background: white;
+	margin: 50px auto;
+	max-width: 960px;
+} 
+
+#welcome-splash-close {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ebebeb), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ebebeb 5%, #dfdfdf 100% );
+	border-radius: 4px; 
+	font-size: 1em;
+	padding: 4px 20px; 
+	margin: 20px 0 0 0;
+}
+
+#welcome-splash-close:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #cfcfcf), color-stop(1, #ebebeb) );
+	background:-moz-linear-gradient( center top, #cfcfcf 5%, #ebebeb 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cfcfcf', endColorstr='#ebebeb');
+	background-color:#dfdfdf;
+}
+
+#welcome-splash-show,
+#welcome-splash-utc-of-expiry,
+#welcome-splash-delay-seconds,
+#welcome-splash-alert-class,
+#welcome-splash-admin-adj {
+	display: none;
+}
+
+/* widgets generally formatting */
+
+.sidebar-widget-wrapper h2 {
+	margin: 0; 
+}
+
+.sidebar-widget-wrapper {
+	background: #fff; 
+	border: 0px; 
+ 	border-radius: 0px;
+ 	margin: 0 0 20px 0; 
+ 	padding: 20px; 
+}
+
+/* responsive-tabs front page list styles */
+
+.responsive-tabs-front-page-archives,
+.responsive-tabs-front-page-category-list,
+.responsive-tabs-front-page-comment-list {
+	list-style: none;
+	margin: 0;
+	padding-left: 0px;
+}
+
+
+.responsive-tabs-front-page-comment-list-headers,
+.rtfpcl-category-headers {
+	font-size: 0.9em;
+	font-weight: 700;
+	list-style: none;
+	padding: 8px 8px;
+	}
+
+.responsive-tabs-front-page-archives-list-item,
+.responsive-tabs-front-page-comment-list-item,
+.responsive-tabs-front-page-category-list-item {
+	list-style: none;	
+	padding: 8px 8px;
+}
+
+.rtfpcl-category-name {
+	display: inline-block;
+	vertical-align: top;
+	width: 30%; 	
+}
+
+.rtfpcl-subcategory-list {
+	display: inline-block;
+	width: 70%; 	
+}
+
+.rtfpa-year {
+	display: inline-block;
+	width: 16%; 	
+}
+
+.rtfpa-month {
+	display: inline-block;
+	text-align: center;	
+	width: 7%; 	
+}
+
+
+
+.responsive-tabs-front-page-comment-author {
+	display: inline-block;
+	width: 20%; 	
+}
+
+.responsive-tabs-front-page-comment-post {
+	display: inline-block;
+	width: 60%; 	
+}
+
+.responsive-tabs-front-page-comment-date-time {
+	display: inline-block;
+	width: 20%; 	
+}
+
+.responsive-tabs-front-page-comment-excerpt {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;	
+	display: block;
+	font-size: 0.9em; 
+	margin: 0; 
+	padding: 0px 8px 20px 20px;
+	width: 80%; 
+}
+
+
+/* yarrp styling */
+.yarpp-related-widget ol li {
+	font-size: 14px;
+	margin: 0 0 10px -20px;
+}
+
+#yarpp_widget-2 .yarpp-related-widget a {
+	display: inline; 
+}
+/*
+*
+* required Wordpress core styles 
+*
+*/
+
+.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float:right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.post .wp-post-image {
+	padding: 20px 0 0 0;
+}
+
+
+.gallery-caption,
+.wp-caption {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+}
+
+.size-auto, 
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
+}
+
+/* 
+* main layout media queries
+* not really necessary for modern browers (calc works)
+* these rules duplicated in /js/resize.js for browsers IE8 below
+* note query rules fire in descending order of screen size, so cumulate except for first.
+* note that query rules are at end to override other style settings
+*/
+
+@media only screen and (max-width: 1579px) {
+
+	#header-bar-content-spacer,
+	#side-menu.sidebar-menu	{
+		display: none;
+	}
+
+	#header-bar	{
+		width: auto;	
+	}
+
+	#side-menu-button 	{
+		display: block; 
+	}
+
+	#view-frame {
+		width: 100%;
+	}
+	
+	#highlight-text-area	{
+		min-height: 0;
+	}
+}
+
+
+@media only screen and (max-width: 1279px) {
+
+	.home-narrow-widget-wrapper	{
+		width: 33.3333%;
+	}
+
+	#right-sidebar-wrapper	{ 
+		width: 42%;
+	}
+/* 58% = 740/1279 (smooth transition) */
+	#content-wrapper	{ 
+		width: 58%;
+	}
+
+	#site-info-wrapper li.site-description {
+		display: none;
+	}
+
+	.attachment-post-content-width,
+	.attachment-full-width {
+		height: auto;
+		max-height: 420px; 
+		max-width: 560px;
+	}
+
+}
+
+@media only screen and (max-width: 840px) {
+
+	#header-bar-widget-wrapper-side-menu-copy	{
+		display: block;
+	}
+	
+	#header-bar-widget-wrapper	{
+		display: none;
+	}
+	
+	#side-menu.dropdown-menu,
+	#header-bar,	
+	#wrapper	{
+		padding: 0 20px;
+	}
+	
+	#bbpress-list-wrapper,
+	#view-frame.back-page-view,	
+	#content-wrapper,
+	#right-sidebar-wrapper {
+		background: #fff;
+	}
+	
+	#bbpress-list-wrapper,
+	#content-wrapper,
+	#right-sidebar-wrapper { 
+		border: 0;
+		padding: 0;
+		width: 100%;
+	}	
+
+	/* downsize headline */
+	#highlight-headline,
+	#highlight-subhead,
+	#highlight-headline-small-screen {
+			font-size: 24px;
+			line-height: 1.3;
+			padding: 20px 0 20px 20px;
+		}
+	/* better yet, hide headline */
+	#highlight-text-area {
+	display: none;
+	}	
+	
+	/* replace headline with color splash */
+	
+	#front-page-mobile-color-splash {
+		background: #D10A0A;
+		border-bottom: 20px solid white;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box; 
+		 box-sizing: border-box;
+		display: block;
+		float: left;
+		height: 40px;
+		margin: 0;
+		padding: 0;
+	  	width: 100%;	
+	}
+	
+	#view-frame.front-page-view #color-splash { /* if no headline, so showing color splash, kill it when mobile comes out */
+		display: none;
+	}	
+	
+	/* mobile tabs styling */
+	#main-tabs-dropdown-wrapper {
+		display: block;
+	}
+	
+	select#main-tabs-dropdown-id {
+	  border-radius: 0px;
+	  font-size: 20px;
+	  height: 30px;
+	  width: 100%;
+	}
+	
+	.main-tabs-headers {
+		display: none;
+	}
+	
+	.home-narrow-widget-wrapper {
+		width: 50%;
+	}
+	
+	.attachment-post-content-width,
+	.attachment-full-width {
+		width: 500px;
+		height: 375px; 
+	}
+	
+	div.post,	
+	#wp-single-content {
+		padding: 0px;	
+	}
+	
+	#commentform {
+		padding: 0 0 20px 0;
+	}
+
+	#content-header {
+		padding: 4px 0px;
+	}
+} 
+
+@media only screen and (max-width: 540px) {
+
+	#wrapper	{
+		min-height: 0;
+	}
+
+	#view-frame	{
+		overflow-x: scroll;
+	}
+
+	#highlight-headline,
+	#highlight-subhead {
+		display: none;
+	}
+	
+	#highlight-headline-small-screen	{
+		display: block;
+	}
+
+	#side-menu,
+	#side-menu a {
+		font-size: .9em;
+	}
+	
+	.home-narrow-widget-wrapper {
+		width: 100%;
+	}
+	
+	.attachment-post-content-width,
+	.attachment-full-width {
+		width: 298px;
+		height: 224px; 
+	}
+
+	#site-info-wrapper a.site-title-short {
+		display: inline;
+	}
+	
+	#welcome-splash-content-wrapper {
+		margin: 10px auto;
+		padding: 30px 10px;
+	} 
+
+	#site-info-wrapper a.site-title-long { 
+		display: none;
+	}
+
+	.rtfpcl-category-name {
+		display: block;
+		width: 100%; 	
+	}
+	.rtfpcl-subcategory-list {
+		display: none;
+	}
+	
+	.responsive-tabs-front-page-comment-author {
+		display: block;
+		width: 100%; 	
+	}
+	
+	.responsive-tabs-front-page-comment-post,
+	.responsive-tabs-front-page-comment-date-time {
+		display: none;
+	}
+	
+	.responsive-tabs-front-page-archives,
+	.responsive-tabs-front-page-archives a {
+		font-size: 0.9em;	
+	}	
+	
+	.pl-headers {
+		display: none;
+	}	
+	
+	.pl-post-title {
+		display: block;
+		vertical-align: top;	
+		width: 100%; 	
+	}
+	
+	.pl-post-author,
+	.pl-post-date-time	{
+		display: none;
+	}
+
+	.pl-post-excerpt	{
+		padding: 8px 8px 20px 20px;
+		width: 100%; 
+	}
+
+} 
