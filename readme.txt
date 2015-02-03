@@ -34,12 +34,11 @@ Major Design Features
 Setting up your tabbed front page is straightforward using Wordpress widgets.
 
 1.	Standard theme install -- install the theme files in a subdirectory called responsive-tabs in the wp-content/themes subdirectory.
-2. Go to Appearance>Customize>Site Title & Tagline. Choose a relatively brief site title and tagline (roughly 20 characters each) and a 2-3 character "Site Short Title". Overlong
-   titles will overflow and drop out of  the convenient fixed title bar, especially on smaller screens.  Check how your titles perform in different window widths.
+2. Go to Appearance>Customize>Site Title & Tagline. Choose a relatively brief site title and tagline (roughly 20 characters each) and a 2-3 character "Site Short Title". 
    As you narrow the screen width, you will see the tagline disappear and then, at smarthphone width, the short title replace the full site title.
 3. Add additional branding/identity information in one or both of two ways which allow an unlimited amount of content in a responsive format:
-   (A) Populate the Site Info Splash widget area and configure it either as a dropdown (under a "?" on the header bar) or as a first-time visitor splash (settings for this are under 
-   Appearance>Customize>Welcome Splash Page). (B) Populate the Front Page Highlight Area -- either by adding a widget ( possible graphics ) to the Highlight Area or 
+   (A) Populate the Site Info Splash widget area  (which appears when a "?" on the header bar is clicked) -- settings for this are under 
+   Appearance>Customize>Welcome Splash Page. (B) Populate the Front Page Highlight Area -- either by adding a widget ( possible graphics ) to the Highlight Area or 
    directly enter text for this area in Appearance>Customize>Front Page Highlight.
 4. From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
 5. To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
@@ -60,16 +59,14 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
-Version 1.0 	(2014-09-11) 	-- Initial Submission to Wordpress 
-Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trademark policy
-Version 1.1 	(2014-09-24)   -- Enhancements and improved documentation 
-+ Improved consistency of options in widgets 
-+ Add by-user include/exclude option and changed query mechanism for comments widget
-+ Added featured images to page templates
-+ Added optional welcome splash widget area for first-time visitors or non-recent visitors; also configurable as drop down from title bar
-+ Changed initialization values for new website installs. 
+Version 1.3	(2015-02-02) -- Responses to review feedback
++  Removed javascript back button from 404.php
++  Removed logic in footer.php and responsive-tab-utilities.js that used cookies to display a welcome splash for new or long-gone visitors
++  Also removed settings from customizer related to the welcome splash.  Reconfigured as only a widget display option.
++  Removed all links from getting-started.php
++  Removed favicon display from header.php
 Version 1.2		(2014-12-23)	-- Responses to review feedback
-+	Remove test of ABSPATH definition in all modules (unnecessary)
++  Remove test of ABSPATH definition in all modules (unnecessary)
 +	Modify nonce checking in post width metabox ( functions.php ) to eliminate bad reference to site_url(__FILE__) and clean up logic
 +  Move enqueue of comments-reply from header and retina-header to setup
 +	Add declaration of text domain to style.css ( text domain already used in all output ) 
@@ -80,12 +77,15 @@ Version 1.2		(2014-12-23)	-- Responses to review feedback
 +	Eliminate unnecessary error generating calls to ResetSideMenu in case of retina header display
 +	Styling tweaks
 +	Add new theme support for title tags
+Version 1.1 	(2014-09-24)   -- Enhancements and improved documentation 
++  Improved consistency of options in widgets 
++  Add by-user include/exclude option and changed query mechanism for comments widget
++  Added featured images to page templates
++  Added optional welcome splash widget area for first-time visitors or non-recent visitors; also configurable as drop down from title bar
++  Changed initialization values for new website installs. 
+Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trademark policy
+Version 1.0 	(2014-09-11) 	-- Initial Submission to Wordpress 
+
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.
-Version 1.11 	(2015-02-02) -- Recommended changes from Wordpress
-+ Removed javascript back button from 404.php
-+ Removed logic in footer.php and responsive-tab-utilities.js that used cookies to display a welcome splash for new or long-gone visitors
-+ Also removed settings from customizer related to the welcome splash.  Reconfigured as only a widget display option.
-+ Removed all links from getting-started.php
-+ Removed favicon display from header.php
 +
