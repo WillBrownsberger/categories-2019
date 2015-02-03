@@ -67,14 +67,7 @@ if (  $accordion_posts_list > '') {
 <div id="calctest"></div><!--for testing browser capabilities (see style.css and resize.js) -->
 
 <?php // set latest visit control cookies (last visit is set in javascript to avoid possible caching problems)  */
-$show_welcome_splash		= get_theme_mod( 'welcome_splash_on' );
-echo '<div id="welcome-splash-show">' . $show_welcome_splash . '</div>';
-$expire_days 		= get_theme_mod( 'welcome_splash_expire' );
-$utc_of_expiry 	= time() + $expire_days * 60 * 60 * 24;
-echo '<div id="welcome-splash-utc-of-expiry">' . $utc_of_expiry . '</div>';
-$delay_days 		= get_theme_mod( 'welcome_splash_delay' );
-$delay_seconds		= $delay_days * 60 * 60 * 24; 
-echo '<div id="welcome-splash-delay-seconds">' . $delay_seconds . '</div>';
+
 echo '<div id="welcome-splash-admin-adj">' . is_admin_bar_showing() . '</div>';
 echo '<div id="welcome-splash-alert-class">' . get_theme_mod( 'welcome_splash_alert_class' ) . '</div>';
  

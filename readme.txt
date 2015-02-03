@@ -82,3 +82,10 @@ Version 1.2		(2014-12-23)	-- Responses to review feedback
 +	Add new theme support for title tags
 == Upgrade Notice ==
 Upgrade to 1.1 recommended for better widget functionality.
+Version 1.11 	(2015-02-02) -- Recommended changes from Wordpress
++ Removed javascript back button from 404.php
++ Removed logic in footer.php and responsive-tab-utilities.js that used cookies to display a welcome splash for new or long-gone visitors
++ Also removed settings from customizer related to the welcome splash.  Reconfigured as only a widget display option.
++ Removed all links from getting-started.php
++ Removed favicon display from header.php
++

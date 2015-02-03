@@ -89,7 +89,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'   => 30,
   	    'description' => 'Enter additional branding information or short a message to highlight for front page users.  Or make these areas blank to just show a color bar. 
   	    	You can also put a widget in the highlight area.  Set Colors and Fonts (not applicable to widget content) in the Colors and Fonts sections of the customizer. 
-	    	<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>' 
+	    	<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>' 
 	) );
 	
 	$wp_customize->add_setting( 'highlight_headline', array(
@@ -113,7 +113,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'   => 35,
 	    'description' => 'Enter tab titles separated by commas, like so:<code>Favorites, Latest Posts, Comments</code>. 
 	    	Then enter content for each tab widget.  The widget for a tab shows below in this menu  when you click on the tab title.
-	    	<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>' , 
+	    	<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>' , 
 	) );	
 	
 	$wp_customize->add_setting( 'tab_titles', array(
@@ -298,7 +298,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'   	=> 100,
 	    'description'	=> __( 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
 	    						Titles will be accordion titles.  Content will appear when clicked.  
-	    						<a href="http://responsive-tabs-wordpress-theme.com/">More help &raquo;</a>', 'responsive-tabs' ),
+	    						<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>', 'responsive-tabs' ),
 	) );	
 		
 	$wp_customize->add_setting( 'front_page_accordion', array(
@@ -341,9 +341,9 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	
 	/* welcome splash page */
 	$wp_customize->add_section( 'welcome_splash_page_section' , array(
-	    'title'      => __( 'Welcome Splash Page', 'responsive-tabs' ),
+	    'title'      => __( 'Site Info Page ?', 'responsive-tabs' ),
 	    'priority'   => 210,
-	    'description' => __( 'These switches control whether widgets in the Site Info Splash widget area are shown.', 'responsive-tabs' ) 
+	    'description' => __( 'This switch controls whether a link to a site info ? appears on the far right of the header bar.', 'responsive-tabs' ) 
 	) );	
 
 	$wp_customize->add_setting( 'welcome_splash_site_info_on', array(
@@ -351,27 +351,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 
-	$wp_customize->add_setting( 'welcome_splash_on', array(
-	    'default' => 0,
-	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
-	) );
-
-	$wp_customize->add_setting( 'welcome_splash_expire', array(
-	    'default' => 365,
-	    'sanitize_callback' => 'responsive_tabs_int_greater_than_zero'
-	) );
-
-	$wp_customize->add_setting( 'welcome_splash_delay', array(
-	    'default' => 365,
-	    'sanitize_callback' => 'responsive_tabs_int_greater_than_zero'
-	) );
-
-		
-	$wp_customize->add_setting( 'welcome_splash_alert_class', array(
-	    'default' => '',
-	    'sanitize_callback' => 'sanitize_text_field'
-	) );	
-	
 	
 	/* CONTROLS
 	-------------------------------------------------------*/	
@@ -732,36 +711,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'type'     => 'checkbox',
 	    'priority'	=>	10,
 	) );
-	
-	$wp_customize->add_control( 'welcome_splash_on', array(
-	    'settings' => 'welcome_splash_on',
-	    'label'    => __( 'Show site info as welcome splash', 'responsive-tabs' ),
-	    'section'  => 'welcome_splash_page_section',
-	    'type'     => 'checkbox',
-	    'priority'	=>	20,
-	) );
-
-	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_delay', array(
-		'label'      => __( 'Display to visitor if absent for (days)' , 'responsive-tabs' ),
-		'section'    => 'welcome_splash_page_section',
-		'settings'   => 'welcome_splash_delay',
-	   'priority'   => 30,
-	) ) );
-
-	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_expire', array(
-		'label'      => __( 'Forget visitor after (days)', 'responsive-tabs' ),
-		'section'    => 'welcome_splash_page_section',
-		'settings'   => 'welcome_splash_expire',
-	   'priority'   => 40,
-	) ) );
-
-	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'welcome_splash_alert_class', array(
-		'label'      => __( 'Enter a css classname which, if present as form response in the splash page, should force display of the page.' , 'responsive-tabs' ),
-		'section'    => 'welcome_splash_page_section',
-		'settings'   => 'welcome_splash_alert_class',
-	   'priority'   => 50,
-	) ) );
-
 
 }
 

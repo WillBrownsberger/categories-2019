@@ -79,7 +79,6 @@ function ResponsiveTabs() {
 	if ( ! TestSupportCalc() ) {
 		ResizeMajorContentAreas();
 	}
-	splashSiteInfo();
 	
 }
 
@@ -260,43 +259,7 @@ function toggleSiteInfo() {
 
 }
 
-/* manages display of site info based on last-visited cookie */
-function splashSiteInfo() {
 
-	var welcomeSplashShow 	= document.getElementById( 'welcome-splash-show' ).innerHTML;
-	var splashExpire 			= document.getElementById( 'welcome-splash-utc-of-expiry' ).innerHTML;
-	var splashDelay 			= document.getElementById( 'welcome-splash-delay-seconds' ).innerHTML;
-	var alertClass 			= document.getElementById( 'welcome-splash-alert-class' ).innerHTML;
-	var lastVisit 				= rtgetCookie( 'responsive-tabs-last-visit' );
-
-	var splash 					= document.getElementById( 'welcome-splash' );
-	if ( splash === null ) {
-		return; // quit if not showing splash -- e.g., retina display;	
-	}	
-	
-	var t 						= new Date().getTime() ;
-   var delayExpire			= parseFloat( lastVisit ) + ( parseFloat ( splashDelay ) * 1000 );
-   
-   var splashExpireToString  = new Date();
-   splashExpireToString.setTime( splashExpire * 1000 );
-   splashExpireString = splashExpireToString.toUTCString();
-   
-	var documentCookieString = 'responsive-tabs-last-visit=' + t + '; expires=' + splashExpireString + '; path=/';	
-	document.cookie 			= documentCookieString;
-	var testCookieEnabled	= ( document.cookie.indexOf( "responsive-tabs-last-visit" ) != -1 ) ? true : false
-		
-	splash.style.display = "none"; /* initialize as none -- http://stackoverflow.com/questions/6688638/document-getelementbyid-style-display-is-blank */
-	if ( '' == lastVisit && 1 == welcomeSplashShow && testCookieEnabled ) {
-		toggleSiteInfo();		
-	} else if ( delayExpire < parseFloat(t) && 1 == welcomeSplashShow && testCookieEnabled ) {
-		toggleSiteInfo();
-	} 
-	
-	if ( "none" == splash.style.display && splash.getElementsByClassName( alertClass ).length > 0  ) {
-		toggleSiteInfo(); /* show splash if includes an alert from a form submission */
-	}
-
-}
 	
 function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
     var name = cname + "=";
