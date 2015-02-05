@@ -59,6 +59,9 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 1.31 (2015-02-05) -- Responses to review feedback
++	Moved getting-started.php from a default front page display to a menu item under Appearance
++  Removed unnecessary script registration
 Version 1.3	(2015-02-02) -- Responses to review feedback
 +  Removed javascript back button from 404.php
 +  Removed logic in footer.php and responsive-tab-utilities.js that used cookies to display a welcome splash for new or long-gone visitors
