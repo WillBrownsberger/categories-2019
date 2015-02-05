@@ -37,18 +37,19 @@ include get_template_directory() . '/includes/responsive-tabs-widgets.php';
 * enqueue script for layout -- menu control and legacy browser-width ( and also enqueue comment-reply )
 */ 
 function responsive_tabs_theme_setup() {
-	if ( !is_admin() ) {
-		wp_register_script(
-		  'responsive-tabs-utilities',
-		 	get_template_directory_uri() . '/js/responsive-tabs-utilities.js'
-		);
-		wp_enqueue_script('responsive-tabs-utilities');
+		wp_enqueue_script(
+			'responsive-tabs-utilities',
+		 	get_template_directory_uri() . '/js/responsive-tabs-utilities.js',
+		 	array(),
+		 	false,
+		 	false			
+			);
 		
 		if ( is_singular() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );		
 		} 
-	} 		
 }
+// wp_enqueue_scripts only works on the front end
 add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
 
 /*
@@ -62,7 +63,7 @@ if ( false === $tt_mod ) {
 	set_theme_mod( "highlight_headline"	, '<p>' . __( 'Responsive Tabs', 'responsive-tabs' ) . '</p><p>' . __( 'Theme Setup', 'responsive-tabs' ) . '</p>' );
 	set_theme_mod( "highlight_subhead"	, '<p>'. __( 'Set up your theme in Appearance>Customize', 'responsive-tabs') . '</p>' );
 	set_theme_mod( "highlight_headline_small_screen" 	, __( 'Highlight Headline Small Screen', 'responsive-tabs' ) );
-	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, Getting Started', 'responsive-tabs') );
+	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, This is Tab 1', 'responsive-tabs') );
 	set_theme_mod( "landing_tab"			, "0" );
 	set_theme_mod( "show_login_links"	, true );
 	set_theme_mod( "show_breadcrumbs"	, true );
@@ -73,6 +74,20 @@ if ( false === $tt_mod ) {
 	set_theme_mod( "tag_home"				, "0" );
 	set_theme_mod( "page_home"				, "0" );
 	set_theme_mod( "header_image"			, get_template_directory_uri() . "/images/initial-header.png");
+}
+
+/*
+*
+* Set up theme options page -- just an intro and pointer to the customizer -- all settings are in the customizer 
+*
+*/
+function responsive_tabs_theme_intro_page() {
+	add_theme_page ( 'Responsive Tabs', 'Responsive Tabs', 'edit_theme_options', 'responsive-tabs-theme-intro', 'load_responsive_tabs_getting_started_page' );
+}
+add_action ( 'admin_menu', 'responsive_tabs_theme_intro_page' );
+
+function load_responsive_tabs_getting_started_page () { 
+	get_template_part ( 'getting', 'started' );
 }
 
 /*
@@ -117,7 +132,7 @@ function responsive_tabs_widgets_init() {
 	
 	register_sidebar( array(
 		'name' 				=> __( 'Site Info Splash', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget area for site info dropdown and/or welcome splash for new visitors (display settings under Customize menu) ', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget area for site info dropdown (display settings under Customize menu) ', 'responsive-tabs' ),
 		'id' 					=> 'welcome_splash_widget',
 		'class' 				=> '',
 		'before_widget' 	=> '<div class = "welcome-splash-widget-wrapper"> ',
@@ -263,8 +278,9 @@ function responsive_tabs_theme_support_setup() {
 }
 add_action( 'after_setup_theme', 'responsive_tabs_theme_support_setup' );
 
-/* support short codes in widgets */
-add_filter( 'widget_text', 'do_shortcode' );
+/* support short codes in widgets -- note: this theme uses no shortcodes itself, 
+but it does have wide widget areas, conducive to use of many common plugins in full-width mode */
+add_filter( 'widget_text', 'do_shortcode' ); // 
 
 /*
 * add metabox for post width (see nonce technique at http://www.wproots.com/complex-meta-boxes-in-wordpress/) 

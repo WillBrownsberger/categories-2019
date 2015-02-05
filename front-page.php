@@ -117,17 +117,14 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 					// display sidebar
 					dynamic_sidebar( 'home_widget_' . ( $active_tab ) );
 					echo '<div class="horbar-clear-fix"></div>'; 
-				} else { 
-					if ( strtolower( trim( $tab_titles_array[$active_tab] ) ) == "getting started" ) {
-						get_template_part( 'getting', 'started');					
-					} else { ?>
-						<div class = "responsive-tabs-notice">
-							<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h3> 
-							<h4> <?php printf ( __( 'To populate, please go to Dashboard>Appearance>Customize>Widgets: Tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h4>
-							<h4> <?php printf ( __( 'Note: When viewing the front page in Customize, to see Widgets: Tab %d, click on this tab, titled "%s."', 'responsive-tabs' ), $active_tab, trim( $tab_titles_array[$active_tab] ) ); ?> </h4>						
-						</div>							
-					<?php }							
-				}
+				} else { ?>
+					<div class = "responsive-tabs-notice">
+						<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h3> 
+						<h4> <?php printf ( __( 'To populate this tab, please go to Dashboard>Appearance>Customize>Widgets: Tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h4>
+						<p> <?php printf ( __( 'When viewing the front page in Customize, to see Widgets: Tab %d, click on this tab, titled "%s."', 'responsive-tabs' ), $active_tab, trim( $tab_titles_array[$active_tab] ) ); ?> </p>						
+						<p> <?php printf ( __( 'To set up your tabs (up to 16), please go to Dashboard>Appearance>Customize>Tab Titles.', 'responsive-tabs' ), $active_tab ); ?> </p>
+					</div>							
+				<?php }							
 				?>
 			</div><!-- close main-tab-content -->
 		</div><!-- close main-tabs -->
