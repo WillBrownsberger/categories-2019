@@ -2,14 +2,30 @@
 Contributors: Will Brownsberger (development), Jane Winsor (Graphic Design)
 Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
 Requires at least: 3.9
-Tested up to: 4.0
+Tested up to: 4.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Description: Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to be strong on content.  It takes advantage of all the power of Wordpress to organize content transparently. The front page content is entirely widgetized and the theme supports up to 16 tabbed content folders. It is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards, but it does not maximize image impact in the front page design.  Images can, however, easily be included in the various front page widget areas. The theme minimizes unnecessary page weight to assure good mobile response. Note: The theme layout does not accommodate an extra long Wordpress site title, but there is plenty of room for identity information in the optional “highlight” area immediately below the header which can be populated with bold text or with a widget which could include a banner or rotating images.
+Description: Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to become strong on content.
+It takes advantage of all the power of Wordpress to organize content transparently. 
+
+The Responsive Tabs front page is entirely widgetized and the theme supports up to 16 tabbed content folders. The theme includes a set of custom
+Front Page widgets that can be configured for full width or tiled for a newspaper look.  Either approach scales down well to mobile screens.
+
+Responsive Tabs is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards.  
+Responsive Tabs facilitates attractive use of text for low page weight, but images can easily be included in the various front page widget areas,
+Responsive Tabs includes custom widgets to bring "featured images" from selected posts to the front page.
 
 == Description ==
-Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to be strong on content.  It takes advantage of all the power of Wordpress to organize content transparently. The front page content is entirely widgetized and the theme supports up to 16 tabbed content folders. It is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards, but it does not maximize image impact in the front page design.  Images can, however, easily be included in the various front page widget areas. The theme minimizes unnecessary page weight to assure good mobile response. Note: The theme layout does not accommodate an extra long Wordpress site title, but there is plenty of room for identity information in the optional “highlight” area immediately below the header which can be populated with bold text or with a widget which could include a banner or rotating images.  
+Responsive Tabs is a fully responsive theme that is especially suited to websites that are or intend to become strong on content.
+It takes advantage of all the power of Wordpress to organize content transparently. 
+
+The Responsive Tabs front page is entirely widgetized and the theme supports up to 16 tabbed content folders. The theme includes a set of custom
+Front Page widgets that can be configured for full width or tiled for a newspaper look.  Either approach scales down well to mobile screens.
+
+Responsive Tabs is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards.  
+Responsive Tabs facilitates attractive use of text for low page weight, but images can easily be included in the various front page widget areas,
+Responsive Tabs includes custom widgets to bring "featured images" from selected posts to the front page.  
 
 The design premise of the theme is that (a) less can be more visually -- users should be able to focus on what they came to see; (b) at the same time, it should be obvious where to find any content even on a site with a wide range of content.  
 
