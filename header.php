@@ -27,21 +27,6 @@
 
 <!-- responsive-tabs header.php -->
 <?php
-/*
-* Format optional welcome splash or site info message if selected in customize.  Display controlled on client -- initial css is display:none.
-* Display options are passed as hidden areas in footer.php
-*
-*/
- 
-if ( get_theme_mod( 'welcome_splash_on' ) || get_theme_mod( 'welcome_splash_site_info_on' ) ) { 
-	if( is_active_sidebar( 'welcome_splash_widget' ) ) { ?> 
-	 <div id="welcome-splash"><div id="welcome-splash-content-wrapper">
-			<?php dynamic_sidebar( 'welcome_splash_widget' ); ?> 
-			<?php wp_meta();	// hook for bottom of sidebar content ?>
-			<button id="welcome-splash-close" onclick="toggleSiteInfo()">Thanks. Got it.</button>
-		</div></div>
-	<?php }
-} 
 
 /*
 * Now construct login bar, banner area and sidemenu
