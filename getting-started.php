@@ -13,7 +13,7 @@
  <!-- getting started.php -->
 <div class = "responsive-tabs-notice">
 	<h1> <?php _e('Welcome to Responsive Tabs!', 'responsive-tabs' ); ?> </h1> 
- 	<?php 	_e( 	'<h4>Overview</h4> <p>All theme options for Responsive Tabs are set Appearance>Customize so you can see dynamically changes to the theme will look.
+ 	<?php 	_e( 	'<h4>Overview</h4> <p>All theme options for Responsive Tabs are set in Appearance>Customize so you can see dynamically how changes to the theme will look.
  				For more ideas visit <a href="http://responsive-tabs-theme-for-wp.com">the theme home page.</a></p>
  
  			<h4>Basic Setup</h4>    		  	

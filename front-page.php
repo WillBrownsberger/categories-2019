@@ -119,10 +119,10 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 					echo '<div class="horbar-clear-fix"></div>'; 
 				} else { ?>
 					<div class = "responsive-tabs-notice">
-						<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h3> 
-						<h4> <?php printf ( __( 'To populate this tab, please go to Dashboard>Appearance>Customize>Widgets: Tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h4>
-						<p> <?php printf ( __( 'When viewing the front page in Customize, to see Widgets: Tab %d, click on this tab, titled "%s."', 'responsive-tabs' ), $active_tab, trim( $tab_titles_array[$active_tab] ) ); ?> </p>						
-						<p> <?php printf ( __( 'To set up your tabs (up to 16), please go to Dashboard>Appearance>Customize>Tab Titles.', 'responsive-tabs' ), $active_tab ); ?> </p>
+						<h3> <?php printf ( __( 'Nothing yet in the widget area for tab %d!', 'responsive-tabs' ), $active_tab ); ?> </h3> 
+						<h4> <?php printf ( __( 'To populate this tab, click on it in Dashboard>Appearance>Customize.  Then select >Widgets>Tab %d.', 'responsive-tabs' ), $active_tab ); ?> </h4>
+						<h4> <?php printf ( __( 'Use the custom Front Page widgets, included with the theme, for more options and a consistent look.', 'responsive-tabs' ) ); ?> </h4>						
+						<p> <?php printf ( __( 'To set up other tabs (up to 16), please go to Dashboard>Appearance>Customize>Tab Titles.', 'responsive-tabs' ), $active_tab ); ?> </p>
 					</div>							
 				<?php }							
 				?>
