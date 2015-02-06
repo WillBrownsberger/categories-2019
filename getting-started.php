@@ -2,7 +2,7 @@
 /*
 * File: getting-started.php
 *
-* Description: This template will be invoked front page content if a tab-title is equal to "getting started" 
+* Description: This template is invoked in the theme options menu.
 * 
 * @package responsive-tabs 
 * 

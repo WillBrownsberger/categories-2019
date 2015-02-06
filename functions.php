@@ -9,7 +9,6 @@
 * -- registers menu
 * -- registers sidebars
 * -- adds theme support for header, background, thumbnails, html5, feeds, post-format (link), title-tags
-* -- adds shortcode filter to widgets
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds streamlined function to create archive drop down of authors
 * -- adds several special-purpose sanitize callback functions for use with theme customizer
@@ -278,9 +277,6 @@ function responsive_tabs_theme_support_setup() {
 }
 add_action( 'after_setup_theme', 'responsive_tabs_theme_support_setup' );
 
-/* support short codes in widgets -- note: this theme uses no shortcodes itself, 
-but it does have wide widget areas, conducive to use of many common plugins in full-width mode */
-add_filter( 'widget_text', 'do_shortcode' ); // 
 
 /*
 * add metabox for post width (see nonce technique at http://www.wproots.com/complex-meta-boxes-in-wordpress/) 
