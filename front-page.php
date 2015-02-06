@@ -72,7 +72,7 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 	$tab_titles 			= get_theme_mod( 'tab_titles' );
 	
 	if ( ! $tab_titles > '' ) {
-		$tab_titles 		= 'getting started, latest posts';
+		$tab_titles 		= 'This is Tab 0';
 	}
 	$tab_titles_array 	= explode( ',', $tab_titles );
 	
