@@ -75,6 +75,8 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 1.33 (2015-02-07)
++  Eliminated add_filter to allow shortcodes in widgets
 Version 1.32 (2015-02-05)
 +  Updated screenshot
 Version 1.31 (2015-02-05) -- Responses to review feedback
