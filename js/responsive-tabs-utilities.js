@@ -283,10 +283,11 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 
 	var ajaxWidgetParms; 
 	jQuery(document).ready(function($) {
-		parmsString = jQuery( ".responsive_tabs_infinite_scroll_parms" ).text();
-		if ( parmsString > '' ) {
+		parmsCount	= jQuery( ".responsive_tabs_infinite_scroll_parms" ).length;
+		if ( parmsCount > 1 ) {
+			alert ( 'Warning: You may not simultaneously display two widgets with infinite scroll enabled. Neither will work. Disable scroll for one of them or put them in separate tabs.' );		
+		} else if ( 1 == parmsCount ) {
 			ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
-			var scrollCount = 0;
 			// set up scroll event
 			$(window).scroll( function(){
 				if ( ( $(document).height() < ( $(window).height() + $(document).scrollTop() + 100 ) ) && 0 == scrollCallOutstanding ) {

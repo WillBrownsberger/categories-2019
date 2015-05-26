@@ -34,7 +34,7 @@ class Responsive_Tabs_Ajax_Handler {
 				$widget_parms->page, 
 				false, // active tab false says not in widget mode -- doing a a straight AJAX call 
 				0, 	 // infinite scroll not disabled if doing this call (screened out in js)
-				6 )	 // number of comments to retrieve in each call
+				8 )	 // number of comments to retrieve in each call
 				;	
 			echo $output;
 		}
@@ -56,7 +56,7 @@ class Responsive_Tabs_Ajax_Handler {
 		); 
 
 		$include_cats_list = $include_string > '' ? explode ( ',', $include_string ) : '';
-   	$exclude_cats_list = $include_string > '' ? explode ( ',', $exclude_string ) : '';
+   	$exclude_cats_list = $exclude_string > '' ? explode ( ',', $exclude_string ) : '';
 		if ( isset ( $include_cats_list[0] ) )	{
 			if ( $include_cats_list[0] > '' ) {
 				$query_args['category__in'] = $include_cats_list;
@@ -68,8 +68,10 @@ class Responsive_Tabs_Ajax_Handler {
 			}		
 		}      
 
+		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
-			$query_args['posts_per_page'] = 6; // fix this to assure even number and likely first scroll move		
+			$query_args['posts_per_page'] = 8; // fix this to assure even number and likely first scroll move, also consistency on # from first to 2+ pages	
+			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
 		}
 
 			     
@@ -78,11 +80,9 @@ class Responsive_Tabs_Ajax_Handler {
 		if ( $latest_posts_query->have_posts() ) {
 
 			if ( $widget_mode ) { // show header and start ul when coming from widget, not from ajax			
+				echo '<ul class="post-list" ' . $scroll_marker . ' >';
 				get_template_part( 'post', 'listheader' );
-				echo '<ul class="post-list" id="responsive-tabs-ajax-insert">';
 			}
-						
-
 
 			/* post list -- like post-list.php */ 
 			global $responsive_tabs_post_list_line_count;  
@@ -138,6 +138,10 @@ class Responsive_Tabs_Ajax_Handler {
 	} 
 
 	public static function latest_comments ( $include_string, $exclude_string, $comment_page, $active_tab, $disable_infinite_scroll, $number ) {
+ 	
+		if ( 0 == $disable_infinite_scroll ) {
+			$number = 8; // always pull same number of records; avoid inconsistency between first page and second page counts	
+		} 	
  		
 		$offset					= $comment_page * $number;
 		$include_clause = $include_string > '' ? ( ' AND user_id IN (' . $include_string . ') ' ) : ''; 
@@ -159,12 +163,17 @@ class Responsive_Tabs_Ajax_Handler {
 			" . ( $number + 1 );
 
 		$widget_comments = $wpdb->get_results( $widget_comment_query ); 
+
+		$scroll_marker = '';
+		if ( 0 == $disable_infinite_scroll ) {
+			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
+		}
 		
 		$output = '';
 		if ( $widget_comments ) {
 
 			if ( false !== $active_tab ) { // 0 is a valid tab value; if false, then just doing AJAX, so no <ul>
-				$output .= '<ul class = "responsive-tabs-front-page-comment-list" id="responsive-tabs-ajax-insert">';
+				$output .= '<ul class = "responsive-tabs-front-page-comment-list"' . $scroll_marker . '>';
 				$output .= 
 				'<li class="pl-odd">' .
 					'<ul class="responsive-tabs-front-page-comment-list-headers">' .
@@ -302,8 +311,11 @@ class Responsive_Tabs_Ajax_Handler {
 			'orderby'                => 'date',
 		);
 	
+
+		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
-			$args['posts_per_page'] = 6; // fix this to assure even number and likely first scroll move		
+			$args['posts_per_page'] = 8; // fix this to assure even number and likely first scroll move	
+			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
 		}
 	
 	
@@ -313,7 +325,7 @@ class Responsive_Tabs_Ajax_Handler {
 		if ( $link_query->have_posts() ) {
 			if ( $widget_mode ) {
 				echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
-					'<ul class="post-list" id="responsive-tabs-ajax-insert">' . 
+					'<ul class="post-list" ' . $scroll_marker . '>' . 
 					'<li class = "pl-odd">' .
 						'<ul class = "pl-headers">' .
 							'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
@@ -365,31 +377,33 @@ class Responsive_Tabs_Ajax_Handler {
 					'</div>' .         
  				'</li>';
 			} // close while loop 
-			// 
-			if ( 0 == $disable_infinite_scroll ) {
-				// set up widget parms to pass as hidden value to widget ajax caller		
-					$widget_parms = new Widget_Ajax_Parms ( 
-						'latest_links', 
-						$include_string,
-						$exclude_string,
-						2 // page 2 is second page, next retrieved
-					);
-					$widget_parms_string = json_encode( $widget_parms );						
-					echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
-				// if infinite scroll is disabled, do the usual page links 							
-			} else { 
-				echo '</ul><!-- close links list -->'; 
-				// show multipost pagination links
-				?> 
-				<div id = "next-previous-links">
-					<div id="previous-posts-link"> <?php
-						previous_posts_link('<strong>&laquo; Newer Links </strong>');
-					?> </div> <?php
-					?> <div id="next-posts-link">  <?php
-						next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
-					?> </div>
-					<div class = 'horbar-clear-fix'></div>
-				</div> <?php
+			if ( $widget_mode ) {
+				if ( 0 == $disable_infinite_scroll ) {
+					// set up widget parms to pass as hidden value to widget ajax caller		
+						$widget_parms = new Widget_Ajax_Parms ( 
+							'latest_links', 
+							$include_string,
+							$exclude_string,
+							2 // page 2 is second page, next retrieved
+						);
+						$widget_parms_string = json_encode( $widget_parms );						
+						echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
+					// if infinite scroll is disabled, do the usual page links 							
+					echo '</ul><!-- close links list -->'; 
+				} else { 
+					echo '</ul><!-- close links list -->'; 
+					// show multipost pagination links
+					?> 
+					<div id = "next-previous-links">
+						<div id="previous-posts-link"> <?php
+							previous_posts_link('<strong>&laquo; Newer Links </strong>');
+						?> </div> <?php
+						?> <div id="next-posts-link">  <?php
+							next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
+						?> </div>
+						<div class = 'horbar-clear-fix'></div>
+					</div> <?php
+				}
 			}	
 		// handle not found conditions		
 		} elseif ( $widget_mode ) {	?>
