@@ -271,3 +271,44 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
     }
     return "";
 } 
+
+
+/*
+* Infinite scroll calls
+*/
+
+( function () {  // namespace wrapper -- anonymous self executing function 
+
+	var scrollCallOutstanding = 0;
+
+	var ajaxWidgetParms; 
+	jQuery(document).ready(function($) {
+		parmsString = jQuery( ".responsive_tabs_infinite_scroll_parms" ).text();
+		if ( parmsString > '' ) {
+			ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
+			var scrollCount = 0;
+			// set up scroll event
+			$(window).scroll( function(){
+				if ( ( $(document).height() < ( $(window).height() + $(document).scrollTop() + 100 ) ) && 0 == scrollCallOutstanding ) {
+					doScrollCall ()			
+				} 
+			});
+		}
+	});
+
+	function doScrollCall () {
+	
+		scrollCallOutstanding = 1;
+		var postData = {
+			action: 'responsive_tabs', // see namespacing in functions.php 
+			responsive_tabs_ajax_nonce: responsive_tabs_ajax_object.responsive_tabs_ajax_nonce,
+			data: JSON.stringify( ajaxWidgetParms )
+		};
+		jQuery.post( responsive_tabs_ajax_object.ajax_url, postData, function( response ) {
+				jQuery( "#responsive-tabs-ajax-insert" ).append (response);
+				ajaxWidgetParms.page++;
+				scrollCallOutstanding = 0;
+		});
+	}
+
+})(); // close namespace wrapper

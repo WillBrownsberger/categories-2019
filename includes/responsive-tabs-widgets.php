@@ -15,6 +15,7 @@
 
 
 
+
 /*
 * Register Widgets
 */
@@ -152,121 +153,35 @@ class Front_Page_Comment_List extends WP_Widget {
 
  		extract( $args, EXTR_SKIP );
       
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
-		if ( ! $number ) {
+		$number = ( isset ( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
+		if ( 0 == $number ) {
  			$number = 10;
 		}
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		
-		$include_list = isset( $instance['include_users_list'] ) ? $instance['include_users_list'] : '' ;
-		$exclude_list = isset( $instance['exclude_users_list'] ) ? $instance['exclude_users_list'] : '';
-		$include_clause = $include_list > '' ? ( ' AND user_id IN (' . $include_list . ') ' ) : ''; 
-		$exclude_clause = $exclude_list > '' ? ( ' AND user_id NOT IN (' . $exclude_list . ') ' ) : '';
+		$include_string = isset( $instance['include_users_list'] ) ? $instance['include_users_list'] : '' ;
+		$exclude_string = isset( $instance['exclude_users_list'] ) ? $instance['exclude_users_list'] : '';
+		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
 				
 		/* pagination and link variables */
 		$active_tab 			= isset( $_GET[ 'frontpagetab' ] )  ? $_GET[ 'frontpagetab' ] : 0;
 		$comment_page			= isset( $_GET[ 'comment_widget_page' ] )  ? $_GET[ 'comment_widget_page' ] : 0;
-		$offset					= $comment_page * $number;
-		
-		global $wpdb;
-		$widget_comment_query = 
-			"
-			SELECT comment_id, comment_date, comment_content, post_title 
-			FROM $wpdb->comments c INNER JOIN $wpdb->posts p on c.comment_post_ID = p.ID 
-			WHERE 
-				post_status = 'publish' AND
-				comment_approved = 1 AND
-				( comment_type is NULL or comment_type = '')  
-			$include_clause   
-			$exclude_clause 
-			ORDER BY comment_date_gmt DESC  
-			LIMIT  $offset , 
-			" . ( $number + 1 );
 
-		$widget_comments = $wpdb->get_results( $widget_comment_query ); 
-
-		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';		
+		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';
 		$output .= $before_widget  ;										// is blank in home widget areas
 		if ( $title ) {
 			$output .= $before_title . $title . $after_title; 	
 		} 		
 
-		$output .= '<ul class = "responsive-tabs-front-page-comment-list">';
-		if ( $widget_comments ) {
-
-			// comment list header
-			$output .= 
-			'<li class="pl-odd">' .
-				'<ul class="responsive-tabs-front-page-comment-list-headers">' .
-					'<li class="responsive-tabs-front-page-comment-author">' . __( 'Commenter', 'responsive-tabs' ) . '</li>'. 
-					'<li class="responsive-tabs-front-page-comment-post">' . __( 'Commenting on', 'responsive-tabs' ). '</li>' .
-					'<li class="responsive-tabs-front-page-comment-date-time">' . __( 'Date, time', 'responsive-tabs' ) . '</li>' .
-				'</ul>' .
-			'</li>';		
-			
-			// comment list items			
-			$count 			= 1; 	// for row style alternation and to test possibility that a page had only admin comments on it
-			$found_count 	= 0; // for next page switch	
-							
-			foreach ( (array) $widget_comments as $comment) {
-				
-				$found_count = $found_count + 1;
-
-				if( $found_count < $number + 1 ) { // don't over shoot to next page 
-				  	$count = $count + 1;
-				  	if( $count % 2 == 0 ) {
-				  		$row_class = "pl-even";
-				  	} else {
-				  		$row_class = "pl-odd";
-				  	}
-
-				   $comment_date_time = new DateTime( $comment->comment_date );
-				   $output .=  
-				   '<li class="' . $row_class . '">' . 
-   					'<ul class="responsive-tabs-front-page-comment-list-item">' . 
-							'<li class="responsive-tabs-front-page-comment-author">'. get_comment_author_link($comment->comment_id) .  '</li>' . 
-							'<li class="responsive-tabs-front-page-comment-post">' . 
-								'<a href="' . get_comment_link( $comment->comment_id ) . '">' .	
-									esc_html( $comment->post_title ) . 
-								'</a>'.
-							'</li>' .
-							'<li class="responsive-tabs-front-page-comment-date-time">' . 
-								date_i18n( get_option( 'date_format' ), strtotime( $comment->comment_date ) ) . 
-							'</li>' .
-						'</ul>' .
-						'<div class = "responsive-tabs-front-page-comment-excerpt">' . 
-							apply_filters( 'comment_text', $this->get_long_comment_excerpt( $comment->comment_content ) ) . '<br />' .
-							'<a href="'. get_comment_link( $comment->comment_id ) . '">' . 
-								__( 'View Comment in Context &raquo;', 'responsive-tabs' ) . 
-							'</a>' .
-						'</div>' .
-					'</li>';
-	    		}
-			}
-	
-			$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
-			
-			// next previous comments list with same styles as next previous posts links 
-			// note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget 
-			$output .=	'<div id = "next-previous-links">'; 
-				if ( $comment_page > 0 ) {	
-					$output .= '<div id="previous-posts-link">' .
-							'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page - 1 ) . '">&laquo; ' . __( 'newer comments', 'responsive-tabs' ) . '</a></strong>' .					 
-					'</div>';
-				} 
-				if (  $number + 1 == $found_count ) { 
-					$output .=	'<div id="next-posts-link">' .
-							'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page + 1 ) . '">' . __( 'older comments', 'responsive-tabs' ) . ' &raquo;</a></strong>' .
-					'</div>'; 
-				}
-			$output .= '</div>';
-			$output .=	'<div class = "horbar-clear-fix"></div>';
-			
- 		} else {
- 			$output .= '<h3>' . __('No approved comments selected!', 'responsive-tabs' ) . '</h3>';
- 		}		
-
+		$output .= Responsive_Tabs_Ajax_Handler::latest_comments ( 
+			$include_string, 
+			$exclude_string, 
+			$comment_page, 
+			$active_tab, 
+			$disable_infinite_scroll, 
+			$number
+		); 
+		
 		$output .= $after_widget;
 
 		echo $output; 
@@ -278,6 +193,7 @@ class Front_Page_Comment_List extends WP_Widget {
 		$instance['number'] = absint( $new_instance['number'] );
 		$instance['include_users_list'] = responsive_tabs_clean_post_list( $new_instance['include_users_list'] );
 		$instance['exclude_users_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_users_list'] );
+		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
 		return $instance; 
 	}
 
@@ -287,7 +203,7 @@ class Front_Page_Comment_List extends WP_Widget {
 		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		$include_users_list 				= isset( $instance['include_users_list'] ) ? responsive_tabs_clean_post_list( $instance['include_users_list'] ) : '';
 		$exclude_users_list 				= isset( $instance['exclude_users_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_users_list'] ) : '';
-		
+		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -300,39 +216,14 @@ class Front_Page_Comment_List extends WP_Widget {
 
 		<p><label for="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>"><?php _e( 'ID number(s) of users to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_users_list' ); ?>" type="text" value="<?php echo $exclude_users_list; ?>" size="30" /></p>
+
+		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
+	 	
+
 		<?php 	
 	}
 
-	/*
-	* long comment excerpt method
-	* derived from http://developer.wordpress.org/reference/functions/get_comment_excerpt/
-	*/
-	function get_long_comment_excerpt( $comment_content ) {
-		
-		$clean_content = strip_tags( $comment_content, '<b><code><em><i><strike><strong>');
-
-		$excerpt_array = explode( ' ', $clean_content );
-		
-		if( count ( $excerpt_array ) > 100) {
-			$k = 100;
-			$use_dotdotdot = 1;
-		} else {
-			$k = count( $excerpt_array );
-			$use_dotdotdot = 0;
-		}
-	    
-		$excerpt = '';
-		for ( $i=0; $i<$k; $i++ ) {
-			$excerpt .= $excerpt_array[$i] . ' ';
-		}
-
-		$excerpt .= ( $use_dotdotdot ) ? '&hellip;' : '';
-
-		$excerpt = force_balance_tags( $excerpt );
-
-		return apply_filters( 'get_comment_excerpt', $excerpt );
-		
-	}
 }
 
 /*
@@ -771,91 +662,31 @@ class Front_Page_Latest_Posts extends WP_Widget {
  		
  		echo '<!-- responsive-tabs Front_Page_Latest_Posts, includes/responsive-tabs-widgets.php -->';
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		$include_cats_list = isset( $instance['include_cats_list'] ) ? explode(',', $instance['include_cats_list'] ) : '' ;
-		$exclude_cats_list = isset( $instance['exclude_cats_list'] ) ? explode(',', $instance['exclude_cats_list'] ) : '';		
-		
+		$include_string = isset( $instance['include_cats_list'] ) ? $instance['include_cats_list']  : '' ;
+		$exclude_string = isset( $instance['exclude_cats_list'] ) ? $instance['exclude_cats_list']  : '';
+		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;		
+
 		echo $before_widget  ;										// is blank in home widget areas
 		
 		if ( $title ) {
 			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
 
-		/* do query for posts meeting category screen */
+		/* set up missing variables for call */
 		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-		$query_args = array (
-			'post_status'            => 'publish',
-			'pagination'             => true,
-		 	'paged'                  => $page,
-			'ignore_sticky_posts'    => false,
-			'order'                  => 'DESC',
-			'orderby'                => 'date',
-		); 
-   	
-		if ( isset ( $include_cats_list[0] ) )	{
-			if ( $include_cats_list[0] > '' ) {
-				$query_args['category__in'] = $include_cats_list;
-			}		
-		}      
-
-		if ( isset ( $exclude_cats_list[0] ) )	{
-			if ( $exclude_cats_list[0] > '' ) {
-				$query_args['category__not_in'] = $exclude_cats_list;
-			}		
-		}      
-      
-		$latest_posts_query = new WP_Query($query_args); 
-
-		if ( $latest_posts_query->have_posts() ) {
-		
-			/* post list headers -- echoing to avoid white spaces in inline-block styling*/ 
-			echo '<!-- latest posts from /responsive-tabs/includes/responsive-tabs-widgets.php -->' . 
-			'<ul class="post-list">';
-			
-				get_template_part( 'post', 'listheader' ); 
-
-
-			/* post list -- tracks post-list.php,but has different query base */ 
-			global $responsive_tabs_post_list_line_count;  
-			$responsive_tabs_post_list_line_count = 1; 			 
-			
-			while ( $latest_posts_query->have_posts() ) {
-
-				$responsive_tabs_post_list_line_count = $responsive_tabs_post_list_line_count + 1;
-				$latest_posts_query->the_post();		
-				get_template_part ( 'post', 'listitems' );				
-
-			} ?> 
-			
-			</ul> <!-- post-list -->
-		   
-			<div id = "next-previous-links">
-				<div id="previous-posts-link"><?php
-					previous_posts_link('<strong>&laquo; Newer Entries </strong>');
-				?> </div> 
-				<div id="next-posts-link">  <?php
-					next_posts_link('<strong>Older Entries &raquo; </strong>');
-				?> </div>
-			</div>
-			<div class = "horbar-clear-fix"></div><?php
-		  
-		// handle not found conditions		
-		} else {	?>
-			<div id="not-found">
-				<h3><?php _e( 'No posts found. Check widget category settings.', 'responsive-tabs' ) ?></h3>
-		</div>
-		<?php	}
-
-	// Restore original Post Data
-	wp_reset_postdata();
+		$widget_mode = true;
+		/* call the query to get posts */
+		$output = Responsive_Tabs_Ajax_Handler::latest_posts ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ); 
 		
 		echo $after_widget ;									// is blank in home widget areas
 	}
 
 	function update( $new_instance, $old_instance ) {
 		$instance 							 = $old_instance;
-		$instance['title'] 				 = apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
-		$instance['include_cats_list'] = responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
-		$instance['exclude_cats_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
+		$instance['title'] 				 			= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
+		$instance['include_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
+		$instance['exclude_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
+		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
 		return $instance;
 	}
 
@@ -864,8 +695,9 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['include_cats_list'] ) : '';
 		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_cats_list'] ) : '';
-		
+		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
 		?>
+
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 	 	
@@ -875,6 +707,8 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_cats_list' ); ?>" type="text" value="<?php echo $exclude_cats_list; ?>" size="30" /></p>
 		 	
+		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
 	 	
 	 	<?php
 	} 
@@ -900,15 +734,17 @@ class Front_Page_Links_List extends WP_Widget {
 		
 		extract( $args, EXTR_SKIP );	
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		
+		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;				
+
 		echo $before_widget;
 		
 		if ( $title ) {
 			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
 		} 		
 		
+		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 		
-		$this->show_latest_links();
+		$output = Responsive_Tabs_Ajax_Handler::latest_links ( '', '', $page, true, $disable_infinite_scroll ); 
 		
 		echo $after_widget;
 	}
@@ -916,120 +752,24 @@ class Front_Page_Links_List extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance 				= $old_instance;
 		$instance['title']  	= apply_filters( 'title_save_pre',  $new_instance['title'] );
+		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
 		return $instance;
 	}
 
 	function form( $instance ) {
 		
 		$title  = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;		
+		
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
-		<?php	 	
-	}
+
+		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
 	
 
-	function show_latest_links() {
-	
-		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-	
-		// WP_Query arguments
-		$args = array ( // notes that posts_per_page driven by post setting -- cannot seem to drive separately, despite literature to the contrary
-			'tax_query'					 => array(
-													array(
-										            'taxonomy' => 'post_format',
-										            'field' => 'slug',
-										            'terms' => array( 'post-format-link' )
-													)
-													),
-			'post_status'            => 'publish',
-			'pagination'             => true,
-		 	'paged'                  => $page,
-			'ignore_sticky_posts'    => false,
-			'order'                  => 'DESC',
-			'orderby'                => 'date',
-		);
-	
-		// The Query
-		$link_query = new WP_Query( $args );
-	
-		if ( $link_query->have_posts() ) {
-	
-			echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
-				'<ul class="post-list">' . 
-				'<li class = "pl-odd">' .
-					'<ul class = "pl-headers">' .
-						'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
-						'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive' ) . ' </li>' .
-						'<li class = "pl-post-date-time">'. __( 'Date', 'responsive' ) . '</li>' .
-					'</ul>' .
-				'</li>';
-				
-				$count = 1; 
-				while ( $link_query->have_posts() ) {
-					$link_query->the_post();
-					$link 	= esc_url( responsive_tabs_url_grabber() );
-					$title 	= get_the_title();
-					$excerpt	= get_the_content();
-					$read_more_pointer = ( 
-						comments_open() ? 
-							( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
-									'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
-									__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
-							: '' ) . 
-						'<a href="' .  $link . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
-					$count = $count + 1;
-					if( $count % 2 == 0 ) {
-						$row_class = "pl-even";
-					} else {
-						$row_class = "pl-odd";
-					}
-	
-					echo '<li ' ;
-						post_class( $row_class ); 
-						echo '>' .
-						'<ul class="pl-post-item">' . 			
-							'<li class="pl-post-title">' .
-								'<a href="'  .  $link  . '" rel="bookmark" ' . 
-										'title="'  .  __( 'View item', 'responsive-tabs' )  . '"> '  .  
-										$title . ' ('. get_comments_number()  . ')' .
-								'</a>' . 
-							'</li>' .
-							'<li class="pl-post-author">';
-								the_category(', '); 
-								the_tags( ', ', ', ', '' ); 
-							echo '</li>' . 
-							'<li class="pl-post-date-time">'. get_the_date() .'</li>'.
-			         '</ul>' .
-						'<div class="pl-post-excerpt">' .
-							$excerpt . '<br />' . 
-							$read_more_pointer .  
-						'</div>' .         
-	 				'</li>';
-			 } // close while loop 
-			
-			echo '</ul><!-- close links list -->'; 
-			// show multipost pagination links
-	
-			?> 
-			<div id = "next-previous-links">
-				<div id="previous-posts-link"> <?php
-					previous_posts_link('<strong>&laquo; Newer Links </strong>');
-				?> </div> <?php
-				?> <div id="next-posts-link">  <?php
-					next_posts_link('<strong>Older Links &raquo; </strong>', $link_query->max_num_pages);
-				?> </div>
-				<div class = 'horbar-clear-fix'></div>
-			</div> <?php
-				
-		// handle not found conditions		
-		} else {	?>
-			<div id="not-found">
-				<h3><?php _e( 'No links found.', 'responsive-tabs' ) ?></h3>
-		</div>
-		<?php	}
-	
-		// Restore original Post Data
-		wp_reset_postdata();
+		<?php	 	
 	}
+
 }

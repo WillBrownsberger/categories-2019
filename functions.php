@@ -3,7 +3,7 @@
 * File: functions.php
 * Description: This file sets up theme
 * -- includes theme customizer and widget files
-* -- registers and enqueues javascripts ( layout and comments-reply )
+* -- registers and enqueues javascripts ( utilities and comments-reply ), also namespaces ajax call in utilities
 * -- minimizes retrieval of latest posts on home page (so not waste resources in requery in widgets)
 * -- optionally suppresses bbpress breadcrumbs
 * -- registers menu
@@ -31,7 +31,7 @@ include get_template_directory() . '/includes/responsive-tabs-customization-css.
 * include widgets
 */
 include get_template_directory() . '/includes/responsive-tabs-widgets.php'; 				
-
+include get_template_directory() . '/includes/responsive-tabs-ajax-handler.php'; 
 /*
 * enqueue script for layout -- menu control and legacy browser-width ( and also enqueue comment-reply )
 */ 
@@ -39,10 +39,19 @@ function responsive_tabs_theme_setup() {
 		wp_enqueue_script(
 			'responsive-tabs-utilities',
 		 	get_template_directory_uri() . '/js/responsive-tabs-utilities.js',
-		 	array(),
+		 	array( 'jquery' ),
 		 	false,
 		 	false			
 			);
+
+			// name spacing the AJAX URL in script by putting it into js global object and setting nonce
+			// name spacing matches calls in responsive-tabs-utilities.js
+			wp_localize_script( 'responsive-tabs-utilities', 'responsive_tabs_ajax_object',
+            array( 
+            	'ajax_url' 			=> admin_url( 'admin-ajax.php' ),
+            	'responsive_tabs_ajax_nonce' 	=> wp_create_nonce ( 'responsive_tabs_ajax_nonce' ),  
+            ) 
+			);	
 		
 		if ( is_singular() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );		
@@ -480,3 +489,7 @@ function responsive_tabs_url_grabber() {
 	return ( $matches[1] );
 }
 
+/* set up response to  ajax calls */
+$responsive_tabs_ajax = new Responsive_Tabs_Ajax_Handler;
+add_action( 'wp_ajax_responsive_tabs', array ( $responsive_tabs_ajax, 'route_ajax' ));
+add_action( 'wp_ajax_nopriv_responsive_tabs', array ( $responsive_tabs_ajax, 'route_ajax' ));
