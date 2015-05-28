@@ -74,6 +74,7 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 Version 2.0  (2015-05-25)
 +  Add Infinite Scroll to Latest Posts, Latest Comments, Links Widgets
 +	Eliminate extra CSS lines
++	Fix last page link bug on latest posts widget
 Version 1.33 (2015-02-07)
 +  Eliminated add_filter to allow shortcodes in widgets
 +  Changed title of tab in case of blank tab title option
