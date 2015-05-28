@@ -290,26 +290,34 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 			ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
 			// set up scroll event
 			$(window).scroll( function(){
-				if ( ( $(document).height() < ( $(window).height() + $(document).scrollTop() + 100 ) ) && 0 == scrollCallOutstanding ) {
-					doScrollCall ()			
-				} 
+					doScrollCall ();			
 			});
+			doScrollCall();
 		}
 	});
 
 	function doScrollCall () {
-	
-		scrollCallOutstanding = 1;
-		var postData = {
-			action: 'responsive_tabs', // see namespacing in functions.php 
-			responsive_tabs_ajax_nonce: responsive_tabs_ajax_object.responsive_tabs_ajax_nonce,
-			data: JSON.stringify( ajaxWidgetParms )
-		};
-		jQuery.post( responsive_tabs_ajax_object.ajax_url, postData, function( response ) {
+		regionBottom = jQuery ( "#responsive-tabs-ajax-insert" ).offset().top + jQuery ( "#responsive-tabs-ajax-insert" ).height();
+		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 300 ) ) && 0 == scrollCallOutstanding ) {
+			scrollCallOutstanding = 1;
+			ajaxSpinner = jQuery( "#responsive-tabs-post-list-ajax-loader" );
+			ajaxSpinner.show();
+			var postData = {
+				action: 'responsive_tabs', // see namespacing in functions.php 
+				responsive_tabs_ajax_nonce: responsive_tabs_ajax_object.responsive_tabs_ajax_nonce,
+				data: JSON.stringify( ajaxWidgetParms )
+			};
+			jQuery.post( responsive_tabs_ajax_object.ajax_url, postData, function( response ) {
 				jQuery( "#responsive-tabs-ajax-insert" ).append (response);
 				ajaxWidgetParms.page++;
 				scrollCallOutstanding = 0;
-		});
+				ajaxSpinner.hide();
+				// check for more only if got posts and no error on last call
+				if ( -1 != response.indexOf('OK-responsive-tabs-AJAX-response') ) {
+					doScrollCall();  //keep getting more until bottom no longer visible (this string is only returned when have posts/comments)
+				}
+			});
+		}
 	}
 
 })(); // close namespace wrapper

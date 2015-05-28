@@ -34,7 +34,7 @@ class Responsive_Tabs_Ajax_Handler {
 				$widget_parms->page, 
 				false, // active tab false says not in widget mode -- doing a a straight AJAX call 
 				0, 	 // infinite scroll not disabled if doing this call (screened out in js)
-				8 )	 // number of comments to retrieve in each call
+				4 )	 // number of comments to retrieve in each call -- note, overridden in function anyway
 				;	
 			echo $output;
 		}
@@ -70,15 +70,14 @@ class Responsive_Tabs_Ajax_Handler {
 
 		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
-			$query_args['posts_per_page'] = 8; // fix this to assure even number and likely first scroll move, also consistency on # from first to 2+ pages	
-			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
+			$query_args['posts_per_page'] = 4; // rapid first response and then keep scrolling	
+			$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
 		}
 
 			     
 		$latest_posts_query = new WP_Query($query_args); 
 
 		if ( $latest_posts_query->have_posts() ) {
-
 			if ( $widget_mode ) { // show header and start ul when coming from widget, not from ajax			
 				echo '<ul class="post-list" ' . $scroll_marker . ' >';
 				get_template_part( 'post', 'listheader' );
@@ -108,22 +107,26 @@ class Responsive_Tabs_Ajax_Handler {
 						$exclude_string,
 						2 // page 2 is second page; pagination is incremented after retrieval;
 					);
-					$widget_parms_string = json_encode( $widget_parms );						
+					$widget_parms_string = json_encode( $widget_parms );
+					echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
+						'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
+					'"></span>'; 
 					echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
 				// if infinite scroll is disabled, do the usual page links 							
-				} else { 		   
+				} else { 
 			   ?>
 					<div id = "next-previous-links">
 						<div id="previous-posts-link"><?php
 							previous_posts_link('<strong>&laquo; Newer Entries </strong>');
 						?> </div> 
 						<div id="next-posts-link">  <?php
-							next_posts_link('<strong>Older Entries &raquo; </strong>');
+							next_posts_link('<strong>Older Entries &raquo; </strong>', $latest_posts_query->max_num_pages );
 						?> </div>
 					</div>
 					<div class = "horbar-clear-fix"></div><?php
 			  	}
 			}
+			echo '<span id="OK-responsive-tabs-AJAX-response"></span>';			
 		// handle not found conditions only in widget mode -- just stop in AJAX		
 		} elseif ( $widget_mode ) {	?>
 			<div id="not-found">
@@ -139,9 +142,11 @@ class Responsive_Tabs_Ajax_Handler {
 
 	public static function latest_comments ( $include_string, $exclude_string, $comment_page, $active_tab, $disable_infinite_scroll, $number ) {
  	
+		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
-			$number = 8; // always pull same number of records; avoid inconsistency between first page and second page counts	
-		} 	
+			$number = 4; // rapid first response and then keep scrolling			
+			$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
+		}
  		
 		$offset					= $comment_page * $number;
 		$include_clause = $include_string > '' ? ( ' AND user_id IN (' . $include_string . ') ' ) : ''; 
@@ -164,14 +169,8 @@ class Responsive_Tabs_Ajax_Handler {
 
 		$widget_comments = $wpdb->get_results( $widget_comment_query ); 
 
-		$scroll_marker = '';
-		if ( 0 == $disable_infinite_scroll ) {
-			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
-		}
-		
 		$output = '';
 		if ( $widget_comments ) {
-
 			if ( false !== $active_tab ) { // 0 is a valid tab value; if false, then just doing AJAX, so no <ul>
 				$output .= '<ul class = "responsive-tabs-front-page-comment-list"' . $scroll_marker . '>';
 				$output .= 
@@ -235,7 +234,10 @@ class Responsive_Tabs_Ajax_Handler {
 						1 // page 1 is second page for comments sql
 					);
 					$widget_parms_string = json_encode( $widget_parms );						
-					echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
+					$output .= '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
+					$output .= '<span id = "responsive-tabs-post-list-ajax-loader">' .
+						'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
+					'"></span>'; 
 				} else {
 					// next previous comments list with same styles as next previous posts links 
 					// note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget 
@@ -254,6 +256,7 @@ class Responsive_Tabs_Ajax_Handler {
 					$output .=	'<div class = "horbar-clear-fix"></div>';
 				}					
 			}
+			$output .= '<span id="OK-responsive-tabs-AJAX-response"></span>';			
  		} elseif ( false !== $active_tab) {
  			$output .= '<h3>' . __('No approved comments selected!', 'responsive-tabs' ) . '</h3>';
  		}		
@@ -314,8 +317,8 @@ class Responsive_Tabs_Ajax_Handler {
 
 		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
-			$args['posts_per_page'] = 8; // fix this to assure even number and likely first scroll move	
-			$scroll_marker = 'id="responsive-tabs-ajax-insert"';	
+			$args['posts_per_page'] = 4; 	
+			$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
 		}
 	
 	
@@ -388,8 +391,12 @@ class Responsive_Tabs_Ajax_Handler {
 						);
 						$widget_parms_string = json_encode( $widget_parms );						
 						echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
-					// if infinite scroll is disabled, do the usual page links 							
+ 							
 					echo '</ul><!-- close links list -->'; 
+					echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
+						'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
+						'"></span>'; 
+					// if infinite scroll is disabled, do the usual page links
 				} else { 
 					echo '</ul><!-- close links list -->'; 
 					// show multipost pagination links
@@ -405,7 +412,8 @@ class Responsive_Tabs_Ajax_Handler {
 					</div> <?php
 				}
 			}	
-		// handle not found conditions		
+			echo '<span id="OK-responsive-tabs-AJAX-response"></span>';	
+		// handle not found conditions
 		} elseif ( $widget_mode ) {	?>
 			<div id="not-found">
 				<h3><?php _e( 'No links found.', 'responsive-tabs' ) ?></h3>

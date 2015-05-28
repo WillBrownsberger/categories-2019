@@ -918,6 +918,10 @@ li.nav-tab-active  {
 	padding-left: 0px;
 }
 
+#responsive-tabs-post-list-ajax-loader {
+	display: none;
+}
+
 /* note: these styles also control background colors in widget and comment lists */
 .pl-odd {
 	background: #f0f0f0;
