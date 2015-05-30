@@ -6,7 +6,7 @@ Tested up to: 4.2.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Description: Responsive Tabs is a fully responsive theme with infinite scroll that is especially suited to websites that are or intend to become strong on content.
+Description: Responsive Tabs is a fully responsive theme with optional infinite scroll that is especially suited to websites that are or intend to become strong on content.
 It  takes advantage of all the power of Wordpress to organize content transparently. The Responsive Tabs front page is entirely widgetized and supports up to 16 tabbed content folders. 
 The theme includes tab widgets that can be configured to show lists of posts or comments or, alternatively, a tiled array of excerpts or images from individual posts.  Both approaches scale well to mobile screens.
 Responsive Tabs is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards.  
@@ -71,7 +71,9 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
-Version 2.0  (2015-05-25)
+Version 2.1 (2015-05-29)
++  Add Infinite Scroll to all templates.
+Version 2.0 (2015-05-25)
 +  Add Infinite Scroll to Latest Posts, Latest Comments, Links Widgets
 +	Eliminate extra CSS lines
 +	Fix last page link bug on latest posts widget
