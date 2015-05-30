@@ -296,7 +296,7 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 		}
 	});
 
-	function doScrollCall () {
+	function doScrollCall () { 				
 		regionBottom = jQuery ( "#responsive-tabs-ajax-insert" ).offset().top + jQuery ( "#responsive-tabs-ajax-insert" ).height();
 		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 300 ) ) && 0 == scrollCallOutstanding ) {
 			scrollCallOutstanding = 1;
@@ -313,8 +313,8 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 				scrollCallOutstanding = 0;
 				ajaxSpinner.hide();
 				// check for more only if got posts and no error on last call
-				if ( -1 != response.indexOf('OK-responsive-tabs-AJAX-response') ) {
-					doScrollCall();  //keep getting more until bottom no longer visible (this string is only returned when have posts/comments)
+				if ( -1 != response.indexOf('OK-responsive-tabs-AJAX-response') ) { // this string is only returned when have posts/comments
+					doScrollCall();  //keep getting more until bottom no longer visible 
 				}
 			});
 		}

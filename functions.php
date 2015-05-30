@@ -99,24 +99,32 @@ function load_responsive_tabs_getting_started_page () {
 }
 
 /*
+* make page length compatible with infinite scroll for WP queries
+*
 * minimize home page main query because will not be showing posts from this query
 * note that show_on_front == false is the condition under which a static front page other than the 
 * 	main responsive-tabs front page is shown
 */
-function minimize_home_page_post_list( $query ) { 
-	
-    if ( is_admin() || ! $query->is_main_query() || 'posts' != get_option( 'show_on_front' ) )
-        return;
+function responsive_tabs_manage_posts_per_page( $query ) { 
 
-    if ( is_home() ) {
-        // Retrieve only one for the original blog archive main query (minimize db access)
+ 	// do nothing on admin side and nothing to queries other than main query;	
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return; 
+	}
+		
+   if ( 'posts' == get_option( 'show_on_front' ) && is_home() ) {
+        // When showing responsive-tabs front page, retrieve only one for the original blog archive main query (minimize db access)
         $query->set( 'posts_per_page', '1' );
         $query->set( 'ignore_sticky_posts', true ); 
         return;
-    }
+    // otherwise, if haven't disabled infinite scroll, standardize page length 
+    } elseif  ( false == get_theme_mod( 'disable_infinite_scroll_global' ) ) {
+        $query->set( 'posts_per_page', '4' ); // 
+        return;	
+	} 
 
 }
-add_action( 'pre_get_posts', 'minimize_home_page_post_list', 1 );
+add_action( 'pre_get_posts', 'responsive_tabs_manage_posts_per_page', 1 );
  
 /*
 *  optionally suppress bbpress bread crumbs on bbp template forms -- since may be loading broader breadcrumb plugins or offering own

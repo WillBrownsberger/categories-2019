@@ -26,7 +26,13 @@ class Responsive_Tabs_Ajax_Handler {
 
 		$next_function = $widget_parms->widget_type;		
 		if ( 'latest_posts' == $next_function || 'latest_links' == $next_function ) {
-			self::$next_function ( $widget_parms->include_string, $widget_parms->exclude_string, $widget_parms->page, false, 0 );
+			self::$next_function ( 
+				$widget_parms->include_string, 
+				$widget_parms->exclude_string, 
+				$widget_parms->page, 
+				false, 
+				0 
+				);
 		} elseif ( 'latest_comments' == $next_function ) {
 			$output = self::$next_function ( 
 				$widget_parms->include_string, 
@@ -34,20 +40,25 @@ class Responsive_Tabs_Ajax_Handler {
 				$widget_parms->page, 
 				false, // active tab false says not in widget mode -- doing a a straight AJAX call 
 				0, 	 // infinite scroll not disabled if doing this call (screened out in js)
-				4 )	 // number of comments to retrieve in each call -- note, overridden in function anyway
-				;	
+				4 	 // number of comments to retrieve in each call -- note, overridden in function anyway
+				);	
 			echo $output;
+		} elseif ( 'non_widget_query' === $next_function ) {
+				self::$next_function ( 
+					$widget_parms->include_string, 
+					$widget_parms->exclude_string, 
+					$widget_parms->page, 
+					$widget_parms->query_type 
+				);
 		}
-		wp_die();	
-						
+		wp_die();
 	}	
 
 
-	/* generates list items for latest post list -- used by Front Page Latest Posts widget and by AJAX calls */
+	/* generates list items for Front Page Latest Posts widget and AJAX calls within that widget */
 	public static function latest_posts ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ) {
 
 		$query_args = array (
-			'post_status'            => 'publish',
 			'pagination'             => true,
 		 	'paged'                  => $page,
 			'ignore_sticky_posts'    => false,
@@ -73,9 +84,11 @@ class Responsive_Tabs_Ajax_Handler {
 			$query_args['posts_per_page'] = 4; // rapid first response and then keep scrolling	
 			$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
 		}
+		
+		/* compatibility hook for plugins that filter posts globally using pre_get_posts */
+		$query_args = apply_filters ( 'responsive_tabs_ajax_pre_get_posts', $query_args );		     
 
-			     
-		$latest_posts_query = new WP_Query($query_args); 
+		$latest_posts_query = new WP_Query( $query_args ); 
 
 		if ( $latest_posts_query->have_posts() ) {
 			if ( $widget_mode ) { // show header and start ul when coming from widget, not from ajax			
@@ -100,7 +113,7 @@ class Responsive_Tabs_Ajax_Handler {
 				echo '</ul>'; // close post list
 				// if infinite scroll not disabled, add scroll parms
 				if ( 0 == $disable_infinite_scroll ) {
-		// set up widget parms to pass as hidden value to widget ajax caller		
+				// set up widget parms to pass as hidden value to widget ajax caller		
 					$widget_parms = new Widget_Ajax_Parms ( 
 						'latest_posts', 
 						$include_string,
@@ -306,14 +319,15 @@ class Responsive_Tabs_Ajax_Handler {
 										            'terms' => array( 'post-format-link' )
 													)
 													),
-			'post_status'            => 'publish',
 			'pagination'             => true,
 		 	'paged'                  => $page,
 			'ignore_sticky_posts'    => false,
 			'order'                  => 'DESC',
 			'orderby'                => 'date',
 		);
-	
+
+		/* compatibility hook for plugins that filter posts globally using pre_get_posts */
+		$args = apply_filters ( 'responsive_tabs_ajax_pre_get_posts', $args );
 
 		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
@@ -324,7 +338,7 @@ class Responsive_Tabs_Ajax_Handler {
 	
 		// The Query
 		$link_query = new WP_Query( $args );
-	
+			
 		if ( $link_query->have_posts() ) {
 			if ( $widget_mode ) {
 				echo '<!-- responsive-tabs-widgets.php -->' . // echoing to avoid white spaces in inline block
@@ -424,6 +438,47 @@ class Responsive_Tabs_Ajax_Handler {
 		wp_reset_postdata();
 	}
 
+	/* general handler for wp_queries */
+	public static function non_widget_query (  
+	 		$include_string, // the WP query details 
+			$exclude_string, // not used
+			$page, 
+			$query_type // the WP query type  -- author, category, date, search, tag, index
+		) {
+			
+		$query_args = array(
+			'posts_per_page' 	=> 4, // standardized #of posts to retrieve if infinite scroll enabled
+			'paged' 				=> $page,
+			$query_type			=> $include_string, // query type should be named to equal WP_Query parameter
+		);
+		
+		
+		if ( 'date_query' == $query_type ) {
+			// recast inner object as array
+			$query_args['date_query'] = array( (array) $include_string[0] );
+		}
+		
+		/* compatibility hook for plugins that filter posts globally using pre_get_posts */
+		$query_args = apply_filters ( 'responsive_tabs_ajax_pre_get_posts', $query_args ); 		
+		
+		$ajax_main_query_next_page = new WP_Query ( $query_args );
+		/* post list */
+		global $responsive_tabs_post_list_line_count;  
+		$responsive_tabs_post_list_line_count = 1; 
+		$count = 0;
+		$found_any_posts = false;
+		while ( $ajax_main_query_next_page->have_posts() ) : 
+				$ajax_main_query_next_page->the_post(); 
+				$responsive_tabs_post_list_line_count = $responsive_tabs_post_list_line_count + 1;
+				get_template_part( 'post', 'listitems' );
+				$found_any_posts = true;
+		endwhile;  
+		if ( $found_any_posts ) {
+			echo '<span id="OK-responsive-tabs-AJAX-response"></span>';
+		}		
+		// no reset post data -- always dying at end
+	}			
+
 }
 
 
@@ -433,12 +488,14 @@ class Widget_Ajax_Parms  {
 	public $include_string;
 	public $exclude_string; 
 	public $page;
+	public $query_type;
 	
-	public function __construct ( $widget_type, $include_string = '', $exclude_string = '', $page = 0 ) {
+	public function __construct ( $widget_type, $include_string = '', $exclude_string = '', $page = 0, $query_type = '' ) {
 		$this->widget_type = $widget_type;	
 		$this->include_string = $include_string;
 		$this->exclude_string = $exclude_string;
 		$this->page = $page;
+		$this->query_type = $query_type;
 	}
 }
 

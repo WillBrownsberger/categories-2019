@@ -74,7 +74,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 			</label>
 		<?php }
 	}
-	
+
 	/* short title for mobile added to main site info section*/
 	
 	$wp_customize->add_setting( 'site_short_title', array(
@@ -347,6 +347,18 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	) );	
 
 	$wp_customize->add_setting( 'welcome_splash_site_info_on', array(
+	    'default' => 0,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
+	) );
+
+	/* infinite scroll */ 
+	$wp_customize->add_section( 'disable_infinite_scroll_global_section' , array(
+	    'title'      => __( 'Infinite Scroll', 'responsive-tabs' ),
+	    'priority'   => 221,
+	    'description' => __( 'Check to DISable infinite scroll for queries and use standard WP pagination.', 'responsive-tabs' ) 
+	) );	
+	
+	$wp_customize->add_setting( 'disable_infinite_scroll_global', array(
 	    'default' => 0,
 	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
@@ -712,6 +724,17 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'priority'	=>	10,
 	) );
 
+	/* disable_infinite_scroll */
+
+	$wp_customize->add_control( 'disable_infinite_scroll_global', array(
+	    'settings' => 'disable_infinite_scroll_global',
+	    'label'    => __( '(Controls main, not widget, queries.)', 'responsive-tabs' ),
+	    'section'  => 'disable_infinite_scroll_global_section',
+	    'type'     => 'checkbox',
+	    'priority'	=>	10,
+	) );
+
+	/* end of controls section */
 }
 
 add_action('customize_register', 'responsive_tabs_theme_customizer');

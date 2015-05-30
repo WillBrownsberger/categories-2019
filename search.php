@@ -16,6 +16,18 @@ get_header();
 global $wp_query;
 $total_results = $wp_query->found_posts;
 $query_vars = $wp_query->query_vars;
+
+// set up parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
+global $responsive_tabs_infinite_scroll_ajax_parms;
+$widget_parms = new Widget_Ajax_Parms ( 
+	'non_widget_query', 			// widget_type
+	$query_vars['s'],				// $include_string,
+	'', 								// $exclude_string,
+	2, 								// page 2 is second page; pagination is incremented after retrieval;
+	's'								// $query_type
+);
+$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
+
 ?>
 
 <!-- responsive-tabs search.php -->

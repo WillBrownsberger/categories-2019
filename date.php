@@ -12,8 +12,6 @@
 
 get_header();
 
-
-
 /* set up title for date search -- note maintaining US formatted dates, but localizing month; consistent with date link formatting */
 $m = get_query_var( 'm' );
 $year = get_query_var( 'year' );
@@ -22,6 +20,35 @@ $day = get_query_var( 'day') ;
 $display_month = $monthnum ? $wp_locale->get_month( $monthnum ) . ' ' : ''; 
 $display_day = $day ? $day . ', ' : '';
 $display_date = $display_month . $display_day . $year;
+
+// parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
+global $responsive_tabs_infinite_scroll_ajax_parms;
+
+// put date query parameters into single array
+$date_query = array();
+if ( $year > 0 ) {
+	$date_query['year'] = $year;
+}
+if ( $monthnum > 0 ) {
+	$date_query['month'] = $monthnum;
+}
+if ( $day > 0 ) {
+	$date_query['day'] = $day;
+}
+$widget_parms = new Widget_Ajax_Parms ( 
+	'non_widget_query', 	// widget_type
+	array ( 					// $include_string,
+		$date_query
+	),
+	'', 						// $exclude_string,
+	2, 						// page 2 is second page; pagination is incremented after retrieval;
+	'date_query' 						// $query_type
+);
+$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
+
+
+
+
 
 ?><!-- responsive-tabs date.php -->
 
