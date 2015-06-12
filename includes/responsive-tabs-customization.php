@@ -363,6 +363,10 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 
+	$wp_customize->add_setting( 'disable_infinite_scroll_comments', array(
+	    'default' => 0,
+	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
+	) );
 	
 	/* CONTROLS
 	-------------------------------------------------------*/	
@@ -733,6 +737,15 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'type'     => 'checkbox',
 	    'priority'	=>	10,
 	) );
+
+	$wp_customize->add_control( 'disable_infinite_scroll_comments', array(
+	    'settings' => 'disable_infinite_scroll_comments',
+	    'label'    => __( '(Controls comments on posts, pages.)', 'responsive-tabs' ),
+	    'section'  => 'disable_infinite_scroll_global_section',
+	    'type'     => 'checkbox',
+	    'priority'	=>	20,
+	) );
+
 
 	/* end of controls section */
 }

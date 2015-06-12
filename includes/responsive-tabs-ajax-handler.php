@@ -25,7 +25,7 @@ class Responsive_Tabs_Ajax_Handler {
 		}
 
 		$next_function = $widget_parms->widget_type;		
-		if ( 'latest_posts' == $next_function || 'latest_links' == $next_function ) {
+		if ( 'latest_posts' == $next_function || 'latest_links' == $next_function || 'comment_query' == $next_function ) {
 			self::$next_function ( 
 				$widget_parms->include_string, 
 				$widget_parms->exclude_string, 
@@ -409,7 +409,7 @@ class Responsive_Tabs_Ajax_Handler {
 					echo '</ul><!-- close links list -->'; 
 					echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
 						'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
-						'"></span>'; 
+						'"></img></span>'; 
 					// if infinite scroll is disabled, do the usual page links
 				} else { 
 					echo '</ul><!-- close links list -->'; 
@@ -479,6 +479,30 @@ class Responsive_Tabs_Ajax_Handler {
 		// no reset post data -- always dying at end
 	}			
 
+
+	public static function comment_query ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ) {
+
+ 		global $wp_query;
+ 		
+ 		// set comment page global so that it will be accessible to comments-ajax.php (included in comments_template below);
+ 		global $responsive_tabs_ajax_comment_page;
+		$responsive_tabs_ajax_comment_page = $page;
+ 		
+ 		// point $wp_query global to the single post for which we are retrieving comments ( will die after doing the comment list, so no reset)
+ 		$args = array (
+			'p' => $include_string, 		
+ 		);
+ 		$wp_query = new WP_Query ( $args ); 
+
+		// invoke comments_template in the loop (will do pagination in comments-ajax.php)
+ 		while ( $wp_query->have_posts() ) {
+			$wp_query->the_post();
+			comments_template( '/comments-ajax.php' ); 			
+ 		}
+
+	}
+
+
 }
 
 
@@ -498,6 +522,4 @@ class Widget_Ajax_Parms  {
 		$this->query_type = $query_type;
 	}
 }
-
-
 

@@ -285,7 +285,7 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 	jQuery(document).ready(function($) {
 		parmsCount	= jQuery( ".responsive_tabs_infinite_scroll_parms" ).length;
 		if ( parmsCount > 1 ) {
-			alert ( 'Warning: You may not simultaneously display two widgets with infinite scroll enabled. Neither will work. Disable scroll for one of them or put them in separate tabs.' );		
+			alert ( responsiveTabsErrorObject.dupScrollErrorString ); // localized in theme functions.php		
 		} else if ( 1 == parmsCount ) {
 			ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
 			// set up scroll event
@@ -298,7 +298,7 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 
 	function doScrollCall () { 				
 		regionBottom = jQuery ( "#responsive-tabs-ajax-insert" ).offset().top + jQuery ( "#responsive-tabs-ajax-insert" ).height();
-		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 300 ) ) && 0 == scrollCallOutstanding ) {
+		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 500 ) ) && 0 == scrollCallOutstanding ) {
 			scrollCallOutstanding = 1;
 			ajaxSpinner = jQuery( "#responsive-tabs-post-list-ajax-loader" );
 			ajaxSpinner.show();

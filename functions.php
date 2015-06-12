@@ -46,12 +46,18 @@ function responsive_tabs_theme_setup() {
 
 			// name spacing the AJAX URL in script by putting it into js global object and setting nonce
 			// name spacing matches calls in responsive-tabs-utilities.js
-			wp_localize_script( 'responsive-tabs-utilities', 'responsive_tabs_ajax_object',
+		wp_localize_script( 'responsive-tabs-utilities', 'responsive_tabs_ajax_object',
             array( 
             	'ajax_url' 			=> admin_url( 'admin-ajax.php' ),
             	'responsive_tabs_ajax_nonce' 	=> wp_create_nonce ( 'responsive_tabs_ajax_nonce' ),  
             ) 
 			);	
+		
+		wp_localize_script( 'responsive-tabs-utilities', 'responsiveTabsErrorObject',
+            array( // line break inserted without subsequent indentation for compact alert formatting
+            	'dupScrollErrorString'		=> __( 'Warning: You may not simultaneously display two widgets with infinite scroll enabled. Neither will work. Disable scroll for one of them or put them in separate tabs.', 'responsive-tabs' ),
+            ) 
+			);		
 		
 		if ( is_singular() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );		
