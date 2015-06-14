@@ -21,11 +21,11 @@ if ( ! empty ( $wp_query->comments ) ) {
 	// avoids vulnerability to user unsetting page_comments ( get_comment_page_count() fixes page_count to 1 in this case )
 	if ( 1 == get_option('thread_comments') ) {
 		$walker = new Walker_Comment;
-		// standardizing retrieval count at 4 comments for ajax calls -- let comments_per_page option setting drive only the non-infinite-scroll processing
+		// standardizing retrieval count at 10 comments for ajax calls -- let comments_per_page option setting drive only the non-infinite-scroll processing
 		// use of even number assures color alternation consistency
-		$responsive_tabs_ajax_comment_pages_count = ceil( $walker->get_number_of_root_elements( $wp_query->comments ) / 4 );
+		$responsive_tabs_ajax_comment_pages_count = ceil( $walker->get_number_of_root_elements( $wp_query->comments ) / 10 );
 	} else {
-		$responsive_tabs_ajax_comment_pages_count = ceil( count( $wp_query->comments ) / 4 );
+		$responsive_tabs_ajax_comment_pages_count = ceil( count( $wp_query->comments ) / 10 );
 	}
 
 	// comment page will be retrieved in range from 1 to pages count or reverse, but will not be retrieved if <= zero 
@@ -37,7 +37,7 @@ if ( ! empty ( $wp_query->comments ) ) {
 			$responsive_tabs_ajax_comment_page + 1 ;		
 		$list_args = array (
 			'page'              => $comment_page_to_get, 	
-			'per_page'          => 4,	// standardized per_page   
+			'per_page'          => 10,	// standardized per_page   
 		);
 		
 		wp_list_comments( $list_args );

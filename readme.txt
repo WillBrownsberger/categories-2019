@@ -72,6 +72,8 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.21 (2015-06-14)
++  Adjust infinite scroll standard page length for comments
 Version 2.2 (2015-06-12)
 +  Add Infinite Scroll for comments
 +  Internationalize error message for too many infinite scroll widgets
