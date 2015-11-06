@@ -63,12 +63,12 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 				if ( is_user_logged_in() ) {
            		$current_user = wp_get_current_user();
            		if ( current_user_can( 'edit_others_posts' ) ) {
-						echo '<li><a href="/wp-admin">' . __( 'dashboard', 'responsive-tabs' ) . '</a></li>';
+						echo '<li><a href="' . site_url() . '/wp-admin">' . __( 'dashboard', 'responsive-tabs' ) . '</a></li>';
 					} else {
 		           	if (class_exists('bbPress')) { //  is_plugin_active('bbpress/bbpress.php')
-		           		$profile_link = esc_url( '/forums/users/'. $current_user->user_login );
+		           		$profile_link = esc_url( site_url() . '/forums/users/'. $current_user->user_login );
 		           	} else {
-		   				$profile_link = '/wp-admin/profile.php';
+		   				$profile_link = site_url() . '/wp-admin/profile.php';
 		   			}
 		    			echo '<li><a href="'. $profile_link . '" title="'. __( 'profile for ', 'responsive-tabs' ) . esc_attr( $current_user->display_name ). '">' . __('view profile', 'responsive-tabs' ) . '</a></li>';
 		    		}

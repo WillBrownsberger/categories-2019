@@ -2,7 +2,7 @@
 Contributors: Will Brownsberger (development), Jane Winsor (Graphic Design)
 Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar, infinite-scroll
 Requires at least: 3.9
-Tested up to: 4.2.2
+Tested up to: 4.3.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.22 (2015-11-06)
++  4.3 compatibility: In theme customizer, move theme controls in deprecated 'nav' section to theme specific section.
++  Fix: Use site_url to properly support installations in subdirectories
 Version 2.21 (2015-06-14)
 +  Adjust infinite scroll standard page length for comments
 Version 2.2 (2015-06-12)

@@ -257,12 +257,12 @@ class Responsive_Tabs_Ajax_Handler {
 					$output .=	'<div id = "next-previous-links">'; 
 						if ( $comment_page > 0 ) {	
 							$output .= '<div id="previous-posts-link">' .
-									'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page - 1 ) . '">&laquo; ' . __( 'newer comments', 'responsive-tabs' ) . '</a></strong>' .					 
+									'<strong><a href="' . site_url() . '/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page - 1 ) . '">&laquo; ' . __( 'newer comments', 'responsive-tabs' ) . '</a></strong>' .					 
 							'</div>';
 						} 
 						if (  $number + 1 == $found_count ) { 
 							$output .=	'<div id="next-posts-link">' .
-									'<strong><a href="/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page + 1 ) . '">' . __( 'older comments', 'responsive-tabs' ) . ' &raquo;</a></strong>' .
+									'<strong><a href="' . site_url() . '/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page + 1 ) . '">' . __( 'older comments', 'responsive-tabs' ) . ' &raquo;</a></strong>' .
 							'</div>'; 
 						}
 					$output .= '</div>';

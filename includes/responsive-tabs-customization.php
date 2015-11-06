@@ -243,6 +243,14 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_text_field'
 	) );
 	
+
+	/* note: formerly in nav section, removed in 4.3 */
+	$wp_customize->add_section( 'responsive_tabs_navigation_section' , array(
+	    'title'      => __( 'Theme Navigation', 'responsive-tabs' ),
+	    'priority'   => 105,
+	    'description' => __( 'Set Responsive Tabs navigation options', 'responsive-tabs' ), 
+	) );	
+
 	/* login links in sidemenu bar */
 	
 	$wp_customize->add_setting( 'show_login_links', array(
@@ -295,7 +303,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	/* accordions */
 	$wp_customize->add_section( 'footer_accordions_section' , array(
 	    'title'      	=> __( 'Footer Accordions', 'responsive-tabs' ),
-	    'priority'   	=> 100,
+	    'priority'   	=> 110,
 	    'description'	=> __( 'Enter ID numbers of Posts or Pages separated by commas, like so <code>348,11,592</code>. 
 	    						Titles will be accordion titles.  Content will appear when clicked.  
 	    						<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>', 'responsive-tabs' ),
@@ -587,7 +595,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_control( 'show_login_links', array(
 	    'settings' => 'show_login_links',
 	    'label'    => __( 'Show Login Links in Main Menu', 'responsive-tabs' ),
-	    'section'  => 'nav',
+	    'section'  => 'responsive_tabs_navigation_section',
 	    'type'     => 'checkbox',
 	    'priority'	=>	30,
 	) );
@@ -597,14 +605,14 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_control( 'show_breadcrumbs', array(
 	    'settings' => 'show_breadcrumbs',
 	    'label'    => __( 'Show Theme Breadcrumbs', 'responsive-tabs' ),
-	    'section'  => 'nav',
+	    'section'  => 'responsive_tabs_navigation_section',
 	    'type'     => 'checkbox',
 	    'priority'	=> 40
 	) );
 		
 	$wp_customize->add_control( 'category_home', array(
 	    'label'   	=> __( 'Home tab for category breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings' => 'category_home',
 	    'choices'  => $landing_tab_options_array,
@@ -613,7 +621,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_control( 'date_home', array(
 	    'label'   	=> __( 'Home tab for date breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings' => 'date_home',
 	    'choices'  => $landing_tab_options_array,
@@ -622,7 +630,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_control( 'author_home', array(
 	    'label'   	=> __( 'Home tab for author breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings' => 'author_home',
 	    'choices'  => $landing_tab_options_array,
@@ -631,7 +639,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_control( 'search_home', array(
 	    'label'   	=> __( 'Home tab for search breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings'	=> 'search_home',
 	    'choices' 	=> $landing_tab_options_array,
@@ -640,7 +648,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_control( 'tag_home', array(
 	    'label'   	=> __( 'Home tab for tag breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings' => 'tag_home',
 	    'choices'  => $landing_tab_options_array,
@@ -649,7 +657,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 	$wp_customize->add_control( 'page_home', array(
 	    'label'   	=> __( 'Home tab for page breadcrumb', 'responsive-tabs' ),
-	    'section' 	=> 'nav',
+	    'section' 	=> 'responsive_tabs_navigation_section',
 	    'type'    	=> 'select',
 	    'settings' => 'page_home',
 	    'choices'  => $landing_tab_options_array,
@@ -659,7 +667,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_control( 'suppress_bbpress_breadcrumbs', array(
 	    'settings' => 'suppress_bbpress_breadcrumbs',
 	    'label'    => __( 'Suppress bbPress Breadcrumbs', 'responsive-tabs' ),
-	    'section'  => 'nav',
+	    'section'  => 'responsive_tabs_navigation_section',
 	    'type'     => 'checkbox',
 	    'priority'	=> 100,
 	) );
