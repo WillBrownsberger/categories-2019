@@ -72,7 +72,7 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 		   			}
 		    			echo '<li><a href="'. $profile_link . '" title="'. __( 'profile for ', 'responsive-tabs' ) . esc_attr( $current_user->display_name ). '">' . __('view profile', 'responsive-tabs' ) . '</a></li>';
 		    		}
-					echo '<li><a href="' . wp_logout_url( $redirect_to ) . '">' . __( 'logout', 'responsive_tabs' ) . '</a></li>';
+					echo '<li><a href="' . wp_logout_url( $redirect_to ) . '">' . __( 'logout', 'responsive-tabs' ) . '</a></li>';
 		 		} else {
 					echo '<li><a href="' . wp_login_url( $redirect_to ) . '">' . __( 'login', 'responsive-tabs' ) . '</a></li>';
 				}

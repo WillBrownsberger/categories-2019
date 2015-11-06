@@ -21,7 +21,7 @@ class Responsive_Tabs_Ajax_Handler {
 		// not updating nonce -- relying on availability for some hours, long enough for user to probably refresh screen
 		$nonce = $_POST['responsive_tabs_ajax_nonce'];
 		if ( ! wp_verify_nonce ( $nonce, 'responsive_tabs_ajax_nonce' ) ) {
-			 die ( __( 'Bad nonce in AJAX call to Responsive_Tabs_Ajax_Handler', 'responsive_tabs' ) );		
+			 die ( __( 'Bad nonce in AJAX call to Responsive_Tabs_Ajax_Handler', 'responsive-tabs' ) );		
 		}
 
 		$next_function = $widget_parms->widget_type;		
@@ -346,8 +346,8 @@ class Responsive_Tabs_Ajax_Handler {
 					'<li class = "pl-odd">' .
 						'<ul class = "pl-headers">' .
 							'<li class = "pl-post-title">' 	 . __( 'Headline', 'responsive-tabs' ) . '</li>' . 
-							'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive' ) . ' </li>' .
-							'<li class = "pl-post-date-time">'. __( 'Date', 'responsive' ) . '</li>' .
+							'<li class = "pl-post-author">' 	 . __( 'Categories, Tags', 'responsive-tabs' ) . ' </li>' .
+							'<li class = "pl-post-date-time">'. __( 'Date', 'responsive-tabs' ) . '</li>' .
 						'</ul>' .
 					'</li>';
 			}	
@@ -361,7 +361,7 @@ class Responsive_Tabs_Ajax_Handler {
 				$read_more_pointer = ( 
 					comments_open() ? 
 						( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
-								'title="'. __( 'View the link with comments on this site ', 'responsive_tabs' ) . '">' . 
+								'title="'. __( 'View the link with comments on this site ', 'responsive-tabs' ) . '">' . 
 								__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
 						: '' ) . 
 					'<a href="' .  $link . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 

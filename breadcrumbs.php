@@ -68,10 +68,10 @@ if ( function_exists( 'bcn_display' ) ) {
 			echo $home_link . __( 'posts by author &raquo; ', 'responsive-tabs'); 	
 		} elseif ( is_search() ) {
 			$home_link =  '<a href="' . site_url() . '/?frontpagetab=' . get_theme_mod( 'search_home' ) . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
-			echo $home_link . __( 'string search of titles and content &raquo;', 'responsive_tabs' ); 	
+			echo $home_link . __( 'string search of titles and content &raquo;', 'responsive-tabs' ); 	
 		} elseif ( is_tag() ) {
 			$home_link =  '<a href="' . site_url() . '/?frontpagetab=' . get_theme_mod( 'tag_home' )  . '">' . __( 'home', 'responsive-tabs' ) . '</a> &raquo; ';
-			echo $home_link . __( 'search by tag &raquo;', 'responsive_tabs' ); 	
+			echo $home_link . __( 'search by tag &raquo;', 'responsive-tabs' ); 	
 		}
 	echo '</div>';
 } /* close else for breadcrumbs options set */

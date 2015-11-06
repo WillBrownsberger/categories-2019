@@ -307,7 +307,7 @@ add_action( 'after_setup_theme', 'responsive_tabs_theme_support_setup' );
 function responsive_tabs_call_meta_box( $post_type, $post ) {
    add_meta_box(
        'responsive_tabs_post_width_setting_box',
-       __( 'Post Display Width', 'responsive_tabs' ),
+       __( 'Post Display Width', 'responsive-tabs' ),
        'responsive_tabs_post_width_meta_box',
        'post',
        'side',

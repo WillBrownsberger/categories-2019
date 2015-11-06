@@ -72,6 +72,8 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.23 (2015-11-06)
++  Translation domain corrections.
 Version 2.22 (2015-11-06)
 +  4.3 compatibility: In theme customizer, move theme controls in deprecated 'nav' section to theme specific section.
 +  Fix: Use site_url to properly support installations in subdirectories
