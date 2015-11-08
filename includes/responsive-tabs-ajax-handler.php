@@ -31,7 +31,8 @@ class Responsive_Tabs_Ajax_Handler {
 				$widget_parms->exclude_string, 
 				$widget_parms->page, 
 				false, 
-				0 
+				0,
+				$widget_parms->supplemental_filter // only appears in latest_posts
 				);
 		} elseif ( 'latest_comments' == $next_function ) {
 			$output = self::$next_function ( 
@@ -56,7 +57,7 @@ class Responsive_Tabs_Ajax_Handler {
 
 
 	/* generates list items for Front Page Latest Posts widget and AJAX calls within that widget */
-	public static function latest_posts ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ) {
+	public static function latest_posts ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll, $supplemental_filter = '' ) {
 
 		$query_args = array (
 			'pagination'             => true,
@@ -67,7 +68,7 @@ class Responsive_Tabs_Ajax_Handler {
 		); 
 
 		$include_cats_list = $include_string > '' ? explode ( ',', $include_string ) : '';
-   	$exclude_cats_list = $exclude_string > '' ? explode ( ',', $exclude_string ) : '';
+   		$exclude_cats_list = $exclude_string > '' ? explode ( ',', $exclude_string ) : '';
 		if ( isset ( $include_cats_list[0] ) )	{
 			if ( $include_cats_list[0] > '' ) {
 				$query_args['category__in'] = $include_cats_list;
@@ -78,6 +79,11 @@ class Responsive_Tabs_Ajax_Handler {
 				$query_args['category__not_in'] = $exclude_cats_list;
 			}		
 		}      
+
+		// use supplemental field to select an author screen
+		if ( $supplemental_filter > '' ) {
+			$query_args['author'] = $supplemental_filter;
+		}
 
 		$scroll_marker = '';
 		if ( 0 == $disable_infinite_scroll ) {
@@ -118,7 +124,9 @@ class Responsive_Tabs_Ajax_Handler {
 						'latest_posts', 
 						$include_string,
 						$exclude_string,
-						2 // page 2 is second page; pagination is incremented after retrieval;
+						2, // page 2 is second page; pagination is incremented after retrieval;
+						'',
+						$supplemental_filter
 					);
 					$widget_parms_string = json_encode( $widget_parms );
 					echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
@@ -513,13 +521,15 @@ class Widget_Ajax_Parms  {
 	public $exclude_string; 
 	public $page;
 	public $query_type;
+	public $supplemental_filter;
 	
-	public function __construct ( $widget_type, $include_string = '', $exclude_string = '', $page = 0, $query_type = '' ) {
+	public function __construct ( $widget_type, $include_string = '', $exclude_string = '', $page = 0, $query_type = '', $supplemental_filter = '' ) {
 		$this->widget_type = $widget_type;	
 		$this->include_string = $include_string;
 		$this->exclude_string = $exclude_string;
 		$this->page = $page;
 		$this->query_type = $query_type;
+		$this->supplemental_filter = $supplemental_filter;
 	}
 }
 

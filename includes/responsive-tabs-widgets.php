@@ -665,7 +665,8 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		$include_string = isset( $instance['include_cats_list'] ) ? $instance['include_cats_list']  : '' ;
 		$exclude_string = isset( $instance['exclude_cats_list'] ) ? $instance['exclude_cats_list']  : '';
 		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;		
-
+		$supplemental_filter 			= isset( $instance['supplemental_filter'] ) ? $instance['supplemental_filter'] : '';
+		
 		echo $before_widget  ;										// is blank in home widget areas
 		
 		if ( $title ) {
@@ -676,17 +677,25 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 		$widget_mode = true;
 		/* call the query to get posts */
-		$output = Responsive_Tabs_Ajax_Handler::latest_posts ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ); 
+		$output = Responsive_Tabs_Ajax_Handler::latest_posts ( 
+			$include_string, 
+			$exclude_string, 
+			$page, 
+			$widget_mode, 
+			$disable_infinite_scroll,
+			$supplemental_filter 
+			); 
 		
 		echo $after_widget ;									// is blank in home widget areas
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance 							 = $old_instance;
-		$instance['title'] 				 			= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
+		$instance 							 	= $old_instance;
+		$instance['title'] 				 		= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
 		$instance['include_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
 		$instance['exclude_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
 		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
+		$instance['supplemental_filter'] 		= absint( $new_instance['supplemental_filter'] );
 		return $instance;
 	}
 
@@ -696,6 +705,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['include_cats_list'] ) : '';
 		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_cats_list'] ) : '';
 		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
+		$supplemental_filter 			= isset( $instance['supplemental_filter'] ) ? $instance['supplemental_filter'] : '';
 		?>
 
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
@@ -706,12 +716,45 @@ class Front_Page_Latest_Posts extends WP_Widget {
 
 		<p><label for="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_cats_list' ); ?>" type="text" value="<?php echo $exclude_cats_list; ?>" size="30" /></p>
-		 	
+
+		<?php // set up author select
+			global $wpdb;
+			$author_count_array = $wpdb->get_results(
+				"
+				SELECT DISTINCT post_author, display_name, COUNT(p.ID) AS post_count 
+				FROM $wpdb->posts p INNER JOIN $wpdb->users u on u.id = p.post_author 
+				WHERE post_type = 'post' AND post_status = 'publish' 
+				GROUP BY post_author 
+				ORDER BY display_name
+				" 
+				); 
+		
+			$option_list = '';
+			$p = '';
+			$r = '';
+			array_unshift ( $author_count_array, json_decode ( '{"post_author":"", "display_name":"' . __( 'Select an author', 'wp-issues-crm' ) . '"}' ) );
+			foreach ( $author_count_array as $option ) {
+				$label = $option->display_name;
+				if ( $supplemental_filter == $option->post_author ) { // Make selected first in list
+					$p = '<option selected="selected" value="' . esc_attr( $option->post_author ) . '">' . esc_html ( $label ) . '</option>';
+				} else {
+					$r .= '<option value="' . esc_attr( $option->post_author ) . '">' . esc_html( $label ) . '</option>';
+				}
+			}
+			$option_list .=	$p . $r;
+		?>
+
+		<p><label for="<?php echo $this->get_field_id( 'supplemental_filter' ); ?>"><?php _e( 'Limit posts to author:<br />', 'responsive-tabs' ); ?></label>
+		<select id="<?php echo $this->get_field_id( 'supplemental_filter' ); ?>" name="<?php echo $this->get_field_name( 'supplemental_filter' ); ?>"> 
+			<?php echo $option_list; ?>
+		</select></p>
+
 		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
 	 	
 	 	<?php
 	} 
+
 }
 
 

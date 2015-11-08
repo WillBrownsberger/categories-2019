@@ -72,6 +72,8 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.24 (2015-11-08)
++  Add author filter option to Front Page Post Widget
 Version 2.23 (2015-11-06)
 +  Translation domain corrections.
 Version 2.22 (2015-11-06)
