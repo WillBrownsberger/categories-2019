@@ -1,8 +1,8 @@
 === Responsive-Tabs ===
 Contributors: Will Brownsberger (development), Jane Winsor (Graphic Design)
 Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar, infinite-scroll
-Requires at least: 3.9
-Tested up to: 4.3.1
+Requires at least: 4.4
+Tested up to: 4.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.25 (2015-11-26)
++  Amend comment Ajax calls for consistency with new comment objects in 4.4
++  Eliminate name/email js validation for consistency with new comment form in 4.4
 Version 2.24 (2015-11-08)
 +  Add author filter option to Front Page Post Widget
 Version 2.23 (2015-11-06)

@@ -212,28 +212,6 @@ function getFirstChildWithTagName( element, tagName ) {
       }
 }
 
-/* Notifies user who has entered text to non-entry of name and email -- can proceed to submit comment anyway, but 
-   may lose comment text if name and email are set as required in settings>discussion (browsers do not consistently protect against 
-   loss of entered data on back button use )  */
-    
-function checkNameEmailOnComments() {  
-	
-   commentform = document.getElementById('commentform');	
-	
-	author 	= commentform.author.value;	
-	email 	= commentform.email.value;
-	
-	atpos 	= email.indexOf("@");
-	dotpos 	= email.lastIndexOf(".");
-	
-	if ( author.length < 1 ) { 
-		alert ( 'Please enter a Name.' );
-	} else if ( atpos< 1 || dotpos<atpos+2 || dotpos+2>= email.length ) {
-		alert ( 'Please enter a valid email address.' );
-	}
-
-}    
-
 /* operates site info toggle */
 function toggleSiteInfo() {
 

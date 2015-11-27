@@ -507,3 +507,6 @@ function responsive_tabs_url_grabber() {
 $responsive_tabs_ajax = new Responsive_Tabs_Ajax_Handler;
 add_action( 'wp_ajax_responsive_tabs', array ( $responsive_tabs_ajax, 'route_ajax' ));
 add_action( 'wp_ajax_nopriv_responsive_tabs', array ( $responsive_tabs_ajax, 'route_ajax' ));
+// add functions to override comment pagination options if doing infinite scroll 
+add_filter ( 'pre_option_comments_per_page' , array ( $responsive_tabs_ajax, 'set_comments_per_page_for_ajax' ) );
+add_filter ( 'pre_option_page_comments' , array ( $responsive_tabs_ajax, 'set_page_comments_for_ajax' ) );

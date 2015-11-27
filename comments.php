@@ -24,11 +24,7 @@ if ( comments_open() ) {
 	$req = get_option( 'require_name_email' );
 	$aria_req = ( $req ? " aria-required='true'" : '' );
 	$required_text = __( '(required)', 'responsive-tabs' );
-	$email_author_reminder =  ( $req ? ' onBlur="checkNameEmailOnComments()" ' : '' );
-		/* The onBlur function for the comment element alerts the user who has entered comment that s/he has not entered name or email without leaving form -- 
-		*  user can proceed to submit form anyway.  This is a courtesy -- some browsers allow input to be lost if edits failed and must use back button. 
-		*/
-	
+
 	$args = array(
 	  'id_form'           => 'commentform',
 	  'id_submit'         => 'submit',
@@ -37,8 +33,7 @@ if ( comments_open() ) {
 	  'cancel_reply_link' => __( 'Cancel reply', 'responsive-tabs' ),
 	  'label_submit'      => __( 'Post Comment', 'responsive-tabs' ),
 	
-	  'comment_field' =>  '<p class="comment-form-comment"><textarea id="comment" name="comment" cols="40" rows="10" aria-required="true"' .
-	  		$email_author_reminder . '>' .
+	  'comment_field' =>  '<p class="comment-form-comment"><textarea id="comment" name="comment" cols="40" rows="10" aria-required="true">' .
 	    '</textarea></p>',
 	
 	  'must_log_in' => '<p class="must-log-in">' .

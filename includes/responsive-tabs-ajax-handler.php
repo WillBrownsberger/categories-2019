@@ -489,28 +489,77 @@ class Responsive_Tabs_Ajax_Handler {
 
 
 	public static function comment_query ( $include_string, $exclude_string, $page, $widget_mode, $disable_infinite_scroll ) {
+ 
+ 		/*
+		* In 4.4, pagination controlled through WP_Comment_Query, so have to override discussion settings to do AJAX pagination.
+		* Set filters in functions.php (pointing back to methods further below) to set page_comments = 1 and comments_per_page = 10
+		* Also need to set page for WP_Comment_Query ( invoked in comments_template ) by overrideing query var. 
+		*
+		* Note: $page starts at 0 and is incremented in js after response from each ajax call; 
+ 		*/
 
+		// point $wp_query global to the single post for which we are retrieving comments (no need to reset; will die before reuse);
  		global $wp_query;
- 		
- 		// set comment page global so that it will be accessible to comments-ajax.php (included in comments_template below);
- 		global $responsive_tabs_ajax_comment_page;
-		$responsive_tabs_ajax_comment_page = $page;
- 		
- 		// point $wp_query global to the single post for which we are retrieving comments ( will die after doing the comment list, so no reset)
  		$args = array (
 			'p' => $include_string, 		
- 		);
+ 		); 
  		$wp_query = new WP_Query ( $args ); 
 
-		// invoke comments_template in the loop (will do pagination in comments-ajax.php)
+		// still have to ask for the right page although pages will be set up by comments_template below
+		// first set a top-level comment count.
+		$count_query = new WP_Comment_Query();
+		$top_level_count_args = array(
+				'count'   => true,
+				'orderby' => false,
+				'post_id' => $include_string,
+				'parent'  => 0, // note that if threading is disabled after threaded comments are posted
+								// walker will still put them on same page as parent, even if exceeds per_page
+								// so no point in checking whether threading before setting this arg
+			);
+
+		$top_level_count = $count_query->query( $top_level_count_args );
+
+		if ( 'desc' == get_option( 'comment_order' ) ) {
+			$page_needed = ceil ( $top_level_count / 10 ) - $page ; 
+ 		} else {
+ 			$page_needed = $page + 1 ;
+ 		}
+		// go no further if have already shown all pages;
+		if ( 0 >= $page_needed || $page_needed > ceil ( $top_level_count / 10 ) ) {
+			echo '<!-- responsive-tabs-ajax-handler.php -- page out of range-->';
+			die; 
+		} 
+		set_query_var( 'cpage' , $page_needed );
+
+		// invoke comments_template in the loop ( pagination parameters for comments implemented in comments_template )
+		// comments_template sets up a lot of variables for the query passed to WP_Comments_Query and tucks results into $wp_query
+		// could go directly to comment query and wp_list_comment, but would duplicate much of the comments_template code
  		while ( $wp_query->have_posts() ) {
 			$wp_query->the_post();
-			comments_template( '/comments-ajax.php' ); 			
+			// following shouldn't be necessary, but is_single() is not performing in 4.4 as it did previously in this context
+			// comments_template exits after a first test as to whether is appropriate to look for comments_open
+			// comments_template looks for one of following to be true: is_single, is_page or $withcomments 
+			global $withcomments;
+			$withcomments = true; 
+			comments_template( '/comments-ajax.php' );
  		}
-
+ 
 	}
 
-
+	/*
+	* The following two functions are filters for the get_option function
+	*/
+	// set per page comments at 10 -- reasonable load and even number to assure color alternation works
+	public function set_comments_per_page_for_ajax() {
+		$disable_infinite_scroll = get_theme_mod ( 'disable_infinite_scroll_comments' );
+		return ( $disable_infinite_scroll ? false : 10 );
+	}
+	// goal of ajax loading is speed of initial load, so do want to paginate to be able to handle large comment counts
+	public function set_page_comments_for_ajax() {
+		$disable_infinite_scroll = get_theme_mod ( 'disable_infinite_scroll_comments' );
+		return ( $disable_infinite_scroll ? false : 1 );
+	}
+	
 }
 
 
