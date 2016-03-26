@@ -2,7 +2,7 @@
 Contributors: Will Brownsberger (development), Jane Winsor (Graphic Design)
 Tags:  light, responsive-layout, fluid-layout, custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar, infinite-scroll
 Requires at least: 4.4
-Tested up to: 4.4
+Tested up to: 4.5
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,10 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.26 (2016-03-26)
++  Fix stray div tag in support for breadcrumb plugins
++  Eliminate defunct "Highlight Headline Small Screen" option
++  Test with release candidate 4.5
 Version 2.25 (2015-11-26)
 +  Amend comment Ajax calls for consistency with new comment objects in 4.4
 +  Eliminate name/email js validation for consistency with new comment form in 4.4

@@ -106,12 +106,7 @@ function responsive_tabs_customize_css() { ?>
 		#welcome-splash {
 			background-color: <?php echo get_theme_mod( 'welcome_splash_background_color'); ?>;		
 		}			
-	
-		@media only screen and (max-width: 840px) {
-			#highlight-headline	{
-				font-size: <?php echo get_theme_mod( 'highlight_headline_font_size_small_screen' ); ?>;
-			}
-		}
+
 	
 		<?php	if( get_theme_mod( 'custom_css' ) > ''  ) {	
 			echo '/* responsive-tab css directly input in admin>appearance>customize(echoed in responsive-tabs-customization-css.php) */

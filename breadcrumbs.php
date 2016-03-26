@@ -12,15 +12,15 @@
 if ( function_exists( 'bcn_display' ) ) {  
 	echo '<div id="breadcrumbs">';		
 		bcn_display();
-	echo 'div';
+	echo '</div>';
 } elseif ( function_exists( 'breadcrumb_trail' ) ) {
 	echo '<div id="breadcrumbs">';		
 		breadcrumb_trail();
-	echo 'div';
+	echo '</div>';
 } elseif ( function_exists( 'yoast_breadcrumb' ) ) {
 	echo '<div id="breadcrumbs">';		
 		yoast_breadcrumb( '<p id="breadcrumbs">', '</p>' );
-	echo 'div';
+	echo '</div>';
 } elseif ( true === get_theme_mod( 'show_breadcrumbs' ) ) {
    echo '<div id="breadcrumbs">';		  			
 		global $wp_locale; 

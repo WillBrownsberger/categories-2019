@@ -102,11 +102,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'wp_kses_post'
 	) );
 	
-	$wp_customize->add_setting( 'highlight_headline_small_screen', array(
-	    'default' => __( 'Highlight Headline Small Screen', 'responsive-tabs' ),
-	    'sanitize_callback' => 'wp_kses_post'
-	) );
-	
 	/* tab titles */
 	$wp_customize->add_section( 'tab_titles_section' , array(
 	    'title'      => __( 'Tab Titles', 'responsive-tabs' ),
@@ -238,12 +233,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_text_field'
 	) );
 	
-	$wp_customize->add_setting( 'highlight_headline_font_size_small_screen', array(
-	    'default' => '24px',
-	    'sanitize_callback' => 'sanitize_text_field'
-	) );
-	
-
 	/* note: formerly in nav section, removed in 4.3 */
 	$wp_customize->add_section( 'responsive_tabs_navigation_section' , array(
 	    'title'      => __( 'Theme Navigation', 'responsive-tabs' ),
@@ -403,13 +392,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	   'priority'   => 2
 	) ) );
 	
-	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'highlight_headline_small_screen', array(
-		'label'      => __( 'Highlight Headline Small Screen', 'responsive-tabs' ),
-		'section'    => 'responsive_tabs_highlight',
-		'settings'   => 'highlight_headline_small_screen',
-	   'priority'   => 2
-	) ) );
-
 	/* tab titles control */		
 	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'tab_titles', array(
 		'label'      => __( 'Tab Titles', 'responsive-tabs' ),
@@ -580,16 +562,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'choices' 	=> $font_size_array,
 	    'priority'	=> 50,
 	) );
-	
-	$wp_customize->add_control( 'highlight_headline_font_size_small_screen', array(
-	    'label'   	=> __( 'Highlight Headline Font Size -- Screen < 840px', 'responsive-tabs' ),
-	    'section' 	=> 'responsive_tabs_fonts',
-	    'type'    	=> 'select',
-	    'settings' => 'highlight_headline_font_size_small_screen',
-	    'choices'  => $font_size_array,
-	    'priority'	=> 60,
-	) );
-		
+
 	/* login link control */
 	
 	$wp_customize->add_control( 'show_login_links', array(

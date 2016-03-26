@@ -32,7 +32,6 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 	
 		$highlight_headline = get_theme_mod( 'highlight_headline' );
 		$highlight_subhead =  get_theme_mod( 'highlight_subhead' );
-		$highlight_headline_small_screen = get_theme_mod( 'highlight_headline_small_screen' );
 		
 		if ( $highlight_headline > '  ' || $highlight_subhead > '  ' ) {
 		  	echo '<div id = "highlight-text-area">';
@@ -46,11 +45,6 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 						$highlight_subhead .  
 					'</div>';
 				} 
-				if( $highlight_headline_small_screen > '    ' ) {          
-			      echo '<div  id="highlight-headline-small-screen">' .
-			      	$highlight_headline_small_screen .  
-			      '</div>';
-				}        
 			echo '</div>
 			<div class = "horbar-clear-fix"></div>'; 
 		} else {
