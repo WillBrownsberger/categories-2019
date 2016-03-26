@@ -732,7 +732,7 @@ class Front_Page_Latest_Posts extends WP_Widget {
 			$option_list = '';
 			$p = '';
 			$r = '';
-			array_unshift ( $author_count_array, json_decode ( '{"post_author":"", "display_name":"' . __( 'Select an author', 'wp-issues-crm' ) . '"}' ) );
+			array_unshift ( $author_count_array, json_decode ( '{"post_author":"", "display_name":"' . __( 'Select an author', 'responsive-tabs' ) . '"}' ) );
 			foreach ( $author_count_array as $option ) {
 				$label = $option->display_name;
 				if ( $supplemental_filter == $option->post_author ) { // Make selected first in list
