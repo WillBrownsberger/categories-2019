@@ -72,6 +72,8 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
+Version 2.28 (2019-03-04)
++  Changing only main directory name to omit git 'master' suffix
 Version 2.27 (2019-03-04)
 +  Handle condition where author has been deleted
 +  Update js to handle new 5.1 comment-reply.js (add listeners after elements added by ajax in infinite scroll for comments)
