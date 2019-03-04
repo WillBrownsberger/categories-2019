@@ -14,8 +14,13 @@ get_header();
 
 /* set up title for author search */
 
-$curauth = ( get_query_var( 'author_name' ) ) ? get_user_by( 'slug', get_query_var( 'author_name' ) ) : get_userdata( get_query_var( 'author' ) );
+$curauth = get_query_var( 'author_name' ) ? get_user_by( 'slug', get_query_var( 'author_name' ) ) : get_userdata( get_query_var( 'author' ) );
 
+if ( is_object ( $curauth ) && isset ( $curauth->display_name ) ) {
+	$display_name = $curauth->display_name;
+} else {
+ 	$display_name = 'Author Name Unavailable';
+}
 // set up parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
 global $responsive_tabs_infinite_scroll_ajax_parms;
 
@@ -36,7 +41,7 @@ $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );
 
 	<?php get_template_part( 'breadcrumbs' ); ?>
 	 
- 	<h1><?php echo $curauth->display_name; ?> </h1>
+ 	<h1><?php echo $display_name; ?> </h1>
 
 	<?php echo responsive_tabs_author_dropdown (); ?>
 	

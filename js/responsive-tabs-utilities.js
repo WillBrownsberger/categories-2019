@@ -258,6 +258,7 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 ( function () {  // namespace wrapper -- anonymous self executing function 
 
 	var scrollCallOutstanding = 0;
+	var lastScrollResponseNonEmpty = true;
 
 	var ajaxWidgetParms; 
 	jQuery(document).ready(function($) {
@@ -276,7 +277,7 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 
 	function doScrollCall () { 				
 		regionBottom = jQuery ( "#responsive-tabs-ajax-insert" ).offset().top + jQuery ( "#responsive-tabs-ajax-insert" ).height();
-		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 500 ) ) && 0 == scrollCallOutstanding ) {
+		if ( ( regionBottom < ( jQuery(window).height() + jQuery(document).scrollTop() + 500 ) ) && 0 == scrollCallOutstanding && lastScrollResponseNonEmpty ) {
 			scrollCallOutstanding = 1;
 			ajaxSpinner = jQuery( "#responsive-tabs-post-list-ajax-loader" );
 			ajaxSpinner.show();
@@ -287,12 +288,18 @@ function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
 			};
 			jQuery.post( responsive_tabs_ajax_object.ajax_url, postData, function( response ) {
 				jQuery( "#responsive-tabs-ajax-insert" ).append (response);
+				if ( '' == response || response.indexOf('page out of range') > -1 ) {
+					lastScrollResponseNonEmpty = false;
+				}
 				ajaxWidgetParms.page++;
 				scrollCallOutstanding = 0;
 				ajaxSpinner.hide();
 				// check for more only if got posts and no error on last call
 				if ( -1 != response.indexOf('OK-responsive-tabs-AJAX-response') ) { // this string is only returned when have posts/comments
 					doScrollCall();  //keep getting more until bottom no longer visible 
+				}
+				if ( undefined != window.addComment ) {
+					window.addComment.init()
 				}
 			});
 		}
