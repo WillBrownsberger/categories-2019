@@ -72,7 +72,7 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
-Version 3.1 TBD
+Version 3.0TBD
 Version 2.26 (2016-03-26)
 +  Fix stray div tag in support for breadcrumb plugins
 +  Eliminate defunct "Highlight Headline Small Screen" option
