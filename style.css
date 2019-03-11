@@ -65,24 +65,6 @@ Style CSS organized as follows
 	width: calc(3px);
 }
 
-div#header-bar-wrapper.no-admin-bar {
-	height: 60px;
-	left: 0;
-	position: fixed;
-	right: 0;	
-	top: 0;	
-	z-index: 10;
-}
-
-div#header-bar-wrapper.admin-bar-showing {
-	height: 60px;
-	left: 0px;
-	position: fixed;
-	right: 0px;	
-	top: 32px;	
-	z-index: 10;
-}
-
 #header-bar {
 	background: white; 
 	height: 60px; 
@@ -528,19 +510,8 @@ ul.children {
 .comment-reply-title {
 	padding: 20px 0 0 0;
 }
-/* header bar formatting */
-#header-bar-spacer {
-	height: 60px; 
-	width:100%;
-}
 
-#header-bar-content-spacer {
-	float: left;
-	height: 40px;
-	margin: 0;	
-	padding: 0;
-	width: 320px;
-}
+
 
 #side-menu-button {
 	background: #C6C2BA;
@@ -573,13 +544,7 @@ ul.children {
 	color: black;
 }
 
-#header-bar-widget-wrapper {
-	float: left;
-	height: 40px; 
-	margin: 15px 0 5px 0; 
-	padding: 0px;
-	max-width: 200px; 
-}
+
 
 .search-submit,
 .screen-reader-text, 
@@ -1006,13 +971,6 @@ a.read-more-link {
 /* #side-menu -- see also grid section */
 
 
-#header-bar-widget-wrapper-side-menu-copy {
-	display: none;
-	height: 40px; 
-	margin: 15px 0 5px 0; 
-	padding: 0px;
-	width: 250px;
-}
 
 #main-menu-and-login-ul { 
 	font-size: 1.2em;
@@ -1309,11 +1267,6 @@ a img.aligncenter {
 
 @media only screen and (max-width: 1579px) {
 
-	#header-bar-content-spacer,
-	#side-menu.sidebar-menu	{
-		display: none;
-	}
-
 	#header-bar	{
 		width: auto;	
 	}
@@ -1361,13 +1314,7 @@ a img.aligncenter {
 
 @media only screen and (max-width: 840px) {
 
-	#header-bar-widget-wrapper-side-menu-copy	{
-		display: block;
-	}
-	
-	#header-bar-widget-wrapper	{
-		display: none;
-	}
+
 	
 	#side-menu.dropdown-menu,
 	#header-bar,	

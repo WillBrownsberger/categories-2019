@@ -168,16 +168,6 @@ function responsive_tabs_widgets_init() {
 		'after_title' 		=> '</h2>',
 	) );
 	
-	register_sidebar( array(
-		'name' 				=> __( 'Header Bar Widget', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget on Header Bar (recommended for a search widget ) ', 'responsive-tabs' ),
-		'id' 					=> 'header_bar_widget',
-		'class' 				=> '',
-		'before_widget' 	=> '<div class = "header-bar-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
 
 	register_sidebar( array(
 		'name' 				=> __( 'Side Menu Widget', 'responsive-tabs' ),

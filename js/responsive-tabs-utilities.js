@@ -42,34 +42,6 @@ function toggleSideMenu() {
 	} 
 }
 
-// manages appearance of menu -- either as a left sidebar or as a dropdown
-function ResetSideMenu() {  
-		
-	var innerWindowWidth = document.body.clientWidth; // note window.innerWidth seems to be less predictable wrt scroll bars
-	
-	var sideMenu  = document.getElementById ( "side-menu" ); 
-	var menuButton	= document.getElementById ( "side-menu-button" );
-	var headerBarContentSpacer = document.getElementById ( "header-bar-content-spacer" );
-	var homeButton = document.getElementById ( "home-button");	
-	
-	if ( undefined == homeButton ) {	// don't invoke this logic for retina-width templates
-
-		menuButton.innerHTML = "MENU";
-		
-		if ( innerWindowWidth > 1579 ) {
-			menuButton.style.display = "none";	
-			sideMenu.style.display = "block"; 
-			headerBarContentSpacer.style.display = "block"; 
-			sideMenu.className = "sidebar-menu";
-		} else { 
-			menuButton.style.display = "block";
-			sideMenu.style.display = "none"; 
-			headerBarContentSpacer.style.display = "none"; 
-			sideMenu.className = "dropdown-menu";		
-		}
-	}
-}
-
 // on load function
 function ResponsiveTabs() {
 		
@@ -87,85 +59,7 @@ function OnWindowResize() {
 	}
 }
 
-/* legacy support for browsers that do not support calc function 
-/* should parallel exactly all media queries in style.css to support IE<10, but not for smallest screen sizes (won't be runnning IE8 anyway) */
-/* resize only one load do not do resize on window resize -- hard to reliably control looping in earlier browsers caused by resize upon the resize */
-function ResizeMajorContentAreas() { 
 
-	var innerWindowWidth = document.body.clientWidth; // note window.innerWidth seems to be less predictable wrt scroll bars  
-
-	var wrapper  = document.getElementById ( "wrapper" );
-	var headerBar = document.getElementById ( "header-bar");
-
-	wrapperWidth = Math.min( innerWindowWidth - 120, 1460 );
-	wrapper.style.width = wrapperWidth + "px"; // fix at appropriate width 
-	headerBar.style.width = wrapperWidth + "px";	
-	var wrapperOffsetWidth = wrapper.offsetWidth; // should equal wrapperWidth + 120 b/c includes padding
-		
-	// additional elements whose widths we need to control in order of appearance
-	var viewFrame  								= document.getElementById ( "view-frame" ); 
-	var contentWrapper  							= document.getElementById ( "content-wrapper" ); 
-	var rightSidebarWrapper 					= document.getElementById ( "right-sidebar-wrapper" );
-	var headerBarWidgetWrapperSideMenuCopy	= document.getElementById ( "header-bar-widget-wrapper-side-menu-copy" );
-	var headerBarWidgetWrapper 				= document.getElementById ( "header-bar-widget-wrapper" );
-
-	if ( wrapperOffsetWidth > 1579 )	{	
-
-		viewFrameWidth = wrapperWidth - 320;
-		viewFrame.style.width = viewFrameWidth + "px"; 
-		
-		if (undefined != contentWrapper ) {
-			contentWrapper.style.width = "740px";
-		} 
-	        
-		rightSidebarWrapperWidth = viewFrameWidth - 740;
-		if ( undefined != rightSidebarWrapper ) {
-			rightSidebarWrapper.style.width= rightSidebarWrapperWidth + "px";
-		} 
-	} else if ( wrapperOffsetWidth > 1279) { 
-		viewFrameWidth = wrapperWidth;
-		viewFrame.style.width = viewFrameWidth + "px"; 
-		
-		if ( undefined != contentWrapper )  {
-			contentWrapper.style.width = "740px";
-		} 
-	        
-		rightSidebarWrapperWidth = viewFrameWidth - 740;
-
-		if ( undefined != rightSidebarWrapper ) {
-			rightSidebarWrapper.style.width= rightSidebarWrapperWidth + "px";
-		} 
-	} else {
-		
-		if ( undefined != headerBarWidgetWrapperSideMenuCopy  ) {
-			headerBarWidgetWrapperSideMenuCopy.style.display = "block";
-		}
-		if ( undefined != headerBarWidgetWrapper ) {
-			headerBarWidgetWrapper.style.display = "none";
-		}
-		
-		viewFrameWidth = wrapperWidth;
-		viewFrame.style.width = viewFrameWidth + "px"; 
-		
-		if ( undefined != contentWrapper )  {
-			contentWrapper.style.width = "58%";
-		} 
-	        
-		if ( undefined != rightSidebarWrapper ) {
-			rightSidebarWrapper.style.width= "42%";
-		}  
-	}
-	
-   if ( wrapperOffsetWidth < 840 )	{
-	
-		if (undefined != contentWrapper )  {contentWrapper.style.width = "100%";
-					contentWrapper.style.border = "0"} 
-	        
-		if (undefined != rightSidebarWrapper ) {rightSidebarWrapper.style.width= "100%";}  
-
-	}		
-    
-}
 
 
 function getFirstChildWithTagName( element, tagName ) {

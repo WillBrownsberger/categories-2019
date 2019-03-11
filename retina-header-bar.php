@@ -11,14 +11,7 @@
 
 ?>
 <!-- responsive-tabs retina-header-bar.php -->
-<div id="header-bar-spacer"></div>
-<div id="header-bar-wrapper"  class = "
-	<?php if ( is_admin_bar_showing()) {
-		echo 'admin-bar-showing';
-	} else { 
-		echo 'no-admin-bar';
-	}
-	?>"> 
+
 	
  	<div id="header-bar">
 		<a id = "home-button" href = "<?php echo home_url( '/'); ?>"><?php _e( 'HOME' , 'responsive-tabs' ); ?></a>

@@ -41,12 +41,6 @@ $view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view';
 <div id = "wrapper"><!-- sets boundaries on sidebar expansion -->
 
 	<div id="side-menu" class = "sidebar-menu">
-
-		<?php if( is_active_sidebar( 'header_bar_widget' ) ) { ?>
-			<div id = "header-bar-widget-wrapper-side-menu-copy" >
-				<?php dynamic_sidebar( 'header_bar_widget' ); ?>
-			</div>
-		<?php } ?>
 		
 		<ul id = "main-menu-and-login-ul"><?php 
 			$args = array (
