@@ -34,14 +34,8 @@
 */      
 get_template_part('header','bar');
 	
-$view_frame_class = (is_front_page()) ? 'front-page-view' : 'back-page-view'; 
-	
 ?>
 
-<div id = "wrapper"><!-- sets boundaries on sidebar expansion -->
+<div id = "wrapper">
 
-	<div id="view-frame" class = "<?php echo $view_frame_class;?>">
-
-		<?php if ( ! is_front_page() ) {
-			echo '<div id="color-splash"></div>';
-		}
+	<div id="color-splash"></div>

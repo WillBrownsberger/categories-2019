@@ -162,16 +162,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_text_field'
 	) );
 	
-	$wp_customize->add_setting( 'highlight_headline_font_family', array(
-	    'default' =>  'Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif',
-	    'sanitize_callback' => 'sanitize_text_field'
-	) );
-	
-	$wp_customize->add_setting( 'highlight_headline_font_size', array(
-	    'default' => '52px',
-	    'sanitize_callback' => 'sanitize_text_field'
-	) );
-	
 	/* note: formerly in nav section, removed in 4.3 */
 	$wp_customize->add_section( 'responsive_tabs_navigation_section' , array(
 	    'title'      => __( 'Theme Navigation', 'responsive-tabs' ),
@@ -207,24 +197,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	$wp_customize->add_setting( 'footer_scripts', array(
 	    'default' => '',
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
-	) );
-	
-
-	/* infinite scroll */ 
-	$wp_customize->add_section( 'disable_infinite_scroll_global_section' , array(
-	    'title'      => __( 'Infinite Scroll', 'responsive-tabs' ),
-	    'priority'   => 221,
-	    'description' => __( 'Check to DISable infinite scroll for queries and use standard WP pagination.', 'responsive-tabs' ) 
-	) );	
-	
-	$wp_customize->add_setting( 'disable_infinite_scroll_global', array(
-	    'default' => 0,
-	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
-	) );
-
-	$wp_customize->add_setting( 'disable_infinite_scroll_comments', array(
-	    'default' => 0,
-	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
 	) );
 	
 	/* CONTROLS
@@ -333,25 +305,7 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'choices'  => $font_family_array,
 	    'priority' => 30,
 	) );
-	
-		
-	$wp_customize->add_control( 'highlight_headline_font_family', array(
-	    'label'   	=> __( 'Highlight Headline Font Family', 'responsive-tabs' ),
-	    'section' 	=> 'responsive_tabs_fonts',
-	    'type'    	=> 'select',
-	    'settings'	=> 'highlight_headline_font_family',
-	    'choices' 	=> $font_family_array,
-	    'priority'	=> 40,
-	) );
-	
-	$wp_customize->add_control( 'highlight_headline_font_size', array(
-	    'label'   	=> __( 'Highlight Headline Font Size', 'responsive-tabs' ),
-	    'section' 	=> 'responsive_tabs_fonts',
-	    'type'    	=> 'select',
-	    'settings'	=> 'highlight_headline_font_size',
-	    'choices' 	=> $font_size_array,
-	    'priority'	=> 50,
-	) );
+
 
 	/* login link control */
 	
@@ -387,26 +341,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'settings'   => 'footer_scripts',
 	   'priority'   => 30,
 	) ) );
-	
-
-	/* disable_infinite_scroll */
-
-	$wp_customize->add_control( 'disable_infinite_scroll_global', array(
-	    'settings' => 'disable_infinite_scroll_global',
-	    'label'    => __( '(Controls main, not widget, queries.)', 'responsive-tabs' ),
-	    'section'  => 'disable_infinite_scroll_global_section',
-	    'type'     => 'checkbox',
-	    'priority'	=>	10,
-	) );
-
-	$wp_customize->add_control( 'disable_infinite_scroll_comments', array(
-	    'settings' => 'disable_infinite_scroll_comments',
-	    'label'    => __( '(Controls comments on posts, pages.)', 'responsive-tabs' ),
-	    'section'  => 'disable_infinite_scroll_global_section',
-	    'type'     => 'checkbox',
-	    'priority'	=>	20,
-	) );
-
 
 	/* end of controls section */
 }

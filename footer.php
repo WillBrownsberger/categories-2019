@@ -24,9 +24,7 @@ echo '<!-- responsive-tabs footer.php -->';
 	</div>
 <?php } ?>
 
-</div><!-- view-frame from header -->
 </div> <!-- wrapper from header -->
-<div id="calctest"></div><!--for testing browser capabilities (see style.css and resize.js) -->
 
 <?php 
  

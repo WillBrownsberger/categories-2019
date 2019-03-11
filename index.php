@@ -26,10 +26,9 @@ $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );
 
 get_header();
 
-if ( isset ( $query_vars['tax_query'] ) && false === get_theme_mod ( 'disable_infinite_scroll_global' ) ) {
-	echo '<h3>' . __( 'Warning: The Responsive Tabs theme does not support taxonomy queries with infinite scroll enabled.  
-		Please disable infinite scroll through the customizer -- you will still be able to use infinite scroll in Front Page Widgets.
-		Alternatively, you can code a custom template including a passed tax_query array as the $include_string in $widget_parms 
+if ( isset ( $query_vars['tax_query'] ) ) {
+	echo '<h3>' . __( 'Warning: The Responsive Tabs theme does not support custom taxonomy queries.		
+	You can code a custom template including a passed tax_query array as the $include_string in $widget_parms 
 		( see category.php as a model ).', 'responsive-tabs' ) 
 		. '</h3>';	
 }

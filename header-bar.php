@@ -11,25 +11,17 @@
 ?>
 <!-- responsive-tabs header-bar.php -->
 <div id="header-bar">
-
-	<div id="site-title">
-		 <a href="<?php echo( home_url( '/' ) ); ?>" class="site-title-long" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>">
-		 	<?php esc_html( trim( bloginfo( 'name' ) ) ); ?></a>
-			<span id="site-description"><?php esc_html( bloginfo( 'description' ) ); ?></span>
-		 </a>
-	</div>
-
-	<button id = "side-menu-button" onclick = "toggleSideMenu()"><span class="dashicons dashicons-menu"></span></button>
-
 	<div id="main-menu" >
-		
-		<ul id = "main-menu-and-login-ul"><?php 
+		<?php 
 			$args = array (
-					 'theme_location' 	=> 'main-menu', 
-					 'container'			=> false,
-					 'items_wrap'			=> '%3$s', // no items wrap
-			 		); 
-			wp_nav_menu( $args ); 
+				'theme_location' 	=> 'main-menu', 
+				'container'			=> false,
+				'items_wrap'			=> '%3$s', // no items wrap
+			); 
+			wp_nav_menu( $args ); ?>
+	
+		<ul id = "main-menu-and-login-ul"><?php 
+			
 			
 			if (get_theme_mod('show_login_links'))	{
 								
@@ -49,19 +41,21 @@
 				}
 				
 			} // if show_login_links
-		?></ul> <?php // combined menu and login links
-		
-		if ( is_active_sidebar( 'side_menu_widget' ) ) { ?>
-			<div id = "side-menu-widget-area" >
-				<?php dynamic_sidebar('side_menu_widget'); ?>
-			</div>
-		<?php } ?>
+		?></ul> 
 
-	</div><!--side-menu-->
+	</div><!--main-menu-->
+
+	<button id = "main-menu-button" onclick = "toggleMainMenu()" title="Site Map"><span class="dashicons dashicons-menu"></span></button>
 
 
 
 
+	<div id="site-title">
+		 <a href="<?php echo( home_url( '/' ) ); ?>" class="site-title-long" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>">
+		 	<?php esc_html( trim( bloginfo( 'name' ) ) ); ?>
+		 	<span id="site-description"> -- <?php esc_html( bloginfo( 'description' ) ); ?></span>
+		 </a>
+	</div>
 
 	<div class="horbar-clear-fix"></div>  
 </div><!-- header-bar -->

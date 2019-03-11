@@ -17,9 +17,6 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
 } else { // use this template
  
 	get_header();
-	
-	echo '<div id = "color-splash"></div>';
-
 	/*
 	* tabs area
 	*

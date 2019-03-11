@@ -23,7 +23,7 @@ get_header();
  	<h4><?php  
  	
  	
- 		// parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
+ 		// parameters to be passed to ajax call as hidden value 
 		global $responsive_tabs_infinite_scroll_ajax_parms;
 		$widget_parms = new Widget_Ajax_Parms ( 
 			'non_widget_query', 	// widget_type

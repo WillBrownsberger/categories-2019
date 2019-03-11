@@ -155,18 +155,6 @@ function responsive_tabs_widgets_init() {
 	}
 	
 	register_sidebar( array(
-		'name' 				=> __( 'Highlight Area', 'responsive-tabs' ),
-		'description' 		=> __( 'Front Page highlight area (if not used, theme will show highlight headlines, if any, from Appearance > Customize > Front Page Highlight ) ', 'responsive-tabs' ),
-		'id' 					=> 'highlight_area_widget',
-		'class' 				=> '',
-		'before_widget' 	=> '<div class = "highlight-area-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
-	
-	
-	register_sidebar( array(
 		'name' 				=> __( 'Post Sidebar', 'responsive-tabs' ),
 		'description' 		=> __( 'Displayed with Posts', 'responsive-tabs' ),
 		'id' 					=> 'post_sidebar',
@@ -216,15 +204,6 @@ function responsive_tabs_theme_support_setup() {
 		'default'		 => get_template_directory_uri() . '/images/initial-header.png',
 	);
 	add_theme_support( 'custom-header', $header_default ); // note -- installed as background image in theme customizer
-	
-	$background_default = array(
-		'default-color'          => 'C6C2BA',
-		'default-image'          => '',
-		'wp-head-callback'       => '_custom_background_cb',
-		'admin-head-callback'    => '',
-		'admin-preview-callback' => ''
-	);
-	add_theme_support( 'custom-background', $background_default );
 	
 	add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
 		add_image_size( 'front-page-thumb', 267, 200 ); 

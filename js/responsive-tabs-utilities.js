@@ -11,74 +11,19 @@
 * @package responsive
 */ 
 
-window.onresize = OnWindowResize;
-window.onload = ResponsiveTabs; 
-
-// tests for correct browser reading of an element in the footer
-function TestSupportCalc() {
-	
-	var testCalc = document.getElementById ( "calctest" ); 
-	var testCalcWidth = testCalc.offsetWidth;
-	if ( 3 == testCalcWidth ) {
-			return true;
-	} else {
-		return false;
-	}
-}
 
 // drops down the menu if it is hidden 
-function toggleSideMenu() {
+function toggleMainMenu() {
 	     
-	var sideMenu  = document.getElementById ( "side-menu" ); 
-	var display = sideMenu.style.display;
-	var menuButton	= document.getElementById ( "side-menu-button");
+	var menu  = document.getElementById ( "main-menu" ); 
+	var display = menu.style.display;
 
 	if ( "block" == display ) {
-		sideMenu.style.display = "none";
-		ResetSideMenu();
+		menu.style.display = "none";
 	} else {
-		sideMenu.style.display = "block";
-		menuButton.innerHTML = "HIDE";
+		menu.style.display = "block";
 	} 
 }
-
-// on load function
-function ResponsiveTabs() {
-		
-	ResetSideMenu();
-	if ( ! TestSupportCalc() ) {
-		ResizeMajorContentAreas();
-	}
-	
-}
-
-// this handles case where user opens menu and then resizes window with menu open
-function OnWindowResize() {
-	if( TestSupportCalc() ) { // if browser supports calc (don't handle this case for IE<9; generates loop)
-		ResetSideMenu();
-	}
-}
-
-
-
-
-function getFirstChildWithTagName( element, tagName ) {
-      for ( var i = 0; i < element.childNodes.length; i++ ) {
-        if ( tagName == element.childNodes[i].nodeName ) return element.childNodes[i];
-      }
-}
-
-	
-function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
-    }
-    return "";
-} 
 
 
 /*

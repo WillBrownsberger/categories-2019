@@ -21,7 +21,7 @@ if ( is_object ( $curauth ) && isset ( $curauth->display_name ) ) {
 } else {
  	$display_name = 'Author Name Unavailable';
 }
-// set up parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
+// set up parameters to be passed to ajax call as hidden value
 global $responsive_tabs_infinite_scroll_ajax_parms;
 
 $widget_parms = new Widget_Ajax_Parms ( 

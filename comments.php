@@ -91,43 +91,25 @@ if ( comments_open() ) {
 
 if ( have_comments() ) {
 	
-	$disable_infinite_scroll = get_theme_mod ( 'disable_infinite_scroll_comments' );	
-
 	// if doing infinite scroll, set up parms
 	$scroll_marker= '';
 	$responsive_tabs_infinite_scroll_ajax_parms = '';
-	if ( false === $disable_infinite_scroll ) {
-		$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
-		$widget_parms = new Widget_Ajax_Parms ( 
-			'comment_query', 	// widget_type
-			$post->ID, 			// $include_string,
-			'', 					// $exclude_string,
-			0, 					// initial offset from first page -- is incremented after retrieval
-			''						// $query_type
-		);
-		$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
-	}
+	$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
+	$widget_parms = new Widget_Ajax_Parms ( 
+		'comment_query', 	// widget_type
+		$post->ID, 			// $include_string,
+		'', 					// $exclude_string,
+		0, 					// initial offset from first page -- is incremented after retrieval
+		''						// $query_type
+	);
+	$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 	 
-	// comment list with id marker if doing infinite scroll 
-	echo '<ol class="commentlist"' . $scroll_marker .  '>';
-		if ( false !== $disable_infinite_scroll ) {
-			// if doing infinite scroll, leave it to the scroller to make the first comment list call
-			wp_list_comments(); 
-		}
-	echo '</ol>';
+	// comment list with id marker
+	echo '<ol class="commentlist"' . $scroll_marker .  '></ol>';
 	
 	// if doing infinite scroll, send the scroll parms and the loader gif
-	if ( false === $disable_infinite_scroll ) {
-		echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
-			'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
-		'"></span>'; 
-		echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $responsive_tabs_infinite_scroll_ajax_parms . '</div>';	
-	// if not infinite scroll show comment page links	
-	} else { ?>
-		<div class="navigation">
-			<div class="alignleft"><?php previous_comments_link( '&laquo; ' .__('older comments', 'responsive-tabs' ) ) ?></div>
-			<div class="alignright"><?php next_comments_link( __('newer comments', 'responsive-tabs' ) . ' &raquo;' ) ?></div>
-		</div>
-		<div class = "horbar-clear-fix"></div><?php
-	}
+	echo '<span id = "responsive-tabs-post-list-ajax-loader">' .
+		'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
+	'"></span>'; 
+	echo '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $responsive_tabs_infinite_scroll_ajax_parms . '</div>';	
 } // closes have comments conditional
