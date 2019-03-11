@@ -143,17 +143,6 @@ add_action( 'init', 'responsive_tabs_register_menus' );
  * Register sidebars
 */
 function responsive_tabs_widgets_init() {
-	
-	register_sidebar( array(
-		'name' 				=> __( 'Site Info Splash', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget area for site info dropdown (display settings under Customize menu) ', 'responsive-tabs' ),
-		'id' 					=> 'welcome_splash_widget',
-		'class' 				=> '',
-		'before_widget' 	=> '<div class = "welcome-splash-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h1 class = "welcome-splash-title">',
-		'after_title' 		=> '</h1>',
-	) );
 
 	for ( $index = 0; $index <= 15; $index++ ) { // register widget areas for each tab
 		register_sidebar( array(

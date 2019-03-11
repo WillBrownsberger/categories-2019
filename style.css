@@ -37,7 +37,6 @@ Style CSS organized as follows
 	post styles
 	side menu
 	view frame and miscellaneous special page wrappers
-	welcome splash
 	widgets generally
 	widget -- rtfpcl
 	widget -- rtfpa
@@ -724,10 +723,6 @@ ul.children {
 	padding: 0 8px 8px 8px;
 }
 
-/* but not if already padded in welcome splash */
-.welcome-splash-widget-wrapper .bulk-text-padding-wrapper {
-	padding: 0;
-}
 
 /* styling for one to a row home widgets */
 .home-wide-widget-wrapper {
@@ -1096,81 +1091,6 @@ div#front-page-post-entry {
 	background: white;
 	margin: 10px 0;
 	padding: 10px 20px;
-}
-/* welcome splash */
-#welcome-splash-site-info-button {
-	background: #C6C2BA;
-	border: 0px;
-	bottom: 0.45ex;
-	color: white;
-	font-size: 19px;
-	font-weight: 700;
-	margin: 0; 
-	padding: 0px 8px 0px 8px;
-	position: relative;
-	vertical-align: baseline;
-}
-
-.welcome-splash-site-info {
-	margin: 0px;
-	padding-left:  20px;
-	text-decoration: none;
-}
-
-#welcome-splash-site-info-button:hover {
-	background: #D2CEC6;
-	color: black;
-}
-
-#welcome-splash {
-	background: #C6C2BA;
-	display: none; 
-	left: 0px;
-	opacity: 0.95;
-	margin: 0 auto;
-	max-width: 1460px;
-	min-height: 95vh;
-	position: absolute; 
-	right: 0px;	
-	top: 0px;	
-	z-index: 8;
-	width: 100%;
-} 
-
-#welcome-splash-content-wrapper {
-	background: white;
-	border: solid 2px #999;
-	margin: 50px auto;
-	max-width: 640px;
-	min-height: 80vh;
-	padding: 40px;
-} 
-
-#welcome-splash-title {
-	background: white;
-	margin: 50px auto;
-	max-width: 960px;
-} 
-
-#welcome-splash-close {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ebebeb), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #ebebeb 5%, #dfdfdf 100% );
-	border-radius: 4px; 
-	font-size: 1em;
-	padding: 4px 20px; 
-	margin: 20px 0 0 0;
-}
-
-#welcome-splash-close:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #cfcfcf), color-stop(1, #ebebeb) );
-	background:-moz-linear-gradient( center top, #cfcfcf 5%, #ebebeb 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cfcfcf', endColorstr='#ebebeb');
-	background-color:#dfdfdf;
-}
-
-#welcome-splash-show,
-#welcome-splash-admin-adj {
-	display: none;
 }
 
 /* widgets generally formatting */
@@ -1568,11 +1488,6 @@ a img.aligncenter {
 		display: inline;
 	}
 	
-	#welcome-splash-content-wrapper {
-		margin: 10px auto;
-		padding: 30px 10px;
-	} 
-
 	#site-info-wrapper a.site-title-long { 
 		display: none;
 	}

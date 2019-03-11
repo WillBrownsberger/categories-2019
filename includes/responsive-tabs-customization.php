@@ -183,22 +183,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
 
-	$wp_customize->add_setting( 'welcome_splash_background_color', array(
-	    'default' => '#c6c2ba',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-	
-	$wp_customize->add_setting( 'welcome_splash_body_color', array(
-	    'default' => '#ffffff',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-	
-	$wp_customize->add_setting( 'welcome_splash_border_color', array(
-	    'default' => '#909090',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-
-
 
 
 	/* fonts */
@@ -270,17 +254,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
 	) );
 	
-	/* welcome splash page */
-	$wp_customize->add_section( 'welcome_splash_page_section' , array(
-	    'title'      => __( 'Site Info Page ?', 'responsive-tabs' ),
-	    'priority'   => 210,
-	    'description' => __( 'This switch controls whether a link to a site info ? appears on the far right of the header bar.', 'responsive-tabs' ) 
-	) );	
-
-	$wp_customize->add_setting( 'welcome_splash_site_info_on', array(
-	    'default' => 0,
-	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
-	) );
 
 	/* infinite scroll */ 
 	$wp_customize->add_section( 'disable_infinite_scroll_global_section' , array(
@@ -428,27 +401,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'priority'	=> 107,
 	) ) );  
 	
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, '', array(
-		'label'     => __( 'Welcome Splash Background Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'welcome_splash_background_color',
-		'priority'	=> 108,
-	) ) );  
-
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'welcome_splash_body_color', array(
-		'label'     => __( 'Welcome Splash Body Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'welcome_splash_body_color',
-		'priority'	=> 109,
-	) ) );  
-	
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'welcome_splash_border_color', array(
-		'label'     => __( 'Welcome Splash Border Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'welcome_splash_border_color',
-		'priority'	=> 110,
-	) ) );  	
-	
 	/*  fonts  */
 	$wp_customize->add_control( 'body_text_font_size', array(
 	    'label'   	=> __('Body Font Size', 'responsive-tabs' ),
@@ -532,15 +484,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	   'priority'   => 30,
 	) ) );
 	
-	/* welcome splash page */
-
-	$wp_customize->add_control( 'welcome_splash_site_info_on', array(
-	    'settings' => 'welcome_splash_site_info_on',
-	    'label'    => __( 'Show site info as drop down under "?" in menu bar ', 'responsive-tabs' ),
-	    'section'  => 'welcome_splash_page_section',
-	    'type'     => 'checkbox',
-	    'priority'	=>	10,
-	) );
 
 	/* disable_infinite_scroll */
 

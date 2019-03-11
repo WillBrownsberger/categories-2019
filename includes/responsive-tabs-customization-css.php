@@ -94,14 +94,6 @@ function responsive_tabs_customize_css() { ?>
 			font-family: <?php echo get_theme_mod( 'site_info_font_family' ); ?>;
 		}
 
-		#welcome-splash-content-wrapper {
-			background-color: <?php echo get_theme_mod( 'welcome_splash_body_color' ); ?>;		
-			border-color: 		<?php echo get_theme_mod( 'welcome_splash_border_color' ); ?>;
-		}  
-		
-		#welcome-splash {
-			background-color: <?php echo get_theme_mod( 'welcome_splash_background_color'); ?>;		
-		}			
 
 	
 		<?php	if( get_theme_mod( 'custom_css' ) > ''  ) {	

@@ -174,32 +174,6 @@ function getFirstChildWithTagName( element, tagName ) {
       }
 }
 
-/* operates site info toggle */
-function toggleSiteInfo() {
-
-	var splash 			= document.getElementById( 'welcome-splash' );
-	var display 		= splash.style.display;
-	var docElem 		= document.documentElement;
-	var body 			= document.body;
-	var infoButton 	= document.getElementById ( 'welcome-splash-site-info-button' );
-	var adminAdj 		= document.getElementById ( 'welcome-splash-admin-adj' ).innerHTML	
-	
-	var adj = adminAdj ? 92 : 60;
-	var scroll 		= window.pageYOffset || docElem.scrollTop || body.scrollTop;		
-	scroll = scroll + adj ; /* height of header bar */
-
-	if ( "block" == display ) {
-		splash.style.display = "none";
-		infoButton.innerHTML		= "?";
-	} else {
-		splash.style.display = "block";
-		infoButton.innerHTML		= "x";
-		splash.style.top = scroll + 'px';
-	} 
-
-}
-
-
 	
 function rtgetCookie(cname) { /* http://www.w3schools.com/js/js_cookies.asp */
     var name = cname + "=";
