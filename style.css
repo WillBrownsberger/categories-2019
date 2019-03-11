@@ -122,14 +122,6 @@ Style CSS organized as follows
 	word-wrap: break-word;
 }
 
-#retina-view-frame {
-	background: #fff;
-	float: left;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	word-wrap: break-word;
-}
 
 /* content column one -- showing two width specs -- override if calc available; if not, js will fix */
 #content-wrapper {
@@ -253,21 +245,14 @@ img {
 }
 
 /* Limit widths of text elements, but not headers or tables in full-width mode */
-#full-width-content-wrapper a, 
-#full-width-content-wrapper p, 
-#full-width-content-wrapper li,
-#full-width-content-wrapper li li,
-#full-width-content-wrapper li li li {
+a, 
+p, 
+li,
+li li,
+li li li {
 	max-width: 640px; 
 }
 
-#retina-full-width-content-wrapper a, 
-#retina-full-width-content-wrapper p, 
-#retina-full-width-content-wrapper li,
-#retina-full-width-content-wrapper li li,
-#retina-full-width-content-wrapper li li li {
-	max-width: 640px; 
-}
 
 /* table styles from twentyfourteen */
 

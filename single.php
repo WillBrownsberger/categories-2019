@@ -11,19 +11,13 @@
 
 // note: no "not found" condition for single.php -- handled by 404.php
 while ( have_posts() ) : the_post();	
-	
-	// get theme supported custom field identifying wide posts (supports tablepress plugin and any wide format)
-	$post_width = get_post_meta( get_the_id(), '_twcc_post_width', true );
+
 	// http://codex.wordpress.org/Template_Tags/the_content (override the more logic to display whole post/topic in this view)	
 	global $more;
 	$more = 1;  
 
-	// get header depending on post width
-	if( 'extra_wide' == $post_width ) {
-		get_header( 'retina' );
-	} else {
-		get_header();
-	}
+	// get header 
+	get_header();
 		
 	// content title
 	?><!--single.php -->
@@ -41,13 +35,7 @@ while ( have_posts() ) : the_post();
 	</div><?php
 	
 	// set up content wrapper based on post width
-	if ( 'wide' == $post_width ) {
-		echo '<div id="full-width-content-wrapper">';
-	} elseif ( 'extra_wide' == $post_width ) {
-		echo '<div id="retina-full-width-content-wrapper">';
-	} else {
-		echo '<div id="content-wrapper">';
-	};
+	echo '<div id="content-wrapper">';
 	echo '<!--division wraps the non-sidebar, non-footer content-->';
 	
 	 ?>
@@ -55,12 +43,7 @@ while ( have_posts() ) : the_post();
 			<div class = "post-info"> <?php 
 				_e( 'By', 'responsive-tabs' ) ?> 
 					<span class="post-author">
-						<?php $guest_author = get_post_meta( get_the_ID(), 'twcc_post_guest_author', true );
-							if ( '' === $guest_author ){ // supports twcc frontend-post-no-spam plugin
-								the_author_posts_link();				
-							} else {
-								echo esc_html( $guest_author ); 
-							}
+						<?php the_author_posts_link();				
 					?></span>, <?php
 				_e( 'on', 'responsive-tabs' ); 
 					echo '<a href="'  .  get_month_link( get_post_time( 'Y' ), get_post_time( 'm' ) ) . '" ' . 

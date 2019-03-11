@@ -33,12 +33,7 @@ if ( 'link' == $post_format ) {
 			'title="'. __( 'Read the rest of this post', 'responsive-tabs' ) . '">' . __( 'Read More', 'responsive-tabs' ) . ' &raquo; </a>'; 
 } 
 			
-$guest_author = get_post_meta( get_the_ID(), 'twcc_post_guest_author', true ); /* supports inclusion of twcc front-end-post-no-spam plugin author information */
-if ( '' === $guest_author )	{
-	$author_entry = 	'<li class="pl-post-author"><a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></li>';
-} else {
-	$author_entry = '<li class="pl-post-author">'. esc_html( $guest_author ) . '</li>'; 
-}
+$author_entry = 	'<li class="pl-post-author"><a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></li>';
 /* output list item -- echoing to show structure and avoid white spaces in inline-block styling */
 echo '<li ' ;
 	post_class( $row_class ); 
