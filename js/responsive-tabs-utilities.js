@@ -3,7 +3,6 @@
 * 
 * Description: Minor utility functions for the theme
 *  -- menu show/hide
-*  -- front page accordion show/hide
 * 	-- manages column widths on load for older browsers (if don't support css calc)
 *  -- protects against wordpress comment text loss possibility with older browsers
 *	-- supports show/hide of info splash
@@ -74,7 +73,6 @@ function ResetSideMenu() {
 // on load function
 function ResponsiveTabs() {
 		
-	AccordionInit();
 	ResetSideMenu();
 	if ( ! TestSupportCalc() ) {
 		ResizeMajorContentAreas();
@@ -169,42 +167,6 @@ function ResizeMajorContentAreas() {
     
 }
 
-// accordion set up from http://www.elated.com/articles/javascript-accordion/
-var accordionItems = new Array();
-
-function AccordionInit() {
-
-      // Grab the accordion items from the page
-      var divs = document.getElementsByTagName( 'div' );
-      for ( var i = 0; i < divs.length; i++ ) {
-        if ( 'accordionItem' == divs[i].className ) accordionItems.push( divs[i] );
-      }
-
-      // Assign onclick events to the accordion item headings
-      for ( var i = 0; i < accordionItems.length; i++ ) {
-        var h2 = getFirstChildWithTagName( accordionItems[i], 'H2' );
-        h2.onclick = toggleItem;
-      }
-
-      // Hide all accordion item bodies except the first
-      for ( var i = 0; i < accordionItems.length; i++ ) {
-        accordionItems[i].className = 'accordionItem hide';
-      }
-}
-
-function toggleItem() {
-      var itemClass = this.parentNode.className;
-
-      // Hide all items
-      for ( var i = 0; i < accordionItems.length; i++ ) {
-        accordionItems[i].className = 'accordionItem hide';
-      }
-
-      // Show this item if it was previously hidden
-      if ( 'accordionItem hide' == itemClass ) {
-        this.parentNode.className = 'accordionItem';
-      }
-}
 
 function getFirstChildWithTagName( element, tagName ) {
       for ( var i = 0; i < element.childNodes.length; i++ ) {

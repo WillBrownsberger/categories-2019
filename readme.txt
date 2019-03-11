@@ -37,7 +37,6 @@ The design premise of the theme is that (a) less can be more visually -- users s
 * Custom templates supporting navigation for all types of Wordpress archive.
 * Full support for the Wordpress "link" post-format, with a special front page widget for displaying links to news items, etc.
 * Dropdown menu for the routine links like about, contact, etc. -- the things that users know to look for on every site.  Expands to a left sidebar on very wide screens.
-* Footer accordion for standard reference content.
 * Wide format options for both pages and posts to accommodate  tables and other wide format content.
 * Scrupulous attention to Wordpress design and coding standards to maximize compatibility and transparency.
 
@@ -63,7 +62,6 @@ Setting up your tabbed front page is straightforward using Wordpress widgets.
 -- Go to Appearance>Customize>Navigation to select a menu to put in the Main Menu location that will appear in the left sidebar (in widescreen view) or under the drop down (in screens less than 1580 pixels wide).  Or go to Appearance>Menus to create a menu if you are starting from scratch.  Check "Show Login Links in Main Menu" to optionally append profile, dashboard and login/out links to the main menu. Check Show Theme Breadcrumbs to see breadcrumb navigation on pages other than the front page.  (The theme will recognize also installation of popular breadcrumb plugins and ignore theme breadcrumb settings.)
 -- If you are not seeing your front page, check Appearance>Customize>Static Front Page -- make sure that it is set to Your Latest Posts. That setting will invoke the Responsive Tabs tabbed front page.  However, you can also choose A Static Page and that will bypass the Responsive Tabs front page.
 -- If you are an experienced user, can add custom CSS and scripts.
--- Set up Accordions in page footers for static reference materials.
 -- Set up site identity header and optional headlines or headline widget. 
 -- Change colors, fonts and images to achieve the look you want.
 

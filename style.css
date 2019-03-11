@@ -24,7 +24,6 @@ Style CSS organized as follows
  -- Grid elements (all elements that can break grid structure)
  -- general html tag styles 
  -- #id styles (with associated class and element styling within/pertaining to that id)
-	accordion
 	bottom widget 
 	breadcrumbs
 	color splash
@@ -409,50 +408,6 @@ sub {
 *
 */
 
-/* accordion */
-#accordion-wrapper {
-	background: white;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
-   margin: 0;
-   padding: 5px 0 0 0;   
-  	width: 100%;
-}          
-
-/* gray tones - here round corners border radius */
-.accordionItem h2{
-	background: #d3d3d3;
-	border: 1px solid #777;
-	font-size: 12pt;
-	font-weight: normal;
-	margin: 0 0 4px 0;
-	padding: 7px 8px; 
-}
-
-.accordionItem.hide h2 { 
-	border: 1px solid #ccc;
-
-}
-
-.accordionItem h2:hover { 
-	background-color: #e0e0e0; 
-	border: 1px solid #555;
-}
-
-.accordionItem.hide div { 
-	display: none; 
-}
-
-.accordionItem h2:hover { 
-	cursor: pointer; 
-}
-
-.accordionItem div { 
-	background-color: #fff;	
-	margin-bottom: 5px; 
-	padding: 1em 0.4em; 
-}
 
 /* bottom widget */
 #bottom-widget-area {
