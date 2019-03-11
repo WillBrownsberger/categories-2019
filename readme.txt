@@ -47,10 +47,7 @@ Setting up your tabbed front page is straightforward using Wordpress widgets.
 1.	Standard theme install -- install the theme files in a subdirectory called responsive-tabs in the wp-content/themes subdirectory.
 2. Go to Appearance>Customize>Site Title & Tagline. Choose a relatively brief site title and tagline (roughly 20 characters each) and a 2-3 character "Site Short Title". 
    As you narrow the screen width, you will see the tagline disappear and then, at smarthphone width, the short title replace the full site title.
-3. Add additional branding/identity information in one or both of two ways which allow an unlimited amount of content in a responsive format:
-   (A) Populate the Site Info Splash widget area  (which appears when a "?" on the header bar is clicked) -- settings for this are under 
-   Appearance>Customize>Welcome Splash Page. (B) Populate the Front Page Highlight Area -- either by adding a widget ( possible graphics ) to the Highlight Area or 
-   directly enter text for this area in Appearance>Customize>Front Page Highlight.
+ht.
 4. From the Wordpress administrative dashboard go to Appearance>Themes to activate Responsive Tabs.
 5. To set up your front page, enter the titles you want, separated by commas, in Appearance>Customize>Tab Titles, like so:
    Favorites, Latest Posts, Latest Comments

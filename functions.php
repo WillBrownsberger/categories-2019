@@ -72,9 +72,6 @@ add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
 $tt_mod = get_theme_mod( 'tab_titles' ) ;
 
 if ( false === $tt_mod ) {
-	set_theme_mod( "site_short_title"	, __( 'Set mobile short title', 'responsive-tabs' ) );
-	set_theme_mod( "highlight_headline"	, '<p>' . __( 'Responsive Tabs', 'responsive-tabs' ) . '</p><p>' . __( 'Theme Setup', 'responsive-tabs' ) . '</p>' );
-	set_theme_mod( "highlight_subhead"	, '<p>'. __( 'Set up your theme in Appearance>Customize', 'responsive-tabs') . '</p>' );
 	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, This is Tab 1', 'responsive-tabs') );
 	set_theme_mod( "landing_tab"			, "0" );
 	set_theme_mod( "show_login_links"	, true );
@@ -168,17 +165,6 @@ function responsive_tabs_widgets_init() {
 		'after_title' 		=> '</h2>',
 	) );
 	
-
-	register_sidebar( array(
-		'name' 				=> __( 'Side Menu Widget', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget on Side Menu Bar (recommended for menu extender like category links)', 'responsive-tabs' ),
-		'id' 					=> 'side_menu_widget',
-		'class' 				=> '',
-		'before_widget' 	=> '<div class = "side-menu-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
 	
 	register_sidebar( array(
 		'name' 				=> __( 'Post Sidebar', 'responsive-tabs' ),

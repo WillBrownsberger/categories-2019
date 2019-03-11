@@ -5,8 +5,7 @@ Author URI:
 Description: Responsive Tabs is a fully responsive theme with optional infinite scroll for both post lists and comments.  It is especially suited to websites that are or intend to become strong on content. It takes advantage of all the power of Wordpress to organize content transparently. The Responsive Tabs front page is entirely widgetized and the theme supports up to 16 tabbed content folders. The theme includes a set of custom Front Page widgets that can be configured for full width or tiled for a newspaper look.  Either approach scales down well to mobile screens. Responsive Tabs is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards. Responsive Tabs facilitates attractive use of text for low page weight, but images can easily be included in the various front page widget areas.   
 Version: 0.1
 Author: Will Brownsberger
-Tags:  custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, right-sidebar
-Text Domain: responsive-tabs
+Tags:  custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, 
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +34,6 @@ Style CSS organized as follows
 	main tabs
 	new post widget 	
 	post styles
-	side menu
 	view frame and miscellaneous special page wrappers
 	widgets generally
 	widget -- rtfpcl
@@ -87,30 +85,6 @@ Style CSS organized as follows
 	overflow: hidden;
 	width: auto;
 }
-
-#side-menu.sidebar-menu {
-	background-repeat: no-repeat;
-	display: block;
-	float: left;
-	margin: 0 20px 0 0;
-	padding: 250px 0 0 0;
-	width: 300px;
-}
-
-#side-menu.dropdown-menu {
-	background: #555;
-	color: white;
-	display: none;
-	left: 0;
-	margin: 0;
-	opacity: 0.9;
-	padding: 0 0 0 60px;
-	position: fixed;
-	right: 320px;
-	width: 320px;
-	top: 80px;
-	z-index: 10;
-}
 /* primary content container -- all except header, menu and footer*/
 #view-frame {
 	background: #fff;
@@ -135,19 +109,6 @@ Style CSS organized as follows
 	padding: 20px 20px 20px 40px;
 	width: 58%;
 	width: calc(740px);
-}
-
-/* content column two */
-#right-sidebar-wrapper {
-	background: #f0f0f0;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
-	float: left;
-	margin: 0px;
-	padding: 20px 40px 20px 20px;
-	width: 42%;
-	width: calc(100% - 740px);
 }
 
 /* -- no styling below this line should affect the grid layout -- */
@@ -498,39 +459,6 @@ ul.children {
 
 
 
-#side-menu-button {
-	background: #C6C2BA;
-	border: 0px;
-	color: white;
-	display: none;
-	float: left;
-	font-size: 19px;
-	margin: 15px 20px 15px 0px; 
-	padding: 0px 8px 0px 8px;
-}
-
-#side-menu-button:hover {
-	background: #D2CEC6;
-	color: black;
-}
-
-#home-button {
-	background: #C6C2BA;
-	border: 0px;
-	color: white;
-	float: left;
-	font-size: 32px;
-	margin: 10px 0 0 0; 
-	padding: 0px 8px 0px 8px;
-	text-decoration: none;
-}
-
-#home-button:hover {
-	color: black;
-}
-
-
-
 .search-submit,
 .screen-reader-text, 
 #searchsubmit,
@@ -538,9 +466,10 @@ ul.children {
 	display: none;
 }
 
-#site-info-wrapper {
-	float: right;
+#site-title {
+	float: left;
 	line-height: 30px;
+	font-size: 36px;
 	margin: 15px 0px 0px 0px; 
 	padding: 0;
 }
@@ -550,8 +479,7 @@ ul.children {
 	list-style-type: none;
 }
 
-#site-info-wrapper .site-title  a,
-.site-description {
+#site-title  a {
 	margin: 0px;	
 	padding-left:  10px;
 	text-decoration: none; 
@@ -561,56 +489,7 @@ ul.children {
 	font-size: 27px;
 }
 
-.site-title {
-	font-size: 36px;
-}
 
-#site-info-wrapper a.site-title-short {
-	display: none;
-}
-
-
-/* highlight area */
-#highlight-text-area {
-	background: #436A88;
-	color: white; 
-	font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
-	min-height: 250px;
-/* min-height to match logo */	
-}
-
-/* use line height to determine spacing between paragraphs and fill in padding for the area */
-#highlight-headline {
-	font-size: 52px;
-	font-weight: 400; 
-	letter-spacing: 1px;
-	line-height: 1.3;
-	padding: 25px 0 25px 90px; 
-	text-align: left;
-}
-
-#highlight-subhead {
-	font-size: 24px;
-	font-weight: 400; 
-	letter-spacing: 1px;
-	line-height: 1;
-	padding: 0 0 25px 90px; 
-	text-align: left;
-}
-
-#highlight-headline p,
-#highlight-subhead p {
-	margin: 0;
-}
-
-#highlight-headline a  {
-	color: #fff;
-	text-decoration: none;
-}
-
-#highlight-headline a:hover {
-	color: #ccc;
-}
 
 
 /* formatting for content presented as collection of small regular widgets in larger area */
@@ -777,6 +656,13 @@ li.nav-tab-active  {
 	border: 1px solid #aaa;
 	margin: 20px;
 	padding: 20px;
+}
+
+/* menu -- single top menu*/
+#main-menu {
+	display: none;
+	background: white;
+	float: right;
 }
 
 /* post styles */
@@ -953,65 +839,6 @@ a.read-more-link {
 	display: inline;
 }
 
-/* #side-menu -- see also grid section */
-
-
-
-#main-menu-and-login-ul { 
-	font-size: 1.2em;
-	list-style:none;
-	padding-left: 0px;
-}
-
-#main-menu-and-login-ul li a { 
-	display: block;  
-	line-height: 28px; 
-  	text-decoration: none;  
-}
-
-#side-menu.dropdown-menu a {
-  	color: white;
-}
-
-#main-menu-and-login-ul li a:before { 
-	content: '>';
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li li a:before { 
-	content: ">>";
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li li li a:before { 
-	content: ">>>";
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li li li li a:before { 
-	content: ">>>>";
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li li li li li a:before { 
-	content: ">>>>>";
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li li li li li li a:before { 
-	content: ">>>>>>";
-	color: #ccc;
-}
-
-#main-menu-and-login-ul li a:hover {  
-	-moz-box-shadow:10px 10px 20px #000000;
-	-webkit-box-shadow:10px 10px 20px #000000;
-	box-shadow:10px 10px 20px #000000; 
-}
-
-#side-menu-widget-area {
-	width: 260px;
-}
 
 /* gray background for backpage view-frame */
 #view-frame.back-page-view {
@@ -1029,29 +856,10 @@ div#front-page-post-entry {
 	padding: 24px 20px; 
 }
 
-/* wrapper for use on non-sidebar pages, like  forum.php */
-#full-width-content-wrapper {
-	background: white;
-	margin: 10px 0;
-	padding: 10px 20px;
-}
-
 /* widgets generally formatting */
 
 .responsive_tabs_infinite_scroll_parms {
 	display: none;
-}
-
-.sidebar-widget-wrapper h2 {
-	margin: 0; 
-}
-
-.sidebar-widget-wrapper {
-	background: #fff; 
-	border: 0px; 
- 	border-radius: 0px;
- 	margin: 0 0 20px 0; 
- 	padding: 20px; 
 }
 
 /* responsive-tabs front page list styles */
@@ -1256,17 +1064,11 @@ a img.aligncenter {
 		width: auto;	
 	}
 
-	#side-menu-button 	{
-		display: block; 
-	}
 
 	#view-frame {
 		width: 100%;
 	}
-	
-	#highlight-text-area	{
-		min-height: 0;
-	}
+
 }
 
 
@@ -1276,15 +1078,13 @@ a img.aligncenter {
 		width: 33.3333%;
 	}
 
-	#right-sidebar-wrapper	{ 
-		width: 42%;
-	}
+
 /* 58% = 740/1279 (smooth transition) */
 	#content-wrapper	{ 
 		width: 58%;
 	}
 
-	#site-info-wrapper li.site-description {
+	#site-description {
 		display: none;
 	}
 
@@ -1301,30 +1101,22 @@ a img.aligncenter {
 
 
 	
-	#side-menu.dropdown-menu,
 	#header-bar,	
 	#wrapper	{
 		padding: 0 20px;
 	}
 	
 	#view-frame.back-page-view,	
-	#content-wrapper,
-	#right-sidebar-wrapper {
+	#content-wrapper {
 		background: #fff;
 	}
 	
-	#content-wrapper,
-	#right-sidebar-wrapper { 
+	#content-wrapper { 
 		border: 0;
 		padding: 0;
 		width: 100%;
 	}	
 
-
-	/* hide headline */
-	#highlight-text-area {
-		display: none;
-	}	
 	
 	/* replace headline with color splash */
 	
@@ -1396,15 +1188,6 @@ a img.aligncenter {
 		overflow-x: scroll;
 	}
 
-	#highlight-headline,
-	#highlight-subhead {
-		display: none;
-	}
-	
-	#side-menu,
-	#side-menu a {
-		font-size: .9em;
-	}
 	
 	.home-narrow-widget-wrapper {
 		width: 100%;
@@ -1414,14 +1197,6 @@ a img.aligncenter {
 	.attachment-full-width {
 		width: 298px;
 		height: 224px; 
-	}
-
-	#site-info-wrapper a.site-title-short {
-		display: inline;
-	}
-	
-	#site-info-wrapper a.site-title-long { 
-		display: none;
 	}
 
 	.rtfpcl-category-name {

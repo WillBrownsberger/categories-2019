@@ -75,32 +75,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		<?php }
 	}
 
-	/* short title for mobile added to main site info section*/
-	
-	$wp_customize->add_setting( 'site_short_title', array(
-	    'default' => __( 'Set mobile short title', 'responsive-tabs' ),
-	    'sanitize_callback' => 'sanitize_text_field',
-	) );
-	
-	/* front page headline */
-	
-	$wp_customize->add_section( 'responsive_tabs_highlight' , array(
-	    'title'      => __( 'Front Page Highlight', 'responsive-tabs' ),
-	    'priority'   => 30,
-  	    'description' => 'Enter additional branding information or short a message to highlight for front page users.  Or make these areas blank to just show a color bar. 
-  	    	You can also put a widget in the highlight area.  Set Colors and Fonts (not applicable to widget content) in the Colors and Fonts sections of the customizer. 
-	    	<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>' 
-	) );
-	
-	$wp_customize->add_setting( 'highlight_headline', array(
-	    'default' => __( 'Highlight Headline','responsive-tabs' ),
-	    'sanitize_callback' => 'wp_kses_post'
-	) );
-	
-	$wp_customize->add_setting( 'highlight_subhead', array(
-	    'default' => __( 'Highlight Subhead', 'responsive-tabs' ),
-	    'sanitize_callback' => 'wp_kses_post'
-	) );
 	
 	/* tab titles */
 	$wp_customize->add_section( 'tab_titles_section' , array(
@@ -128,25 +102,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
 	
-	$wp_customize->add_setting( 'highlight_color', array(
-	    'default' => '#436A88',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-	
-	$wp_customize->add_setting( 'highlight_headline_color', array(
-	    'default' => '#fff',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-	
-	$wp_customize->add_setting( 'highlight_headline_link_color', array(
-	    'default' => '#fff',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
-	
-	$wp_customize->add_setting( 'highlight_headline_link_hover_color', array(
-	    'default' => '#ccc',
-	    'sanitize_callback' => 'sanitize_hex_color'
-	) );
 	
 	$wp_customize->add_setting( 'body_text_color', array(
 	    'default' => '#000',
@@ -275,30 +230,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	/* CONTROLS
 	-------------------------------------------------------*/	
 	
-	/* short title control*/
-	$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'site_short_title', array(
-		'label'      => __( 'Site Short Title (for mobile)', 'responsive-tabs' ),
-		'section'    => 'title_tagline',
-		'settings'   => 'site_short_title',
-	   'priority'   => 50
-	) ) );
-	
-	/* highlight headlines */
-	
-	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'highlight_headline', array(
-		'label'      => __( 'Highlight Headline', 'responsive-tabs' ),
-		'section'    => 'responsive_tabs_highlight',
-		'settings'   => 'highlight_headline',
-	   'priority'   => 1
-	) ) );
-	
-	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'highlight_subhead', array(
-		'label'      => __( 'Highlight SubHead', 'responsive-tabs' ),
-		'section'    => 'responsive_tabs_highlight',
-		'settings'   => 'highlight_subhead',
-	   'priority'   => 2
-	) ) );
-	
 	/* tab titles control */		
 	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'tab_titles', array(
 		'label'      => __( 'Tab Titles', 'responsive-tabs' ),
@@ -317,33 +248,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 
 /* color controls */
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'highlight_color', array(
-		'label'     => __( 'Highlight Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'highlight_color',
-		'priority'	=> 40,
-	) ) );
-
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'highlight_headline_color', array(
-		'label'     => __( 'Headline Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'highlight_headline_color',
-		'priority' 	=> 50,
-	) ) );
-
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'highlight_headline_link_color', array(
-		'label'     => __( 'Headline Link Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'highlight_headline_link_color',
-		'priority' 	=> 52,
-	) ) );
-
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'highlight_headline_link_hover_color', array(
-		'label'     => __( 'Headline Link Hover Color', 'responsive-tabs' ),
-		'section'   => 'colors',
-		'settings'  => 'highlight_headline_link_hover_color',
-		'priority' 	=> 54,
-	) ) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'home_widgets_title_color', array(
 		'label'     => __( 'Tab Titles Color', 'responsive-tabs' ),

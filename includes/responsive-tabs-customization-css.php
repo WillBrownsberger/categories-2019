@@ -45,8 +45,6 @@ function responsive_tabs_customize_css() { ?>
 	 			color: <?php echo get_theme_mod( 'home_widgets_title_color' ); ?>;
 	 	}
 	
-		#front-page-mobile-color-splash,     			
-		#highlight-text-area,
 		#color-splash { 
 			background: <?php echo get_theme_mod( 'highlight_color' ); ?>;  
 		}
@@ -54,26 +52,6 @@ function responsive_tabs_customize_css() { ?>
 		.post-list li.sticky {
 			border-left: 8px solid <?php echo get_theme_mod( 'sticky_post_border_color' ); ?>;
 		}	
-		
-		#highlight-headline,
-		#highlight-subhead	{
-			color: <?php echo get_theme_mod( 'highlight_headline_color' ); ?>;
-			font-family: <?php echo get_theme_mod( 'highlight_headline_font_family' ); ?>;
-		}
-	
-		#highlight-headline	{
-			font-size: <?php echo get_theme_mod( 'highlight_headline_font_size' ); ?>;
-		}
-			
-		#highlight-headline a,
-		#highlight-subhead a	{
-			color: <?php echo get_theme_mod( 'highlight_headline_link_color' ); ?>;
-		}
-	
-		#highlight-headline a:hover,
-		#highlight-subhead a:hover	{
-			color: <?php echo get_theme_mod( 'highlight_headline_link_hover_color' ); ?>;
-		}
 	
 		.pl-odd {
 			background-color: <?php echo get_theme_mod( 'list_odd_rows' ); ?>;		
@@ -82,12 +60,7 @@ function responsive_tabs_customize_css() { ?>
 		.pl-even {
 			background-color: <?php echo get_theme_mod( 'list_even_rows' ); ?>;		
 		}	
-	
-	
-	 	div#side-menu.sidebar-menu {
-	 		background-image: url("<?php header_image(); ?>");
-	 	}
-	  
+
 	 	.site-title a,
 		.site-description,
 		.site-title-short a {

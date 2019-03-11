@@ -18,41 +18,8 @@ if ( 'posts' != get_option( 'show_on_front' ) ) { // use page template
  
 	get_header();
 	
-	
-	/* 
-	*
-	* Highlighted area 
-	*
-	*/
+	echo '<div id = "color-splash"></div>';
 
-	if( is_active_sidebar( 'highlight_area_widget' ) ) { 
-		// display sidebar
-			dynamic_sidebar( 'highlight_area_widget' );
-	} else { // show headlines if no widget in highlight_area_widget
-	
-		$highlight_headline = get_theme_mod( 'highlight_headline' );
-		$highlight_subhead =  get_theme_mod( 'highlight_subhead' );
-		
-		if ( $highlight_headline > '  ' || $highlight_subhead > '  ' ) {
-		  	echo '<div id = "highlight-text-area">';
-				if( $highlight_headline > '    ' )	{
-			      echo '<div  id="highlight-headline">' .
-			 		  	$highlight_headline  .  
-			      '</div>';
-				}
-				if( $highlight_subhead > '    ' ) {          
-					echo '<div  id="highlight-subhead">' .
-						$highlight_subhead .  
-					'</div>';
-				} 
-			echo '</div>
-			<div class = "horbar-clear-fix"></div>'; 
-		} else {
-			echo '<div id = "color-splash"></div>';
-		}
-	echo '<div id="front-page-mobile-color-splash"></div>'; // displays only in mobile mode (not show highlighted message in mobile)		
-	}	
-	
 	/*
 	* tabs area
 	*
