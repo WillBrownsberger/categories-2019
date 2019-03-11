@@ -21,10 +21,6 @@ function responsive_tabs_customize_css() { ?>
 	  		font-size: <?php echo get_theme_mod( 'body_text_font_size' ); ?>;
 	  	}
 	  	
-		#bbpress-forums .bbp-reply-content {
-	  		font-size: <?php echo get_theme_mod( 'body_text_font_size' ); ?>;
-	  	}
-	  	
 		a {
 			color: <?php echo get_theme_mod( 'body_link_color' ); ?>;
 		}

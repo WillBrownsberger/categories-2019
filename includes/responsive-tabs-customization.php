@@ -253,11 +253,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'default' => true,
 	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean', 
 	) );
-	
-	$wp_customize->add_setting( 'suppress_bbpress_breadcrumbs', array(
-	    'default' => true,
-	    'sanitize_callback' => 'responsive_tabs_sanitize_boolean',
-	) );
 
 	$wp_customize->add_setting( 'category_home' , array(
 	    'default' => '0',
@@ -635,14 +630,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'settings' => 'page_home',
 	    'choices'  => $landing_tab_options_array,
 	    'priority'	=>	80,
-	) );
-
-	$wp_customize->add_control( 'suppress_bbpress_breadcrumbs', array(
-	    'settings' => 'suppress_bbpress_breadcrumbs',
-	    'label'    => __( 'Suppress bbPress Breadcrumbs', 'responsive-tabs' ),
-	    'section'  => 'responsive_tabs_navigation_section',
-	    'type'     => 'checkbox',
-	    'priority'	=> 100,
 	) );
 
 	/* footer accordion controls */

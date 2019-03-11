@@ -39,7 +39,6 @@ The design premise of the theme is that (a) less can be more visually -- users s
 * Dropdown menu for the routine links like about, contact, etc. -- the things that users know to look for on every site.  Expands to a left sidebar on very wide screens.
 * Footer accordion for standard reference content.
 * Wide format options for both pages and posts to accommodate  tables and other wide format content.
-* Standard plugin hooks with extra support for key plugins -- bbPress, popular Breadcrumb plugins, FrontEnd Post No Spam, Clippings.
 * Scrupulous attention to Wordpress design and coding standards to maximize compatibility and transparency.
 
 
@@ -72,72 +71,6 @@ Let us know if you have questions or concerns -- help@responsive-tabs-theme-for-
 
 
 == Changelog ==
-Version 2.28 (2019-03-04)
-+  Changing only main directory name to omit git 'master' suffix
-Version 2.27 (2019-03-04)
-+  Handle condition where author has been deleted
-+  Update js to handle new 5.1 comment-reply.js (add listeners after elements added by ajax in infinite scroll for comments)
-+  Avoid unnecessary repetitive load attempts if scrolled to bottom on infinite scroll
-Version 2.26 (2016-03-26)
-+  Fix stray div tag in support for breadcrumb plugins
-+  Eliminate defunct "Highlight Headline Small Screen" option
-+  Test with release candidate 4.5
-Version 2.25 (2015-11-26)
-+  Amend comment Ajax calls for consistency with new comment objects in 4.4
-+  Eliminate name/email js validation for consistency with new comment form in 4.4
-Version 2.24 (2015-11-08)
-+  Add author filter option to Front Page Post Widget
-Version 2.23 (2015-11-06)
-+  Translation domain corrections.
-Version 2.22 (2015-11-06)
-+  4.3 compatibility: In theme customizer, move theme controls in deprecated 'nav' section to theme specific section.
-+  Fix: Use site_url to properly support installations in subdirectories
-Version 2.21 (2015-06-14)
-+  Adjust infinite scroll standard page length for comments
-Version 2.2 (2015-06-12)
-+  Add Infinite Scroll for comments
-+  Internationalize error message for too many infinite scroll widgets
-Version 2.1 (2015-05-29)
-+  Add Infinite Scroll to all templates.
-Version 2.0 (2015-05-25)
-+  Add Infinite Scroll to Latest Posts, Latest Comments, Links Widgets
-+	Eliminate extra CSS lines
-+	Fix last page link bug on latest posts widget
-Version 1.33 (2015-02-07)
-+  Eliminated add_filter to allow shortcodes in widgets
-+  Changed title of tab in case of blank tab title option
-Version 1.32 (2015-02-05)
-+  Updated screenshot
-Version 1.31 (2015-02-05) -- Responses to review feedback
-+	Moved getting-started.php from a default front page display to a menu item under Appearance
-+  Removed unnecessary script registration
-Version 1.3	(2015-02-02) -- Responses to review feedback
-+  Removed javascript back button from 404.php
-+  Removed logic in footer.php and responsive-tab-utilities.js that used cookies to display a welcome splash for new or long-gone visitors
-+  Also removed settings from customizer related to the welcome splash.  Reconfigured as only a widget display option.
-+  Removed all links from getting-started.php
-+  Removed favicon display from header.php
-Version 1.2		(2014-12-23)	-- Responses to review feedback
-+  Remove test of ABSPATH definition in all modules (unnecessary)
-+	Modify nonce checking in post width metabox ( functions.php ) to eliminate bad reference to site_url(__FILE__) and clean up logic
-+  Move enqueue of comments-reply from header and retina-header to setup
-+	Add declaration of text domain to style.css ( text domain already used in all output ) 
-+	Eliminate unnecessary query and array match in responsive_tabs_author_dropdown
-+	Eliminate references to publication custom taxonomy
-+	Review all modules for sanitization, alter some sanitization functions, and fix some instances of missing output sanitization 
-+	Add parentheses to clarify $nav_tab_active class selection
-+	Eliminate unnecessary error generating calls to ResetSideMenu in case of retina header display
-+	Styling tweaks
-+	Add new theme support for title tags
-Version 1.1 	(2014-09-24)   -- Enhancements and improved documentation 
-+  Improved consistency of options in widgets 
-+  Add by-user include/exclude option and changed query mechanism for comments widget
-+  Added featured images to page templates
-+  Added optional welcome splash widget area for first-time visitors or non-recent visitors; also configurable as drop down from title bar
-+  Changed initialization values for new website installs. 
-Version 1.01	(2014-09-13) 	-- Changed projet URL's to comply with Wordpress trademark policy
-Version 1.0 	(2014-09-11) 	-- Initial Submission to Wordpress 
+Version 1.0 -- modifications from Responsive Tabs Version 2.28
++ Eliminate BBPress
 
-== Upgrade Notice ==
-Upgrade to 1.1 recommended for better widget functionality.
-+

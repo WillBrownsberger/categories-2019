@@ -5,7 +5,6 @@
 * -- includes theme customizer and widget files
 * -- registers and enqueues javascripts ( utilities and comments-reply ), also namespaces ajax call in utilities
 * -- minimizes retrieval of latest posts on home page (so not waste resources in requery in widgets)
-* -- optionally suppresses bbpress breadcrumbs
 * -- registers menu
 * -- registers sidebars
 * -- adds theme support for header, background, thumbnails, html5, feeds, post-format (link), title-tags
@@ -131,12 +130,6 @@ function responsive_tabs_manage_posts_per_page( $query ) {
 }
 add_action( 'pre_get_posts', 'responsive_tabs_manage_posts_per_page', 1 );
  
-/*
-*  optionally suppress bbpress bread crumbs on bbp template forms -- since may be loading broader breadcrumb plugins or offering own
-*/ 
-if ( true === get_theme_mod( 'suppress_bbpress_breadcrumbs' ) ) { 
-		add_filter( 'bbp_no_breadcrumb', '__return_true' );
-}
 
 /*
 * set up menu
@@ -229,15 +222,6 @@ function responsive_tabs_widgets_init() {
 	) );
 
 
-	register_sidebar( array(
-		'name' 				=> __( 'BBPress Sidebar', 'responsive-tabs' ),
-		'description' 		=> __( 'Displayed with BBPress Topics', 'responsive-tabs' ),
-		'id' 					=> 'bbpress_sidebar',
-		'before_widget' 	=> '<div class = "sidebar-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
 
 	register_sidebar( array(
 		'name' 				=> __( 'Fine Print Bottom Widget', 'responsive-tabs' ),
