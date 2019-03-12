@@ -3,10 +3,6 @@
 * 
 * Description: Minor utility functions for the theme
 *  -- menu show/hide
-* 	-- manages column widths on load for older browsers (if don't support css calc)
-*  -- protects against wordpress comment text loss possibility with older browsers
-*	-- supports show/hide of info splash
-*
 *
 * @package responsive
 */ 
