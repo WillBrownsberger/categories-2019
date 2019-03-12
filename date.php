@@ -37,12 +37,11 @@ if ( $day > 0 ) {
 }
 $widget_parms = new Widget_Ajax_Parms ( 
 	'non_widget_query', 	// widget_type
-	array ( 					// $include_string,
+	array ( 				// $include_string,
 		$date_query
 	),
-	'', 						// $exclude_string,
 	2, 						// page 2 is second page; pagination is incremented after retrieval;
-	'date_query' 						// $query_type
+	'date_query' 			// $query_type
 );
 $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 

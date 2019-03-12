@@ -76,12 +76,17 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	}
 
 	/* color settings */
-	
-	$wp_customize->add_setting( 'home_widgets_title_color', array(
+
+	$wp_customize->add_setting( 'site_title_color', array(
 	    'default' => '#555',
 	    'sanitize_callback' => 'sanitize_hex_color'
 	) );
 	
+	$wp_customize->add_setting( 'splash_color', array(
+	    'default' => '#555',
+	    'sanitize_callback' => 'sanitize_hex_color'
+	) );
+		
 	
 	$wp_customize->add_setting( 'body_text_color', array(
 	    'default' => '#000',
@@ -192,10 +197,18 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 /* color controls */
 
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'home_widgets_title_color', array(
-		'label'     => __( 'Tab Titles Color', 'responsive-tabs' ),
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'site_title_color', array(
+		'label'     => __( 'Site Title Color', 'responsive-tabs' ),
 		'section'   => 'colors',
-		'settings'  => 'home_widgets_title_color',
+		'settings'  => 'site_title_color',
+		'priority' 	=> 60,
+	) ) );  
+		  
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'splash_color', array(
+		'label'     => __( 'Color Splash', 'responsive-tabs' ),
+		'section'   => 'colors',
+		'settings'  => 'splash_color',
 		'priority' 	=> 60,
 	) ) );  
 		  

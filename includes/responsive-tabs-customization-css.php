@@ -38,15 +38,28 @@ function responsive_tabs_customize_css() { ?>
 			color: <?php echo get_theme_mod( 'body_header_color' ); ?>;
 		}
 	  
-		.site-title a,
-		.site-description,
-		#main-tabs .main-tabs-headers li a,
+		#site-title,
+		#site-title a,
+		#site-description,
+		#site-description a,
+		#main-menu-button .dashicons,
 	  	#home_bulk_widgets .home-bulk-widget-wrapper h2.widgettitle	{
-	 			color: <?php echo get_theme_mod( 'home_widgets_title_color' ); ?>;
+	 			color: <?php echo get_theme_mod( 'site_title_color' ); ?>;
 	 	}
+
+		#site-title,
+		#site-title a,
+		#site-description,
+		#site-description a,
+	  	#home_bulk_widgets .home-bulk-widget-wrapper h2.widgettitle	{
+	 			font-family: <?php echo get_theme_mod( 'site_info_font_family' ); ?>;
+	 	}
+
+
+
 	
 		#color-splash { 
-			background: <?php echo get_theme_mod( 'highlight_color' ); ?>;  
+			background: <?php echo get_theme_mod( 'splash_color' ); ?>;  
 		}
 	  	
 		.post-list li.sticky {

@@ -29,21 +29,23 @@
 		<h2><?php echo __( 'Quick Links', 'responsive-tabs' ) ?></h2>
 		<ul id = "main-menu-and-login-ul">
 			<?php 
-				echo '<li><a href="' . site_url() . '?show_comments=yes">' . __( 'Discussion', 'responsive-tabs' ) . '</a></li>';
-				// main menu
-				$args = array (
-					'theme_location' 	=> 'main-menu', 
-					'items_wrap'		=> '%3$s', // no items wrap
-				); 
-				wp_nav_menu( $args );
+			// main menu
+			$args = array (
+				'theme_location' 	=> 'main-menu', 
+				'items_wrap'		=> '%3$s', // no items wrap
+			); 
+			wp_nav_menu( $args );
+			// comment link
+			echo '<li><a href="' . site_url() . '?show_comments=yes">' . __( 'discussion', 'responsive-tabs' ) . '</a></li>';
+
 			
 			if (get_theme_mod('show_login_links'))	{
 								
 				$redirect_to = is_home() ? home_url() : get_permalink();  // from home, get_permalink() returns latest post   
 				
 				if ( is_user_logged_in() ) {
-           		$current_user = wp_get_current_user();
-           		if ( current_user_can( 'edit_others_posts' ) ) {
+           			$current_user = wp_get_current_user();
+           			if ( current_user_can( 'edit_others_posts' ) ) {
 						echo '<li><a href="' . site_url() . '/wp-admin">' . __( 'dashboard', 'responsive-tabs' ) . '</a></li>';
 					} else {
 						$profile_link = site_url() . '/wp-admin/profile.php';
@@ -67,14 +69,16 @@
 
 	<button id = "main-menu-button" onclick = "toggleMainMenu()" title="Site Map"><span class="dashicons dashicons-menu"></span></button>
 
-
-
-
 	<div id="site-title">
 		 <a href="<?php echo( home_url( '/' ) ); ?>" class="site-title-long" title="<?php _e( 'Go to front page', 'responsive-tabs' ); ?>">
 		 	<?php esc_html( trim( bloginfo( 'name' ) ) ); ?>
 		 	<span id="site-description"> -- <?php esc_html( bloginfo( 'description' ) ); ?></span>
-		 </a>
+		 	<?php 
+		 	$custom_logo_id = get_theme_mod( 'custom_logo' );
+			$custom_logo_url = wp_get_attachment_image_url( $custom_logo_id , array( 36,36 ) );
+			echo '<img width=36 height=36 src="' . esc_url( $custom_logo_url ) . '" alt="">';
+		 	?>
+		</a>	 	
 	</div>
 
 	<div class="horbar-clear-fix"></div>  

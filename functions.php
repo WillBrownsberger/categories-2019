@@ -42,7 +42,7 @@ function responsive_tabs_theme_setup() {
 		 	false,
 		 	false			
 			);
-
+		wp_enqueue_style( 'dashicons' ); // no speed penalty
 			// name spacing the AJAX URL in script by putting it into js global object and setting nonce
 			// name spacing matches calls in responsive-tabs-utilities.js
 		wp_localize_script( 'responsive-tabs-utilities', 'responsive_tabs_ajax_object',
@@ -61,46 +61,12 @@ function responsive_tabs_theme_setup() {
 // wp_enqueue_scripts only works on the front end
 add_action('wp_enqueue_scripts', 'responsive_tabs_theme_setup');
 
-/*
-* initialize key mods on first install in case user does not first enter customizer before viewing front page
-*
-*/
-$tt_mod = get_theme_mod( 'tab_titles' ) ;
 
-if ( false === $tt_mod ) {
-	set_theme_mod( "tab_titles"			, __( 'This is Tab 0, This is Tab 1', 'responsive-tabs') );
-	set_theme_mod( "landing_tab"			, "0" );
-	set_theme_mod( "show_login_links"	, true );
-	set_theme_mod( "show_breadcrumbs"	, true );
-	set_theme_mod( "category_home"		, "0" );
-	set_theme_mod( "date_home"				, "0" );
-	set_theme_mod( "author_home"			, "0" );
-	set_theme_mod( "search_home"			, "0" );
-	set_theme_mod( "tag_home"				, "0" );
-	set_theme_mod( "page_home"				, "0" );
-	set_theme_mod( "header_image"			, get_template_directory_uri() . "/images/initial-header.png");
-}
-
-/*
-*
-* Set up theme options page -- just an intro and pointer to the customizer -- all settings are in the customizer 
-*
-*/
-function responsive_tabs_theme_intro_page() {
-	add_theme_page ( 'Responsive Tabs', 'Responsive Tabs', 'edit_theme_options', 'responsive-tabs-theme-intro', 'load_responsive_tabs_getting_started_page' );
-}
-add_action ( 'admin_menu', 'responsive_tabs_theme_intro_page' );
-
-function load_responsive_tabs_getting_started_page () { 
-	get_template_part ( 'getting', 'started' );
-}
 
 /*
 * make page length compatible with infinite scroll for WP queries
 *
-* minimize home page main query because will not be showing posts from this query
-* note that show_on_front == false is the condition under which a static front page other than the 
-* 	main responsive-tabs front page is shown
+* loading excerpts -- more is actually faster per page speed (load of second bunch gets counted) -- went from 1 to 12 for front page 
 */
 function responsive_tabs_manage_posts_per_page( $query ) { 
 
@@ -108,17 +74,7 @@ function responsive_tabs_manage_posts_per_page( $query ) {
 	if ( is_admin() || ! $query->is_main_query() ) {
 		return; 
 	}
-		
-   if ( 'posts' == get_option( 'show_on_front' ) && is_home() ) {
-        // When showing responsive-tabs front page, retrieve only one for the original blog archive main query (minimize db access)
-        $query->set( 'posts_per_page', '1' );
-        $query->set( 'ignore_sticky_posts', true ); 
-        return;
-    // otherwise, if haven't disabled infinite scroll, standardize page length 
-    } else {
-        $query->set( 'posts_per_page', '4' ); // 
-        return;	
-	} 
+    $query->set( 'posts_per_page', '12' ); // 
 
 }
 add_action( 'pre_get_posts', 'responsive_tabs_manage_posts_per_page', 1 );
@@ -150,8 +106,8 @@ function responsive_tabs_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' 				=> __( 'Tab ', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget area for Tab content', 'responsive-tabs' ),
+		'name' 				=> __( 'Front Page ', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget area at top of front page list ', 'responsive-tabs' ),
 		'id' 				=> 'home_widget_0',
 		'class' 			=> '',
 		'before_widget' 	=> '',
@@ -179,16 +135,15 @@ add_action( 'widgets_init', 'responsive_tabs_widgets_init' );
 *
 */
 function responsive_tabs_theme_support_setup() {
-	
-	$header_default = array(
-		'width'         => 300,
-		'height'        => 250,
-		'header-text'   => false,
-		'uploads'       => true,
-		'default'		 => get_template_directory_uri() . '/images/initial-header.png',
-	);
-	add_theme_support( 'custom-header', $header_default ); // note -- installed as background image in theme customizer
-	
+
+	add_theme_support( 'custom-logo', array(
+		'height'      => 36,
+		'width'       => 36,
+		'flex-height' => true,
+		'flex-width'  => true,
+		'header-text' => array( 'site-title', 'site-description' ),
+	) );
+
 	add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
 		add_image_size( 'front-page-thumb', 267, 200 ); 
 		add_image_size( 'front-page-half-thumb', 133, 100 ); 
@@ -301,6 +256,7 @@ function baw_hack_wp_title_for_home( $title )
 *
 * function to populate category list in single db call -- want to maximize speed
 *
+*  no speed penalty noticeable including this or not
 */
 function category_list_two_deep () {
 	global $wpdb;
@@ -309,9 +265,9 @@ function category_list_two_deep () {
 	$terms = $wpdb->prefix . 'terms';
 	$sql = "
 		SELECT t1.name as parent_cat, t1.slug as parent_cat_slug, t2.name as child_cat, t2.slug as child_cat_slug FROM 
-		( wp_3_term_taxonomy tt1 INNER JOIN wp_3_terms t1 on tt1.term_id = t1.term_id ) left join 
-		( wp_3_term_taxonomy tt2 INNER JOIN wp_3_terms t2 on tt2.term_id = t2.term_id ) on 
-			tt2.parent = tt1.term_taxonomy_id 
+		( $term_taxonomy  tt1 INNER JOIN $terms t1 on tt1.term_id = t1.term_id ) left join 
+		( $term_taxonomy  tt2 INNER JOIN $terms t2 on tt2.term_id = t2.term_id ) on 
+			tt2.parent = tt1.term_id 
 			WHERE tt1.parent = 0 and tt1.taxonomy = 'category' 
 			order by t1.name, t2.name
 	";
@@ -335,16 +291,6 @@ function category_list_two_deep () {
 
 }
 
-
-
-
-/*
-* Editor Styling using main style sheet
-*/
-function responsive_tabs_add_editor_styles() {
-    add_editor_style( 'custom-editor-style.css' );
-}
-add_action( 'after_setup_theme', 'responsive_tabs_add_editor_styles' );
 
 /*
 * From twentyeleven -- first link grabber

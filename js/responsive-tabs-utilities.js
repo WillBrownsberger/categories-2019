@@ -19,7 +19,7 @@ function toggleMainMenu() {
 		menu.style.display = "block";
 		button.innerHTML = '<span class="dashicons dashicons-dismiss"></span>';
 	} 
-	if ( !document.getElementsByClassName( 'gsc-input' ).length ) { console.log ( 'loading item')
+	if ( !document.getElementsByClassName( 'gsc-input' ).length && responsive_tabs_ajax_object.gcse_search_id > '' ) { console.log ('loading');
 		var gcse = document.createElement('script');
 		gcse.type = 'text/javascript';
 		gcse.async = true;

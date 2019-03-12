@@ -79,15 +79,6 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 			
 endwhile; // close the main loop 
 
-
-
-// show page sidebar
-if( is_active_sidebar( 'page_sidebar' ) ) {
-	echo '<div id="right-sidebar-wrapper">';
-		dynamic_sidebar( 'page_sidebar' );
-		wp_meta();	
-	echo '</div>';
-}
  // empty bar to clear formatting -->
 ?><div class="horbar-clear-fix"></div><?php 
  

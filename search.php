@@ -22,7 +22,6 @@ global $responsive_tabs_infinite_scroll_ajax_parms;
 $widget_parms = new Widget_Ajax_Parms ( 
 	'non_widget_query', 			// widget_type
 	$query_vars['s'],				// $include_string,
-	'', 								// $exclude_string,
 	2, 								// page 2 is second page; pagination is incremented after retrieval;
 	's'								// $query_type
 );

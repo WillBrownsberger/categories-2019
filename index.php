@@ -14,15 +14,12 @@
 // set up parameters to be passed to ajax call as hidden value if not infinite sroll not disabled ( done in post-list.php)
 global $responsive_tabs_infinite_scroll_ajax_parms;
 $widget_parms = new Widget_Ajax_Parms ( 
-	'non_widget_query', 			// widget_type
+	'non_widget_query', 		// widget_type
 	'dummy_not_value_value',	// $include_string -- in this case, sending dummy string -- no string needed
-	'', 								// $exclude_string,
-	2, 								// page 2 is second page; pagination is incremented after retrieval;
+	2, 							// page 2 is second page; pagination is incremented after retrieval;
 	'dummy_not_valid_value'		// $query_type -- in this case, sending dummy type -- will be ignored by wp_query in ajax handler
 );
 $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
-
-
 
 get_header();
 
@@ -32,7 +29,6 @@ if ( isset ( $query_vars['tax_query'] ) ) {
 		( see category.php as a model ).', 'responsive-tabs' ) 
 		. '</h3>';	
 }
-
 
 ?><!-- responsive-tabs index.php -->
 

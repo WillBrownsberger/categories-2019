@@ -98,9 +98,8 @@ if ( have_comments() ) {
 	$widget_parms = new Widget_Ajax_Parms ( 
 		'comment_query', 	// widget_type
 		$post->ID, 			// $include_string,
-		'', 					// $exclude_string,
 		0, 					// initial offset from first page -- is incremented after retrieval
-		''						// $query_type
+		''					// $query_type
 	);
 	$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 	 

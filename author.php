@@ -25,11 +25,10 @@ if ( is_object ( $curauth ) && isset ( $curauth->display_name ) ) {
 global $responsive_tabs_infinite_scroll_ajax_parms;
 
 $widget_parms = new Widget_Ajax_Parms ( 
-	'non_widget_query', 			// widget_type
+	'non_widget_query', 		// widget_type
 	get_query_var( 'author' ),	// $include_string,
-	'', 								// $exclude_string,
-	2, 								// page 2 is second page; pagination is incremented after retrieval;
-	'author'							// $query_type
+	2, 							// page 2 is second page; pagination is incremented after retrieval;
+	'author'					// $query_type
 );
 $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 ?>

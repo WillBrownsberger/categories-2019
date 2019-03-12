@@ -28,9 +28,8 @@ get_header();
 		$widget_parms = new Widget_Ajax_Parms ( 
 			'non_widget_query', 	// widget_type
 			$cat, 					// $include_string,
-			'', 						// $exclude_string,
 			2, 						// page 2 is second page; pagination is incremented after retrieval;
-			'cat'						// $query_type
+			'cat'					// $query_type
 		);
 		$responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 
@@ -38,7 +37,7 @@ get_header();
 		$subargs = array(
 		  'orderby'		=> 'name',
 		  'order' 		=> 'ASC',
-	     'hide_empty' => 0,
+	      'hide_empty' => 0,
 		  'parent' 		=> $cat, 
 		);	 
 		$subcategories = get_categories( $subargs );

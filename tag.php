@@ -20,9 +20,8 @@ global $responsive_tabs_infinite_scroll_ajax_parms;
 $widget_parms = new Widget_Ajax_Parms ( 
 	'non_widget_query', 			// widget_type
 	$t,								// $include_string,
-	'', 								// $exclude_string,
 	2, 								// page 2 is second page; pagination is incremented after retrieval;
-	'tag'								// $query_type
+	'tag'							// $query_type
 );
 $responsive_tabs_infinite_scroll_ajax_parms = json_encode( $widget_parms );	
 

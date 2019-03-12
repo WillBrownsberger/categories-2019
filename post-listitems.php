@@ -18,22 +18,14 @@ if ( 'link' == $post_format ) {
 	$link 	= esc_url( responsive_tabs_url_grabber() );
 	$title 	= __( 'Link: ', 'responsive-tabs' ) . get_the_title(); 
 	$excerpt	= get_the_content();
-	$read_more_pointer = ( 
-			comments_open() ? 
-				( '<a href="' . get_the_permalink() . '" rel="bookmark" ' . 
-						'title="'. __( 'View the link with comments on this site ', 'responsive-tabs' ) . '">' . 
-						__( 'Comment Here', 'responsive-tabs' ) .	'</a>'. __( ' or ', 'responsive-tabs' ) ) 
-				: '' ) . 
-			'<a href="' . esc_url( responsive_tabs_url_grabber() ) . '">' . __( 'Go to Link', 'responsive-tabs' ) . ' &raquo;</a>'; 
-} else { 
+	$author_entry = '';
+	} else { 
 	$link 	= get_permalink();
 	$title 	= get_the_title();
 	$excerpt	= get_the_excerpt();
-	$read_more_pointer = '<a href="' . $link .'" rel="bookmark" ' . 
-			'title="'. __( 'Read the rest of this post', 'responsive-tabs' ) . '">' . __( 'Read More', 'responsive-tabs' ) . ' &raquo; </a>'; 
+	$author_entry = 	'<span class="pl-post-author">, <a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></span>';
 } 
 			
-$author_entry = 	'<span class="pl-post-author">, <a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></span>';
 $comments_count = get_comments_number();
 $comments_phrase = '';
 if ( 1 == $comments_count ) {
@@ -76,7 +68,6 @@ echo '<li ' ;
     '</div>' .
 	'<div class="pl-post-excerpt">' .
 		$excerpt . '<br />' . 
-		$read_more_pointer .  
 		'</div>' .         
  '</li>';
 	
