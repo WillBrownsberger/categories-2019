@@ -161,17 +161,12 @@ class Responsive_Tabs_Ajax_Handler {
 	
 	} 
 
-	public static function latest_comments ( $include_string, $exclude_string, $comment_page, $active_tab, $disable_infinite_scroll, $number ) {
+	public static function latest_comments (  $comment_page ) {
  	
-		$scroll_marker = '';
-		if ( 0 == $disable_infinite_scroll ) {
-			$number = 4; // rapid first response and then keep scrolling			
-			$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
-		}
+		$number = 4; // rapid first response and then keep scrolling			
+		$scroll_marker = ' id="responsive-tabs-ajax-insert" ';	
  		
-		$offset					= $comment_page * $number;
-		$include_clause = $include_string > '' ? ( ' AND user_id IN (' . $include_string . ') ' ) : ''; 
-		$exclude_clause = $exclude_string > '' ? ( ' AND user_id NOT IN (' . $exclude_string . ') ' ) : '';
+		$offset	= $comment_page * $number;
 		
 		global $wpdb;
 		$widget_comment_query = 
@@ -182,8 +177,6 @@ class Responsive_Tabs_Ajax_Handler {
 				post_status = 'publish' AND
 				comment_approved = 1 AND
 				( comment_type is NULL or comment_type = '')  
-			$include_clause   
-			$exclude_clause 
 			ORDER BY comment_date_gmt DESC  
 			LIMIT  $offset , 
 			" . ( $number + 1 );
@@ -192,18 +185,7 @@ class Responsive_Tabs_Ajax_Handler {
 
 		$output = '';
 		if ( $widget_comments ) {
-			if ( false !== $active_tab ) { // 0 is a valid tab value; if false, then just doing AJAX, so no <ul>
-				$output .= '<ul class = "responsive-tabs-front-page-comment-list"' . $scroll_marker . '>';
-				$output .= 
-				'<li class="pl-odd">' .
-					'<ul class="responsive-tabs-front-page-comment-list-headers">' .
-						'<li class="responsive-tabs-front-page-comment-author">' . __( 'Commenter', 'responsive-tabs' ) . '</li>'. 
-						'<li class="responsive-tabs-front-page-comment-post">' . __( 'Commenting on', 'responsive-tabs' ). '</li>' .
-						'<li class="responsive-tabs-front-page-comment-date-time">' . __( 'Date, time', 'responsive-tabs' ) . '</li>' .
-					'</ul>' .
-				'</li>';		
-			}
-			
+	
 			// comment list items			
 			$count 			= 1; 	// for row style alternation and to test possibility that a page had only admin comments on it
 			$found_count 	= 0; // for next page switch	
@@ -243,40 +225,20 @@ class Responsive_Tabs_Ajax_Handler {
 					'</li>';
 	    		}
 			}
-			if ( false !== $active_tab ) {	
-				$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
-				
-				if ( 0 == $disable_infinite_scroll ) {
-					// set up widget parms to pass as hidden value to widget ajax caller		
-					$widget_parms = new Widget_Ajax_Parms ( 
-						'latest_comments', 
-						$include_string,
-						$exclude_string,
-						1 // page 1 is second page for comments sql
-					);
-					$widget_parms_string = json_encode( $widget_parms );						
-					$output .= '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
-					$output .= '<span id = "responsive-tabs-post-list-ajax-loader">' .
-						'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
-					'"></span>'; 
-				} else {
-					// next previous comments list with same styles as next previous posts links 
-					// note that have to use own query string here b/c comment-page query var does not work with home page and paged query var could conflict with latest posts widget 
-					$output .=	'<div id = "next-previous-links">'; 
-						if ( $comment_page > 0 ) {	
-							$output .= '<div id="previous-posts-link">' .
-									'<strong><a href="' . site_url() . '/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page - 1 ) . '">&laquo; ' . __( 'newer comments', 'responsive-tabs' ) . '</a></strong>' .					 
-							'</div>';
-						} 
-						if (  $number + 1 == $found_count ) { 
-							$output .=	'<div id="next-posts-link">' .
-									'<strong><a href="' . site_url() . '/?frontpagetab=' . $active_tab . '&comment_widget_page=' . ( $comment_page + 1 ) . '">' . __( 'older comments', 'responsive-tabs' ) . ' &raquo;</a></strong>' .
-							'</div>'; 
-						}
-					$output .= '</div>';
-					$output .=	'<div class = "horbar-clear-fix"></div>';
-				}					
-			}
+			$output .= '</ul>';  // .responsive-tabs-front-page-comment-list
+			
+			// set up widget parms to pass as hidden value to widget ajax caller		
+			$widget_parms = new Widget_Ajax_Parms ( 
+				'latest_comments', 
+				'',
+				'',
+				1 // page 1 is second page for comments sql
+			);
+			$widget_parms_string = json_encode( $widget_parms );						
+			$output .= '<div class="responsive_tabs_infinite_scroll_parms" id="responsive_tabs_infinite_scroll_parms">' . $widget_parms_string . '</div>';
+			$output .= '<span id = "responsive-tabs-post-list-ajax-loader">' .
+				'<img src="' . get_stylesheet_directory_uri() . '/images/ajax-loader.gif' .
+			'"></span>'; 
 			$output .= '<span id="OK-responsive-tabs-AJAX-response"></span>';			
  		} elseif ( false !== $active_tab) {
  			$output .= '<h3>' . __('No approved comments selected!', 'responsive-tabs' ) . '</h3>';

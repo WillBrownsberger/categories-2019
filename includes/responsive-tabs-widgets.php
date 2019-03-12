@@ -3,11 +3,9 @@
 *	File: responsive-tabs-widgets.php
 *	Description: Adds wide-format widgets for use in tabs on front page
 *	-- Front Page Category List
-*  -- Front Page Comment List
 *  -- Front Page Post Summary
 *  -- Front Page Text Widget
 *  -- Front Page Archives
-*  -- Front Page Latest Posts
 *  -- Front Page Links List
 *
 *	@package responsive-tabs  
@@ -23,19 +21,11 @@ add_action( 'widgets_init', 'register_responsive_tabs_widgets' );
 
 function register_responsive_tabs_widgets() {
 	register_widget ( 'Front_Page_Category_List' );
-	register_widget ( 'Front_Page_Comment_List' );
 	register_widget ( 'Front_Page_Post_Summary' );
 	register_widget ( 'Front_Page_Text_Widget' );
 	register_widget ( 'Front_Page_Archives' );
-	register_widget ( 'Front_Page_Latest_Posts' );
 	register_widget ( 'Front_Page_Links_List' );
 }
-
-/*
-* Front_Page_Category_List widget
-* http://codex.wordpress.org/Widgets_API
-* see also http://code.tutsplus.com/articles/building-custom-wordpress-widgets--wp-25241
-*/
 
 class Front_Page_Category_List extends WP_Widget {
 
@@ -132,97 +122,6 @@ class Front_Page_Category_List extends WP_Widget {
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 	 	<?php
 	} 	
-
-}
-
-/**
- * Recent comments widget -- with include/exclude of authors and pagination
- * Format is wide and includes longer excerpts than standard
- */
-class Front_Page_Comment_List extends WP_Widget {
-
-	function __construct() {
-		parent::__construct(
-			'responsive_tabs_front_page_comment_list', // Base ID
-			__( 'Front Page Comment List', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Recent comment list with excerpts in wide (responsive) format for front page tabs.', 'responsive-tabs' ), ) // Args
-		);
-	}
-	
-	function widget( $args, $instance ) {
-
- 		extract( $args, EXTR_SKIP );
-      
-		$number = ( isset ( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
-		if ( 0 == $number ) {
- 			$number = 10;
-		}
-
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		$include_string = isset( $instance['include_users_list'] ) ? $instance['include_users_list'] : '' ;
-		$exclude_string = isset( $instance['exclude_users_list'] ) ? $instance['exclude_users_list'] : '';
-		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
-				
-		/* pagination and link variables */
-		$active_tab 			= isset( $_GET[ 'frontpagetab' ] )  ? $_GET[ 'frontpagetab' ] : 0;
-		$comment_page			= isset( $_GET[ 'comment_widget_page' ] )  ? $_GET[ 'comment_widget_page' ] : 0;
-
-		$output = '<!-- responsive-tabs Front_Page_Comment_List Widget, includes/responsive-tabs-widgets.php -->';
-		$output .= $before_widget  ;										// is blank in home widget areas
-		if ( $title ) {
-			$output .= $before_title . $title . $after_title; 	
-		} 		
-
-		$output .= Responsive_Tabs_Ajax_Handler::latest_comments ( 
-			$include_string, 
-			$exclude_string, 
-			$comment_page, 
-			$active_tab, 
-			$disable_infinite_scroll, 
-			$number
-		); 
-		
-		$output .= $after_widget;
-
-		echo $output; 
-	}
-
-	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title']  = apply_filters( 'title_save_pre', $new_instance['title'] );
-		$instance['number'] = absint( $new_instance['number'] );
-		$instance['include_users_list'] = responsive_tabs_clean_post_list( $new_instance['include_users_list'] );
-		$instance['exclude_users_list'] = responsive_tabs_clean_post_list( $new_instance['exclude_users_list'] );
-		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
-		return $instance; 
-	}
-
-	function form( $instance ) {
-		
-		$number 								= isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
-		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		$include_users_list 				= isset( $instance['include_users_list'] ) ? responsive_tabs_clean_post_list( $instance['include_users_list'] ) : '';
-		$exclude_users_list 				= isset( $instance['exclude_users_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_users_list'] ) : '';
-		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
-		?>
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show per page:', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-	
-		<p><label for="<?php echo $this->get_field_id( 'include_users_list' ); ?>"><?php _e( 'ID number(s) of users to <em>include</em>:<br /> (single or multiple separated by commas<br /> -- leave blank for all)<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'include_users_list' ); ?>" name="<?php echo $this->get_field_name( 'include_users_list' ); ?>" type="text" value="<?php echo $include_users_list; ?>" size="30" /></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>"><?php _e( 'ID number(s) of users to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'exclude_users_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_users_list' ); ?>" type="text" value="<?php echo $exclude_users_list; ?>" size="30" /></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
-	 	
-
-		<?php 	
-	}
 
 }
 
@@ -640,121 +539,6 @@ class Front_Page_Archives extends WP_Widget {
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 	 	<?php
 	} 
-}
-
-/*
-* Front Page Latest Posts Widget -- post list in wide format with include/exclude options by category
-*/
-
-class Front_Page_Latest_Posts extends WP_Widget {
-
-	function __construct() {
-		parent::__construct(
-			'responsive_tabs_latest_posts', // Base ID
-			__( 'Front Page Latest Posts', 'responsive-tabs' ), // Name
-			array( 'description' => __( 'Latest posts widget in wide (responsive) format for front page tabs. Can include or exclude categories.', 'responsive-tabs' ), ) // Args
-		);
-	}
-
-	function widget( $args, $instance ) {
-		
- 		extract( $args, EXTR_SKIP );
- 		
- 		echo '<!-- responsive-tabs Front_Page_Latest_Posts, includes/responsive-tabs-widgets.php -->';
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		$include_string = isset( $instance['include_cats_list'] ) ? $instance['include_cats_list']  : '' ;
-		$exclude_string = isset( $instance['exclude_cats_list'] ) ? $instance['exclude_cats_list']  : '';
-		$disable_infinite_scroll = isset ( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;		
-		$supplemental_filter 			= isset( $instance['supplemental_filter'] ) ? $instance['supplemental_filter'] : '';
-		
-		echo $before_widget  ;										// is blank in home widget areas
-		
-		if ( $title ) {
-			echo $before_title . $title . $after_title; 		// <h2 class = 'widgettitle'> . . . </h2>
-		} 		
-
-		/* set up missing variables for call */
-		$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-		$widget_mode = true;
-		/* call the query to get posts */
-		$output = Responsive_Tabs_Ajax_Handler::latest_posts ( 
-			$include_string, 
-			$exclude_string, 
-			$page, 
-			$widget_mode, 
-			$disable_infinite_scroll,
-			$supplemental_filter 
-			); 
-		
-		echo $after_widget ;									// is blank in home widget areas
-	}
-
-	function update( $new_instance, $old_instance ) {
-		$instance 							 	= $old_instance;
-		$instance['title'] 				 		= apply_filters( 'title_save_pre',  $new_instance['title'] ); // no tags in title
-		$instance['include_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['include_cats_list'] );
-		$instance['exclude_cats_list'] 			= responsive_tabs_clean_post_list( $new_instance['exclude_cats_list'] );
-		$instance['disable_infinite_scroll'] 	= absint( $new_instance['disable_infinite_scroll'] );
-		$instance['supplemental_filter'] 		= absint( $new_instance['supplemental_filter'] );
-		return $instance;
-	}
-
-	function form( $instance ) {
-		
-		$title  								= apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		$include_cats_list 				= isset( $instance['include_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['include_cats_list'] ) : '';
-		$exclude_cats_list 				= isset( $instance['exclude_cats_list'] ) ? responsive_tabs_clean_post_list( $instance['exclude_cats_list'] ) : '';
-		$disable_infinite_scroll 		= isset( $instance['disable_infinite_scroll'] ) ? $instance['disable_infinite_scroll'] : 0;
-		$supplemental_filter 			= isset( $instance['supplemental_filter'] ) ? $instance['supplemental_filter'] : '';
-		?>
-
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (usually unnecessary in front page tab):', 'responsive-tabs' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
-	 	
-		<p><label for="<?php echo $this->get_field_id( 'include_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>include</em>:<br /> (single or multiple separated by commas -- will not include subcategories; leave blank for all)<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'include_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'include_cats_list' ); ?>" type="text" value="<?php echo $include_cats_list; ?>" size="30" /></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>"><?php _e( 'ID number(s) of categories to <em>exclude</em>:<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'exclude_cats_list' ); ?>" name="<?php echo $this->get_field_name( 'exclude_cats_list' ); ?>" type="text" value="<?php echo $exclude_cats_list; ?>" size="30" /></p>
-
-		<?php // set up author select
-			global $wpdb;
-			$author_count_array = $wpdb->get_results(
-				"
-				SELECT DISTINCT post_author, display_name, COUNT(p.ID) AS post_count 
-				FROM $wpdb->posts p INNER JOIN $wpdb->users u on u.id = p.post_author 
-				WHERE post_type = 'post' AND post_status = 'publish' 
-				GROUP BY post_author 
-				ORDER BY display_name
-				" 
-				); 
-		
-			$option_list = '';
-			$p = '';
-			$r = '';
-			array_unshift ( $author_count_array, json_decode ( '{"post_author":"", "display_name":"' . __( 'Select an author', 'responsive-tabs' ) . '"}' ) );
-			foreach ( $author_count_array as $option ) {
-				$label = $option->display_name;
-				if ( $supplemental_filter == $option->post_author ) { // Make selected first in list
-					$p = '<option selected="selected" value="' . esc_attr( $option->post_author ) . '">' . esc_html ( $label ) . '</option>';
-				} else {
-					$r .= '<option value="' . esc_attr( $option->post_author ) . '">' . esc_html( $label ) . '</option>';
-				}
-			}
-			$option_list .=	$p . $r;
-		?>
-
-		<p><label for="<?php echo $this->get_field_id( 'supplemental_filter' ); ?>"><?php _e( 'Limit posts to author:<br />', 'responsive-tabs' ); ?></label>
-		<select id="<?php echo $this->get_field_id( 'supplemental_filter' ); ?>" name="<?php echo $this->get_field_name( 'supplemental_filter' ); ?>"> 
-			<?php echo $option_list; ?>
-		</select></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>"><?php _e( 'Check to DISable infinite scroll:<br />', 'responsive-tabs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'disable_infinite_scroll' ); ?>" name="<?php echo $this->get_field_name( 'disable_infinite_scroll' ); ?>" type="checkbox" value="1" <?php echo checked( $disable_infinite_scroll, "1", false) ?> /></p>
-	 	
-	 	<?php
-	} 
-
 }
 
 

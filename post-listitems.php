@@ -33,20 +33,28 @@ if ( 'link' == $post_format ) {
 			'title="'. __( 'Read the rest of this post', 'responsive-tabs' ) . '">' . __( 'Read More', 'responsive-tabs' ) . ' &raquo; </a>'; 
 } 
 			
-$author_entry = 	'<li class="pl-post-author"><a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></li>';
+$author_entry = 	'<span class="pl-post-author">, <a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) )  . '" title = "' . __('View all posts by', 'responsive-tabs') . get_the_author_meta( 'display_name' ) .'">' . get_the_author_meta('display_name') . '</a></span>';
+$comments_count = get_comments_number();
+$comments_phrase = '';
+if ( 1 == $comments_count ) {
+	$comments_phrase =  __( '1 Comment', 'responsive-tabs' );
+} elseif ( 1 < $comments_count ) {
+	$comments_phrase = $comments_count . ' ' . __( 'Comments', 'responsive-tabs' );
+
+}
 /* output list item -- echoing to show structure and avoid white spaces in inline-block styling */
 echo '<li ' ;
 	post_class( $row_class ); 
 	echo '>' .
-	'<ul class="pl-post-item">' . 			
-		'<li class="pl-post-title">' .
+	'<div class="pl-post-item">' . 			
+		'<span class="pl-post-title">' .
 			'<a href="'  .  $link  . '" rel="bookmark" ' . 
 				'title="'  .  __( 'View item', 'responsive-tabs' )  . '"> '  .  
-				$title . ' ('. get_comments_number()  . ')' .
+				$title .
 			'</a>' . 
-		'</li>' .
+		'</span>' .
 		$author_entry  . 
-		'<li class="pl-post-date-time">' .
+		'<span class="pl-post-date-time">, ' .
 			'<a href="'  .  get_month_link( get_post_time( 'Y' ), get_post_time( 'm' ) ) . '" ' . 
 				'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . get_post_time( 'F', false, null, true ) . ' ' . get_post_time( 'Y', false, null, true )  . '"> ' .
 				 get_post_time('F', false, null, true )  . 
@@ -59,8 +67,13 @@ echo '<li ' ;
       		'title = "'  .  __( 'View all posts from ', 'responsive-tabs' ) . get_post_time( 'Y' )   . '">' .
       		get_post_time( 'Y' )  . 
       	'</a>' .
-      '</li>' .
-   '</ul>' .
+      '</span>' .
+      ( $comments_phrase ? ( ', <span class="pl-comment-count"><a href="'  .  $link  . '#comments" rel="bookmark" ' . 
+				'title="'  .  __( 'View comments on item', 'responsive-tabs' )  . '"> '  .  
+				$comments_phrase .
+			'</a>
+		</span>' ) : '' ) . 
+    '</div>' .
 	'<div class="pl-post-excerpt">' .
 		$excerpt . '<br />' . 
 		$read_more_pointer .  

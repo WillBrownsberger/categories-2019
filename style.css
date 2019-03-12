@@ -56,8 +56,7 @@ Style CSS organized as follows
 * Double width specs where using css3 calc for minimum fouc in older browsers
 */
 
-/* this element which appears below the footer is tested to determine whether css calc syntax is unavailable in the brower and window resizing is necessary in resize.js */
-
+/* make header-bar positioned so it can serve as ancestor for menu */
 #header-bar {
 	background: white; 
 	height: 60px; 
@@ -65,6 +64,9 @@ Style CSS organized as follows
 	max-width: 1200px;
 	padding: 0px 60px; 
 	width: auto;
+	position: relative;
+	top:0;
+	left:0
 }
 /* 
 * note: omitting width auto specification in the fixed element appears to be important in IE9 -- 
@@ -145,27 +147,27 @@ div {
 }
 
 h1 {
-	font-size: 1.6em;
+	font-size: 1.8em;
 }
 
 h2 {
-	font-size: 1.2em;
+	font-size: 1.6em;
 }
 
 h3 {
-	font-size: 1.1em;
+	font-size: 1.4em;
 }
 
 h4 {
-	font-size: 1.0em;
+	font-size: 1.2em;
 }
 
 h5 {
-	font-size: 0.9em;
+	font-size: 1.1em;
 }
 
 h6 {
-	font-size: 0.8em;
+	font-size: 1.0em;
 }
 
 img {
@@ -185,7 +187,8 @@ li li li {
 }
 
 
-
+.responsive-tabs-front-page-comment-list li,
+.responsive-tabs-front-page-comment-list li li,
 .post-list li,
 .post-list li li {
 	max-width: 100%; 
@@ -339,12 +342,12 @@ sub {
 /* #color-splash appears on non-front pages */
 #color-splash {
 	background: #D10A0A;
-	border-bottom: 20px solid white;
+	border-bottom: 10px solid white;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	 box-sizing: border-box;
 	float: left;
-	height: 40px;
+	height: 20px;
 	margin: 0;
 	padding: 0;
   	width: 100%;	
@@ -467,6 +470,24 @@ ul.children {
 	font-size: 27px;
 }
 
+
+/* menu -- single top menu*/
+#main-menu {
+	display: none;
+	background: #fafaff;
+	position: absolute;
+	top: 60px;
+	left: 60px;
+	z-index: 10;
+	width: 540px;
+	border: 1px solid #ccc;
+	padding: 0 4px 4px 4px;
+}
+
+#main-menu h2 {
+	font-size: 1.2em;
+}
+
 #main-menu-button {
     float: left;
     background: none;
@@ -481,22 +502,51 @@ ul.children {
 	height: auto;
 	width:  auto;
 	color: #555;
+	
 }
 
 #main-menu-button:hover .dashicons {
 	color: #aaa;
 }
 
-
-/* menu -- single top menu*/
-#main-menu {
-	display: none;
-	background: #fafafa;
-	position: absolute;
-	top: 0;
-	left:0;
-	z-index: 10;
+#main-menu-button .dashicons.dashicons-dismiss {
+	color: #ddd;
 }
+
+#main-menu-button:hover .dashicons.dashicons-dismiss
+{
+	color: #777;
+}
+
+
+#gs_id50 {
+	margin: 0;
+	padding: 0;
+}
+
+.main-menu-category-parent {
+	border-top: 1px solid #ccc;
+	display: block;
+	width: 100%;
+	padding-top: 10px;
+	margin-top: 10px;
+    	
+}
+
+.main-menu-category-parent-link {
+	padding-bottom: 5px;
+}
+
+.main-menu-category-child {
+	box-sizing: border-box;
+	display: inline-block;
+	float: left;
+	width: 50%;
+	padding: 1px 5px;
+	font-size: 0.92em;
+}
+
+
 
 /* formatting for content presented as collection of small regular widgets in larger area */
 
@@ -581,88 +631,7 @@ ul.children {
 	width: 100%;
 }
 
-/* main tabs styling */
-#main-tabs-wrapper {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
-	padding: 20px 0 0 0; 
-	width: 100%; 
-}
 
-#main-tabs {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
-	background: white;
-	border: 1px solid #ccc;
-	border-radius: 0px; 
-	display: block;
-	padding: 0px 0px; 
-	width: 100%; 
-}
-
-#main-tabs-dropdown-wrapper {
-	display: none;
-}
-
-.main-tabs-headers {
-	background: #ccc;
-	padding: 0px; 
-	float: left;
-	font-weight: bold; 
-	margin: 0;
-	width: 100%;
-}
-
-.main-tabs-headers li {
-	background: #ddd;
-	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-bottom-width: 0;
-	border-top-left-radius: 4px; 
-	border-top-right-radius: 4px; 
-	float: left;
-	list-style: none;
-	margin: 0.3em 0 0 0.3em;
-	padding: 0.6em 24px;
-	position: relative;
-	top: 0;
-	white-space: nowrap;
-}
-
-li.nav-tab-inactive:hover {
-	background: #e9e9e9;
-}
-
-.main-tabs-headers li:first-child {
-	margin: 0.3em 0 0 8px;
-}
-
-li.nav-tab-active  {
-	background: #f6f6f6;
-}
-
-.main-tab-content {
-	background: #fff;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
-	clear: both;
-	padding: 1px 0 0 0;
-}
-
-#main-tabs a {
-	text-decoration: none;
-}
-
-.responsive-tabs-notice {
-	background: #eef;
-	border: 1px solid #aaa;
-	margin: 20px;
-	padding: 20px;
-}
 
 
 /* post styles */
@@ -675,7 +644,7 @@ li.nav-tab-active  {
 }
 
 #content-header {
-	padding: 20px 8px; 
+	padding: 20px 0; 
 }
 
 #content-subheader h4 {
@@ -685,6 +654,11 @@ li.nav-tab-active  {
 #not-found {
 	background: white;
 	padding: 60px 60px 200px 60px;
+}
+
+.post p {
+	font-size: 20px;
+	line-height: 28px;
 }
 
 .post-list {
@@ -699,12 +673,17 @@ li.nav-tab-active  {
 
 /* note: these styles also control background colors in widget and comment lists */
 .pl-odd {
-	background: #f0f0f0;
+	background:  #fafafa;
 }
 
 .pl-even {
-	background: #fafafa;
+	background: #f0f0f0;
 }
+
+.pl-even,.pl-odd {
+	padding: 10px 0;
+}
+
 
 .post-list li.sticky {
 	border-left: 8px solid #333;
@@ -721,34 +700,28 @@ ul.pl-headers {
 	padding: 8px 8px;
 }
 
-ul.pl-post-item {
+.pl-post-item {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
 	display: inline-block;
 	list-style: none;	
-	padding: 8px 8px;
+	padding: 16px 8px 0 8px;
 	vertical-align: top;
 	width: 100%; 
 }
 
+
 .pl-post-title {
-	display: inline-block;
-	vertical-align: top;	
-	width: 60%; 	
+	font-size: 20px;
 	}
 
-.pl-post-author {
-	display: inline-block;
-	vertical-align: top;	
-	width: 20%;
+.pl-post-date-time,
+.pl-post-author,
+.pl-comment-count {
+	font-style: italic;
+	font-size: 0.9em;
 }
-
-.pl-post-date-time {
-	display: inline-block;
-	vertical-align: top;	
-	width: 20%; 	
-	}
 
 
 .pl-post-excerpt {
@@ -756,15 +729,15 @@ ul.pl-post-item {
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box;
 	display: block;
-	font-size: 0.9em; 
 	margin: 0; 
 	padding: 8px 8px 20px 60px;
-	width: 60%; 
+	width: 100%;
+	max-width: 840px; 
 }
 
 div.post { /* note that li elements in post-list.php also take this class */ 
 	background: white;
-	padding: 24px 20px; 
+	padding: 24px 0; 
 }
 
 
@@ -934,15 +907,7 @@ div#front-page-post-entry {
 }
 
 
-/* yarrp styling */
-.yarpp-related-widget ol li {
-	font-size: 14px;
-	margin: 0 0 10px -20px;
-}
 
-#yarpp_widget-2 .yarpp-related-widget a {
-	display: inline; 
-}
 /*
 *
 * required Wordpress core styles 
@@ -1063,10 +1028,6 @@ a img.aligncenter {
 
 
 
-	#site-description {
-		display: none;
-	}
-
 	.attachment-post-content-width,
 	.attachment-full-width {
 		height: auto;
@@ -1075,7 +1036,7 @@ a img.aligncenter {
 	}
 
 }
-
+/*
 @media only screen and (max-width: 840px) {
 
 
@@ -1085,40 +1046,6 @@ a img.aligncenter {
 		padding: 0 20px;
 	}
 
-	
-	/* replace headline with color splash */
-	
-	#front-page-mobile-color-splash {
-		background: #D10A0A;
-		border-bottom: 20px solid white;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box; 
-		 box-sizing: border-box;
-		display: block;
-		float: left;
-		height: 40px;
-		margin: 0;
-		padding: 0;
-	  	width: 100%;	
-	}
-	
-	
-	
-	/* mobile tabs styling */
-	#main-tabs-dropdown-wrapper {
-		display: block;
-	}
-	
-	select#main-tabs-dropdown-id {
-	  border-radius: 0px;
-	  font-size: 20px;
-	  height: 30px;
-	  width: 100%;
-	}
-	
-	.main-tabs-headers {
-		display: none;
-	}
 	
 	.home-narrow-widget-wrapper {
 		width: 50%;
@@ -1143,14 +1070,57 @@ a img.aligncenter {
 		padding: 4px 0px;
 	}
 } 
+*/
+@media only screen and (max-width: 840px) {
 
-@media only screen and (max-width: 540px) {
+	#header-bar {
+		margin: 8px;
+		padding: 0;
+		width: calc(100% - 8px);	
+	}
 
-	#wrapper	{
+
+	#main-menu-button .dashicons {
+		font-size: 3em;
+		vertical-align: bottom;
+		line-height: 1.7;
+		height: auto;
+		width:  auto;
+		padding: 0 4px;
+		color: #555;
+	
+	}
+
+	#site-title {
+		font-size: 32px;
+		padding: 0 8px 0 0;
+	}
+
+
+	#site-description {
+		display: none;
+	}
+
+	.main-menu-category-child {
+		font-size: 0.8em;
+	}
+
+
+
+	#wrapper {
+		margin: 8px;
+		padding: 0;
+		width: calc(100% - 16px );
 		min-height: 0;
 		overflow-x: scroll;
 	}
 
+
+	/* menu -- single top menu*/
+	#main-menu {
+		width:calc( 100% - 18px );
+		left: 0;
+	}
 	
 	.home-narrow-widget-wrapper {
 		width: 100%;
@@ -1189,12 +1159,7 @@ a img.aligncenter {
 		display: none;
 	}	
 	
-	.pl-post-title {
-		display: block;
-		vertical-align: top;	
-		width: 100%; 	
-	}
-	
+	.pl-comment-count,
 	.pl-post-author,
 	.pl-post-date-time	{
 		display: none;

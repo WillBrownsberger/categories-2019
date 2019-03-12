@@ -10,19 +10,27 @@
 *
 * @package responsive
 */ 
-
-
 // drops down the menu if it is hidden 
 function toggleMainMenu() {
 	     
 	var menu  = document.getElementById ( "main-menu" ); 
+	var button = document.getElementById ( "main-menu-button");
 	var display = menu.style.display;
-
 	if ( "block" == display ) {
 		menu.style.display = "none";
+		button.innerHTML = '<span class="dashicons dashicons-menu"></span>';
 	} else {
 		menu.style.display = "block";
+		button.innerHTML = '<span class="dashicons dashicons-dismiss"></span>';
 	} 
+	if ( !document.getElementsByClassName( 'gsc-input' ).length ) { console.log ( 'loading item')
+		var gcse = document.createElement('script');
+		gcse.type = 'text/javascript';
+		gcse.async = true;
+		gcse.src = 'https://cse.google.com/cse.js?cx=' + responsive_tabs_ajax_object.gcse_search_id;
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(gcse, s);
+	}
 }
 
 
@@ -37,17 +45,12 @@ function toggleMainMenu() {
 
 	var ajaxWidgetParms; 
 	jQuery(document).ready(function($) {
-		parmsCount	= jQuery( ".responsive_tabs_infinite_scroll_parms" ).length;
-		if ( parmsCount > 1 ) {
-			alert ( responsiveTabsErrorObject.dupScrollErrorString ); // localized in theme functions.php		
-		} else if ( 1 == parmsCount ) {
-			ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
-			// set up scroll event
-			$(window).scroll( function(){
-					doScrollCall ();			
-			});
-			doScrollCall();
-		}
+		ajaxWidgetParms = JSON.parse ( jQuery( ".responsive_tabs_infinite_scroll_parms" ).text() );
+		// set up scroll event
+		$(window).scroll( function(){
+			doScrollCall ();			
+		});
+		doScrollCall();
 	});
 
 	function doScrollCall () { 				

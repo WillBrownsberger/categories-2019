@@ -5,11 +5,11 @@
  *
  * @package responsive-tabs
  *
- */
+ *
 
 
 
-echo ' <!-- post-listheader.php start list -->'. /* post list headers -- echoing to avoid white spaces in inline-block styling*/
+echo ' <!-- post-listheader.php start list -->'. /* post list headers -- echoing to avoid white spaces in inline-block styling
   '<li class = "pl-odd">' .
   		'<ul class = "pl-headers">' .
   			'<li class="pl-post-title">' . __( 'Post (comment count)', 'responsive-tabs' ) . '</li>' .
@@ -17,3 +17,4 @@ echo ' <!-- post-listheader.php start list -->'. /* post list headers -- echoing
   			'<li class = "pl-post-date-time">' . __( 'Date', 'responsive-tabs') .'</li>' .
   		'</ul>' .
   	'</li>'; 
+*/

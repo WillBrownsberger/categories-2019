@@ -75,26 +75,6 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		<?php }
 	}
 
-	
-	/* tab titles */
-	$wp_customize->add_section( 'tab_titles_section' , array(
-	    'title'      => __( 'Tab Titles', 'responsive-tabs' ),
-	    'priority'   => 35,
-	    'description' => 'Enter tab titles separated by commas, like so:<code>Favorites, Latest Posts, Comments</code>. 
-	    	Then enter content for each tab widget.  The widget for a tab shows below in this menu  when you click on the tab title.
-	    	<a href="http://responsive-tabs-theme-for-wp.com/">More help &raquo;</a>' , 
-	) );	
-	
-	$wp_customize->add_setting( 'tab_titles', array(
-	    'default' => __( 'This is Tab 0, Getting Started','responsive-tabs' ),
-	    'sanitize_callback' => 'responsive_tabs_title_list'
-	) );
-	
-	$wp_customize->add_setting( 'landing_tab', array(
-	    'default' => '0',
-	   'sanitize_callback' => 'sanitize_text_field'
-	) );
-	
 	/* color settings */
 	
 	$wp_customize->add_setting( 'home_widgets_title_color', array(
@@ -199,24 +179,15 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 	    'sanitize_callback' => 'responsive_tabs_pass_through'
 	) );
 	
+	$wp_customize->add_setting( 'google_custom_search_id', array(
+	    'default' =>  '' ,
+	    'sanitize_callback' => 'sanitize_text_field',
+	    'description' => __( 'Enter a google custom search ID to override search widget in menu drop down.  Will load only when menue opens to preserve page speed.', 'responsive-tabs' ),
+	) );
+	
 	/* CONTROLS
 	-------------------------------------------------------*/	
-	
-	/* tab titles control */		
-	$wp_customize->add_control( new Responsive_Tabs_Textarea_Control( $wp_customize, 'tab_titles', array(
-		'label'      => __( 'Tab Titles', 'responsive-tabs' ),
-		'section'    => 'tab_titles_section',
-		'settings'   => 'tab_titles',
-	   'priority'   => 1
-	) ) );
-	
-	$wp_customize->add_control( 'landing_tab', array(
-	    'label'   	 => __( 'Landing Tab', 'responsive-tabs' ),
-	    'section'   => 'tab_titles_section',
-	    'type'      => 'select',
-	    'settings'  => 'landing_tab',
-	    'choices'   => $landing_tab_options_array
-	) );
+
 
 /* color controls */
 
@@ -341,6 +312,14 @@ function responsive_tabs_theme_customizer( $wp_customize ) {
 		'settings'   => 'footer_scripts',
 	   'priority'   => 30,
 	) ) );
+
+	$wp_customize->add_control( 'google_custom_search_id', array(
+	    'label'    => __( 'Google Custom Search Id', 'responsive-tabs' ),
+	    'section'  => 'css_scripts_section',
+	    'settings' => 'google_custom_search_id',
+	    'type'     => 'text',
+	    'priority'	=>	40,
+	) );
 
 	/* end of controls section */
 }

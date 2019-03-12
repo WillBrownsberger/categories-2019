@@ -13,15 +13,29 @@
 <div id="header-bar">
 	<div id="main-menu" >
 		<?php 
-			$args = array (
-				'theme_location' 	=> 'main-menu', 
-				'container'			=> false,
-				'items_wrap'			=> '%3$s', // no items wrap
-			); 
-			wp_nav_menu( $args ); ?>
-	
-		<ul id = "main-menu-and-login-ul"><?php 
-			
+			// search widget
+			$search_engine_id = get_theme_mod( 'google_custom_search_id' );
+			if ( ! $search_engine_id ){
+				if( is_active_sidebar( 'search_widget' ) ) { 
+					// display sidebar
+					dynamic_sidebar( 'search_widget');
+					echo '<div class="horbar-clear-fix"></div>'; 
+				}
+			} else {
+				echo '<h2>' . __( 'Google Site Search', 'responsive-tabs' ) . '</h2>';
+				echo '<gcse:search></gcse:search>';
+			}
+		?>
+		<h2><?php echo __( 'Quick Links', 'responsive-tabs' ) ?></h2>
+		<ul id = "main-menu-and-login-ul">
+			<?php 
+				echo '<li><a href="' . site_url() . '?show_comments=yes">' . __( 'Discussion', 'responsive-tabs' ) . '</a></li>';
+				// main menu
+				$args = array (
+					'theme_location' 	=> 'main-menu', 
+					'items_wrap'		=> '%3$s', // no items wrap
+				); 
+				wp_nav_menu( $args );
 			
 			if (get_theme_mod('show_login_links'))	{
 								
@@ -41,7 +55,13 @@
 				}
 				
 			} // if show_login_links
-		?></ul> 
+			echo '</ul>';
+
+			// category list two deep
+			echo  '<h2>' . __( 'Posts by Category', 'responsive-tabs' ) . '</h2>';
+			category_list_two_deep ();
+			
+		?> 
 
 	</div><!--main-menu-->
 

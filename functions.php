@@ -48,15 +48,11 @@ function responsive_tabs_theme_setup() {
 		wp_localize_script( 'responsive-tabs-utilities', 'responsive_tabs_ajax_object',
             array( 
             	'ajax_url' 			=> admin_url( 'admin-ajax.php' ),
-            	'responsive_tabs_ajax_nonce' 	=> wp_create_nonce ( 'responsive_tabs_ajax_nonce' ),  
+            	'responsive_tabs_ajax_nonce' 	=> wp_create_nonce ( 'responsive_tabs_ajax_nonce' ), 
+            	'gcse_search_id' =>  get_theme_mod( 'google_custom_search_id' ), 
             ) 
 			);	
 		
-		wp_localize_script( 'responsive-tabs-utilities', 'responsiveTabsErrorObject',
-            array( // line break inserted without subsequent indentation for compact alert formatting
-            	'dupScrollErrorString'		=> __( 'Warning: You may not simultaneously display two widgets with infinite scroll enabled. Neither will work. Disable scroll for one of them or put them in separate tabs.', 'responsive-tabs' ),
-            ) 
-			);		
 		
 		if ( is_singular() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );		
@@ -119,7 +115,7 @@ function responsive_tabs_manage_posts_per_page( $query ) {
         $query->set( 'ignore_sticky_posts', true ); 
         return;
     // otherwise, if haven't disabled infinite scroll, standardize page length 
-    } elseif  ( false == get_theme_mod( 'disable_infinite_scroll_global' ) ) {
+    } else {
         $query->set( 'posts_per_page', '4' ); // 
         return;	
 	} 
@@ -141,41 +137,29 @@ add_action( 'init', 'responsive_tabs_register_menus' );
 */
 function responsive_tabs_widgets_init() {
 
-	for ( $index = 0; $index <= 15; $index++ ) { // register widget areas for each tab
-		register_sidebar( array(
-				'name' 				=> __( 'Tab ', 'responsive-tabs' ) . $index,
-				'description' 		=> __( 'Widget area for Tab content', 'responsive-tabs' ),
-				'id' 					=> 'home_widget_' . $index,
-				'class' 				=> '',
-				'before_widget' 	=> '',
-				'after_widget' 	=> '',
-				'before_title' 	=> '<h2 class = "widgettitle">',
-				'after_title' 		=> '</h2>',
-			) );
-	}
+
+	register_sidebar( array(
+		'name' 				=> __( 'Search', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget area for Search Box (will be ignored if Google Search Id is supplied in customization)', 'responsive-tabs' ),
+		'id' 				=> 'search_widget',
+		'class' 			=> '',
+		'before_widget' 	=> '',
+		'after_widget' 		=> '',
+		'before_title' 		=> '<h2 class = "widgettitle">',
+		'after_title' 		=> '</h2>',
+	) );
+
+	register_sidebar( array(
+		'name' 				=> __( 'Tab ', 'responsive-tabs' ),
+		'description' 		=> __( 'Widget area for Tab content', 'responsive-tabs' ),
+		'id' 				=> 'home_widget_0',
+		'class' 			=> '',
+		'before_widget' 	=> '',
+		'after_widget' 		=> '',
+		'before_title' 		=> '<h2 class = "widgettitle">',
+		'after_title' 		=> '</h2>',
+	) );
 	
-	register_sidebar( array(
-		'name' 				=> __( 'Post Sidebar', 'responsive-tabs' ),
-		'description' 		=> __( 'Displayed with Posts', 'responsive-tabs' ),
-		'id' 					=> 'post_sidebar',
-		'before_widget' 	=> '<div class = "sidebar-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
-
-	register_sidebar( array(
-		'name' 				=> __( 'Page Sidebar',  'responsive-tabs' ),
-		'description' 		=> __( 'Displayed with Pages', 'responsive-tabs' ),
-		'id' 					=> 'page_sidebar',
-		'before_widget' 	=> '<div class = "sidebar-widget-wrapper"> ',
-		'after_widget' 	=> '</div>',
-		'before_title' 	=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
-
-
-
 	register_sidebar( array(
 		'name' 				=> __( 'Fine Print Bottom Widget', 'responsive-tabs' ),
 		'description' 		=> __( 'Site credit, copyrights, etc.', 'responsive-tabs' ),
@@ -291,33 +275,6 @@ function responsive_tabs_sanitize_boolean ( $value ) {
 	
 }
 
-/*
-* function to sanitize a value to an integer greater than zero ( used for theme customizer sanitize callback )
-*/
-function responsive_tabs_int_greater_than_zero( $value ) {
-	$value_int = intval( $value );
-	$return_int =  $value_int < 1 ? 1  : $value_int;
-	return $return_int;
-}
-
-/*
-* function to sanitize a list of alphanumerics in comma separated string ( used for theme customizer sanitize callback )
-*
-*/
-function responsive_tabs_title_list( $title_list )  { 
-   	
-   $title_list_array = explode( ',', $title_list);
-	$title_list_clean = '';      
-   foreach( $title_list_array as $title_list_entry ) {
-      $title_list_addition = esc_attr( trim( $title_list_entry ) ) > '' ? esc_attr( trim( $title_list_entry ) ) . ', ' : '';
-	   $title_list_clean .= $title_list_addition;
-   }		
-	if( $title_list_clean > '' ) { // no trailing comma-spaces
-		$title_list_clean = rtrim( $title_list_clean, ', ' );
-	}
-
-	return $title_list_clean;
-}
 
 /*
 * Null function to pass through scripts/css with minimal sanitization ( used for theme customizer sanitize callback )
@@ -337,6 +294,49 @@ function baw_hack_wp_title_for_home( $title )
   }
   return $title;
 }
+
+
+
+/*
+*
+* function to populate category list in single db call -- want to maximize speed
+*
+*/
+function category_list_two_deep () {
+	global $wpdb;
+	$prefix = $wpdb->prefix;
+	$term_taxonomy = $wpdb->prefix . 'term_taxonomy';
+	$terms = $wpdb->prefix . 'terms';
+	$sql = "
+		SELECT t1.name as parent_cat, t1.slug as parent_cat_slug, t2.name as child_cat, t2.slug as child_cat_slug FROM 
+		( wp_3_term_taxonomy tt1 INNER JOIN wp_3_terms t1 on tt1.term_id = t1.term_id ) left join 
+		( wp_3_term_taxonomy tt2 INNER JOIN wp_3_terms t2 on tt2.term_id = t2.term_id ) on 
+			tt2.parent = tt1.term_taxonomy_id 
+			WHERE tt1.parent = 0 and tt1.taxonomy = 'category' 
+			order by t1.name, t2.name
+	";
+	$cats = $wpdb->get_results ( $sql );
+	$last_cat_slug = '';
+	foreach ( $cats as $cat ) {
+		if ( $last_cat_slug != $cat->parent_cat_slug ) {
+			if ( '' != $last_cat_slug  ) {
+				echo '</div><div class="horbar-clear-fix"></div>';
+			}
+			echo '<div class="main-menu-category-parent">
+				<div class="main-menu-category-parent-link"><a  href="' . site_url() .  '/category/' . $cat->parent_cat_slug . '/">' . $cat->parent_cat . '</a></div>';
+			$last_cat_slug = $cat->parent_cat_slug;
+		}
+		echo '<div class="main-menu-category-child">
+			<div class="main-menu-category-child-link"><a  href="' . site_url() .  '/category/' . $cat->parent_cat_slug . '/' . $cat->child_cat_slug . '/">' . $cat->child_cat . '</a></div>' .
+		'</div>';	
+
+	}
+	echo '</div><div class="horbar-clear-fix"></div>'; // close last div
+
+}
+
+
+
 
 /*
 * Editor Styling using main style sheet
