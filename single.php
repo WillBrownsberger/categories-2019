@@ -21,7 +21,7 @@ while ( have_posts() ) : the_post();
 		
 	// content title
 	?><!--single.php -->
-	<div id="content-header">
+	<div id="single-content-header">
 		<?php get_template_part( 'breadcrumbs' ); ?> 
 		<h1><?php 
 			$comment_count = get_comments_number();
@@ -32,13 +32,6 @@ while ( have_posts() ) : the_post();
 				the_title();
 			}?>
 		</h1>
-	</div><?php
-	
-	// set up content wrapper based on post width
-	echo '<!--division wraps the non-sidebar, non-footer content-->';
-	
-	 ?>
-	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>   
 		<div class = "post-info"> <?php 
 			_e( 'By', 'responsive-tabs' ) ?> 
 				<span class="post-author">
@@ -70,37 +63,37 @@ while ( have_posts() ) : the_post();
 			</span>
 
 		</div><!-- post-info --> 
-		
+	</div><!-- single-content-header -->
+	<div id="post-<?php the_ID(); ?>" <?php post_class( 'single-content-wrapper'); ?>>   
 		<?php
-		the_post_thumbnail('post-content-width');
-		the_content();
-		?><div class="horbar-clear-fix"></div><?php
-
-		wp_link_pages( array(
-			'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
-			'after'       => '</div>',
-			'link_before' => '<span>',
-			'link_after'  => '</span>',
-			) );				
-
-		edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); 
-	
-	/* always do comments template -- it will check and show message if not open (contrast page.php) */		
-	?> <div id="comments"> <?php		
-		comments_template();
-	?> </div> <?php
-		
-	?> <div id="previous-post-link"> <?php
-		previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
-	?> </div> <?php
-
-	?> <div id="next-post-link">  <?php
-		next_post_link( '<strong>%link &raquo; </strong>', __( 'next post', 'responsive-tabs' ) ); 
-	?> </div> 
-	
-	<div class="horbar-clear-fix"></div>	
-
+			the_post_thumbnail('post-content-width');
+			the_content();
+			?>
+		<div class="horbar-clear-fix"></div>
+		<div class="post-link-wrapper"><?php	
+			wp_link_pages( array(
+				'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
+				'after'       => '</div>',
+				'link_before' => '<span>',
+				'link_after'  => '</span>',
+				) );				
+			edit_post_link( 'Edit Post #' . get_the_id(), '<br />', ''); 
+			?><div class="horbar-clear-fix"></div>	
+		</div>
+		<div id="comments"> <?php		
+			comments_template();
+		?> </div>
+		<div class="post-link-wrapper">
+			<div id="previous-post-link"> <?php
+				previous_post_link( '<strong>&laquo; %link </strong>', __( 'previous post', 'responsive-tabs' ) );  
+		?> 	</div>
+			<div id="next-post-link">  <?php
+				next_post_link( '<strong>%link &raquo; </strong>', __( 'next post', 'responsive-tabs' ) ); 
+		?> </div> 
+			<div class="horbar-clear-fix"></div>	
+		</div>
 	</div><!-- post --><?php // note start immediately to create space in inline-block series
+	
 endwhile; //close the main loop (single entry)  
 
 

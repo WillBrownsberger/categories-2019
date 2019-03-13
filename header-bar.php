@@ -35,10 +35,7 @@
 				'items_wrap'		=> '%3$s', // no items wrap
 			); 
 			wp_nav_menu( $args );
-			// comment link
-			echo '<li><a href="' . site_url() . '?show_comments=yes">' . __( 'discussion', 'responsive-tabs' ) . '</a></li>';
-
-			
+			// login links			
 			if (get_theme_mod('show_login_links'))	{
 								
 				$redirect_to = is_home() ? home_url() : get_permalink();  // from home, get_permalink() returns latest post   
@@ -74,9 +71,11 @@
 		 	<?php esc_html( trim( bloginfo( 'name' ) ) ); ?>
 		 	<span id="site-description"> -- <?php esc_html( bloginfo( 'description' ) ); ?></span>
 		 	<?php 
-		 	$custom_logo_id = get_theme_mod( 'custom_logo' );
-			$custom_logo_url = wp_get_attachment_image_url( $custom_logo_id , array( 36,36 ) );
-			echo '<img width=36 height=36 src="' . esc_url( $custom_logo_url ) . '" alt="">';
+		 	if ( has_custom_logo() ) {
+			 	$custom_logo_id = get_theme_mod( 'custom_logo' );
+				$custom_logo_url = wp_get_attachment_image_url( $custom_logo_id , array( 36,36 ) );
+				echo '<img width=36 height=36 src="' . esc_url( $custom_logo_url ) . '" alt="">';
+			}
 		 	?>
 		</a>	 	
 	</div>

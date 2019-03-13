@@ -2,7 +2,7 @@
 Theme Name: Categories 2019 
 Theme URI: 	http://responsive-tabs-theme-for-wp.com
 Author URI:
-Description: Responsive Tabs is a fully responsive theme with optional infinite scroll for both post lists and comments.  It is especially suited to websites that are or intend to become strong on content. It takes advantage of all the power of Wordpress to organize content transparently. The Responsive Tabs front page is entirely widgetized and the theme supports up to 16 tabbed content folders. The theme includes a set of custom Front Page widgets that can be configured for full width or tiled for a newspaper look.  Either approach scales down well to mobile screens. Responsive Tabs is visually elegant, allows free choice of colors and fonts, and handles media content consistently with Wordpress standards. Responsive Tabs facilitates attractive use of text for low page weight, but images can easily be included in the various front page widget areas.   
+Description: Responsive Tabs is a fully responsive theme with optional infinite scroll for both post lists and comments.  It is especially suited to websites that are or intend to become strong on content. It takes advantage of all the power of Wordpress to organize content transparently.  It elegantly offers the user access to post by category as part of the main drop down menu.  
 Version: 0.1
 Author: Will Brownsberger
 Tags:  custom-background, custom-colors, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, 
@@ -29,15 +29,10 @@ Style CSS organized as follows
 	comments
 	header/menu
 	highlight
-	home widgets 
 	horizontal bar
 	main tabs
-	new post widget 	
 	post styles
 	view frame and miscellaneous special page wrappers
-	widgets generally
-	widget -- rtfpcl
-	widget -- rtfpa
  -- required Wordpress core styles 
  -- media queries
 
@@ -121,7 +116,7 @@ body {
 	background: white;
 	color: black;
 	font-family: Arial, sans-serif;
-	font-size: 16px;
+	font-size: 18px;
 	margin: 0;
 	padding: 0;
 }
@@ -176,16 +171,6 @@ img {
 	padding: 0;
 	vertical-align: middle;
 }
-
-/* Limit widths of text elements, but not headers or tables in full-width mode */
-a, 
-p, 
-li,
-li li,
-li li li {
-	max-width: 640px; 
-}
-
 
 .responsive-tabs-front-page-comment-list li,
 .responsive-tabs-front-page-comment-list li li,
@@ -342,19 +327,15 @@ sub {
 /* #color-splash appears on non-front pages */
 #color-splash {
 	background: #3367d6;
-	border-bottom: 10px solid white;
+	border-bottom: 20px solid white;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	 box-sizing: border-box;
 	float: left;
-	height: 20px;
+	height: 30px;
 	margin: 0;
 	padding: 0;
   	width: 100%;	
-}
-
-#front-page-mobile-color-splash {
-	display: none;
 }
 
 /* comments formatting */
@@ -368,14 +349,6 @@ ol.commentlist {
 ol.commentlist li {
 	padding: 20px 0 0 0;
 	margin: 0;
-}
-
-ol.commentlist li.odd {
-	background: #fafafa;
-}
-
-ol.commentlist li.even {
-	background: #f3f3f3;
 }
 
 .comment-author {
@@ -392,7 +365,8 @@ ol.commentlist li.even {
 }
 
 .comment-body {
-	padding: 20px;  
+	padding-top: 20px;  
+	border-top: 1px solid #ccc;
 }
 
 .comment-meta {
@@ -559,82 +533,6 @@ ul.children {
 	font-size: 0.92em;
 }
 
-
-
-/* formatting for content presented as collection of small regular widgets in larger area */
-
-.home-narrow-widget-wrapper {
-	  background: inherit;  
-	 -webkit-box-sizing: border-box;
-	 -moz-box-sizing: border-box; 
-	  box-sizing: border-box;
-	  float: left;
-	  height: 200px;
-	  margin: 0;
-	  overflow: hidden;
-	  padding: 0 8px;
-	  width: 25%;
-}
-
-.home-narrow-widget-wrapper:nth-of-type(5n+1) {
-	background:#fafafa;
-}
-
-.home-narrow-widget-wrapper:nth-of-type(5n+2) {
-	background:#f0f0f0;
-}
-
-.home-narrow-widget-wrapper:nth-of-type(5n+3) {
-	background:#fcfcfc;
-}
-
-.home-narrow-widget-wrapper:nth-of-type(5n+4) {
-	background:#f4f4f4;
-}
-
-.home-wide-widget-wrapper h2.widgettitle, 
-.home-narrow-widget-wrapper h2.widgettitle,
-.home-narrow-widget-wrapper .attachment-front-page-thumb {
-	color: #555;
-	font-size: 1em;
-	margin: 10px 8px; 
-
-}
-
-.home-narrow-widget-wrapper .attachment-front-page-thumb {
-	margin: 0 8px;
-}
-
-.home-text-widget {
-	padding: 0 8px;
-}
-
-.bulk-image-float-left {
-	float: left;
-	padding-top: 0px;
-	margin-top: 0px;
-	padding-right: 4px;
-}
-
-/* pad text in Front Page Summary Widget */
-.bulk-text-padding-wrapper {
-	padding: 0 8px 8px 8px;
-}
-
-
-/* styling for one to a row home widgets */
-.home-wide-widget-wrapper {
-/* no styling */	
-}
-
-/* can be used in narrow widget, but is invoked if displaying image and whole content of post in summary */
-.bulk-image-float-left-large {
-	float: left;
-	padding-top: 0px;
-	margin-top: 0px;
-	padding-right: 8px;
-}
-
 /* horizontal bar */
 .horbar-clear-fix {
 	clear: both;
@@ -652,22 +550,44 @@ ul.children {
 #content-header,
 #content-header h1,
 #content-header h4 {
-	background: white; 	
 	margin: 0; 
 }
 
 #content-header {
 	padding: 20px 0; 
+	margin: 0;
 }
 
-#content-subheader h4 {
-	padding-bottom: 16px; 
+#single-content-header {
+	max-width: 640px;
+	margin: 0 auto;
 }
+
+.single-content-wrapper > * {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	max-width: 640px;
+}
+
+div.dataTables_wrapper,
+.single-content-wrapper img,
+.single-content-wrapper table {
+	max-width: 100%;
+}
+
+
+div.post-link-wrapper,
+div#comments {
+	max-width: 640px;
+}
+
 
 #not-found {
 	background: white;
 	padding: 60px 60px 200px 60px;
 }
+
 
 .post p {
 	font-size: 20px;
@@ -684,19 +604,14 @@ ul.children {
 	display: none;
 }
 
-/* note: these styles also control background colors in widget and comment lists */
-.pl-odd {
-	background:  #ffffff;
+.pl-post-item-li {
+	box-sizing: border-box;
+	margin: 0 20px 20px 0px;
+	width: calc(33.3333333% - 20px);
+	height: 180px;
+	float: left;
+	overflow-y: hidden;
 }
-
-.pl-even {
-	background: #fafafa;
-}
-
-.pl-even,.pl-odd {
-	padding: 10px 0;
-}
-
 
 .post-list li.sticky {
 	border-left: 8px solid #333;
@@ -720,14 +635,19 @@ ul.pl-headers {
 	display: inline-block;
 	list-style: none;	
 	padding: 16px 8px 0 8px;
-	vertical-align: top;
-	width: 100%; 
 }
 
 
 .pl-post-title {
-	font-size: 20px;
+	font-size: 22px;
 	}
+
+.post .pl-featured-image .wp-post-image{
+	float: left;
+	margin: 0;
+	padding: 0 10px 4px 0;
+	display: inline-block;
+}
 
 .pl-post-date-time,
 .pl-post-author,
@@ -738,15 +658,23 @@ ul.pl-headers {
 
 
 .pl-post-excerpt {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
-	box-sizing: border-box;
 	display: block;
+	font-size: 14px;
 	margin: 0; 
-	padding: 8px 0 20px 20px;
-	width: 100%;
-	max-width: 740px; 
+	padding: 10px 0 0 0;
 }
+
+.pl-post-title a,
+.pl-post-excerpt a {
+	text-decoration: none;
+	color: #222;
+}
+
+.pl-post-title a:hover,
+.pl-post-excerpt a:hover {
+	color: #777;
+}
+
 
 div.post { /* note that li elements in post-list.php also take this class */ 
 	background: white;
@@ -827,17 +755,7 @@ a.read-more-link {
 
 
 
-/* wrapper for pages reproduced in front page tabs */
-div#front-page-post-entry {
-	padding: 0 20px 20px 20px;
-}
 
-#wp-single-content {
-	background: white;
-	padding: 24px 20px; 
-}
-
-/* widgets generally formatting */
 
 .responsive_tabs_infinite_scroll_parms {
 	display: none;
@@ -1025,21 +943,15 @@ a img.aligncenter {
 
 /* 
 * main layout media queries
-* not really necessary for modern browers (calc works)
-* these rules duplicated in /js/resize.js for browsers IE8 below
-* note query rules fire in descending order of screen size, so cumulate except for first.
 * note that query rules are at end to override other style settings
 */
 
 
-@media only screen and (max-width: 1279px) {
+@media only screen and (max-width: 1200px) {
 
-	.home-narrow-widget-wrapper	{
-		width: 33.3333%;
+	.pl-post-item-li {
+		width: calc(50% - 20px);
 	}
-
-
-
 
 	.attachment-post-content-width,
 	.attachment-full-width {
@@ -1054,25 +966,10 @@ a img.aligncenter {
 
 
 	
-	#header-bar,	
-	#wrapper	{
-		padding: 0 20px;
-	}
-
-	
-	.home-narrow-widget-wrapper {
-		width: 50%;
-	}
-	
 	.attachment-post-content-width,
 	.attachment-full-width {
 		width: 500px;
 		height: 375px; 
-	}
-	
-	div.post,	
-	#wp-single-content {
-		padding: 0px;	
 	}
 	
 	#commentform {
@@ -1128,15 +1025,17 @@ a img.aligncenter {
 		overflow-x: scroll;
 	}
 
+	.pl-post-item-li {
+		width: 100%;
+		margin-right: 0;
+		height: auto;
+	}
+
 
 	/* menu -- single top menu*/
 	#main-menu {
 		width:calc( 100% - 18px );
 		left: 0;
-	}
-	
-	.home-narrow-widget-wrapper {
-		width: 100%;
 	}
 	
 	.attachment-post-content-width,
@@ -1178,9 +1077,5 @@ a img.aligncenter {
 		display: none;
 	}
 
-	.pl-post-excerpt	{
-		padding: 8px 8px 20px 20px;
-		width: 100%; 
-	}
 
 } 

@@ -9,14 +9,13 @@
  */
 
 
-
 get_header();
 
 while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.php ?>	
 
 	<!-- responsive-tabs 	page.php -->
 
-	<div id="content-header">
+	<div id="single-content-header">
 
 		<?php get_template_part( 'breadcrumbs' ); ?>
    	
@@ -47,20 +46,19 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 		
 	</div>
 	
-	<div id="content-wrapper">   
+	<div class="single-content-wrapper">   
 
 		<?php // http://codex.wordpress.org/Template_Tags/the_content (override the more logic to display whole post/topic in this view)
 		global $more;
 		$more = 1; 
 		?>
-		<div id = "wp-single-content">
 
-			<?php	the_post_thumbnail('post-content-width'); ?>
-		
-			<?php the_content(); ?> 
+		<?php	the_post_thumbnail('post-content-width'); ?>
+	
+		<?php the_content(); ?> 
 
-			<div class="horbar-clear-fix"></div>			
-
+		<div class="horbar-clear-fix"></div>			
+		<div class="post-link-wrapper">
 			<?php	wp_link_pages( array(
 					'before'      => '<div class="lower-page-links"><span class="page-links-title">' . __( 'Read more &raquo;', 'responsive-tabs' ) . '</span>',
 					'after'       => '</div>',
@@ -68,13 +66,11 @@ while ( have_posts() ) : the_post(); // no not found condition -- goes to 404.ph
 					'link_after'  => '</span>',
 					) );				
 			?>			
-
 			<?php edit_post_link( __( 'Edit Page #', 'responsive-tabs') . get_the_id() , '<p>', '</p>' ); ?> 
-		
+		</div>
 		<?php if ( comments_open() || get_comments_number() ) {			
 			comments_template();
 		}?>
-		</div><!--wp-single-content -->
 	</div><?php // close content-wrapper and start php immediately so as to not create space in inline-block series
 			
 endwhile; // close the main loop 

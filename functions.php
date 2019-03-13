@@ -11,7 +11,6 @@
 * -- adds metabox to allow control of layout of posts (normal, wide, extra-wide)
 * -- adds streamlined function to create archive drop down of authors
 * -- adds several special-purpose sanitize callback functions for use with theme customizer
-* -- adds editor style
 * -- adds 2011 url grabber function
 *
 * @package responsive-tabs
@@ -21,15 +20,10 @@
 
 
 /*
-* include theme customizer scripts
+* include theme customizer scripts and ajax handler
 */
 include get_template_directory() . '/includes/responsive-tabs-customization.php';  		// note: it is apparently necessary to include this call outside is_admin() condition to allow refresh to work in customizer 
 include get_template_directory() . '/includes/responsive-tabs-customization-css.php'; 	// assembles css for wp_head from theme customization selections
-
-/*
-* include widgets
-*/
-include get_template_directory() . '/includes/responsive-tabs-widgets.php'; 				
 include get_template_directory() . '/includes/responsive-tabs-ajax-handler.php'; 
 /*
 * enqueue script for layout -- menu control and legacy browser-width ( and also enqueue comment-reply )
@@ -74,7 +68,7 @@ function responsive_tabs_manage_posts_per_page( $query ) {
 	if ( is_admin() || ! $query->is_main_query() ) {
 		return; 
 	}
-    $query->set( 'posts_per_page', '12' ); // 
+    $query->set( 'posts_per_page', '20' ); // 
 
 }
 add_action( 'pre_get_posts', 'responsive_tabs_manage_posts_per_page', 1 );
@@ -93,22 +87,10 @@ add_action( 'init', 'responsive_tabs_register_menus' );
 */
 function responsive_tabs_widgets_init() {
 
-
 	register_sidebar( array(
 		'name' 				=> __( 'Search', 'responsive-tabs' ),
 		'description' 		=> __( 'Widget area for Search Box (will be ignored if Google Search Id is supplied in customization)', 'responsive-tabs' ),
 		'id' 				=> 'search_widget',
-		'class' 			=> '',
-		'before_widget' 	=> '',
-		'after_widget' 		=> '',
-		'before_title' 		=> '<h2 class = "widgettitle">',
-		'after_title' 		=> '</h2>',
-	) );
-
-	register_sidebar( array(
-		'name' 				=> __( 'Front Page ', 'responsive-tabs' ),
-		'description' 		=> __( 'Widget area at top of front page list ', 'responsive-tabs' ),
-		'id' 				=> 'home_widget_0',
 		'class' 			=> '',
 		'before_widget' 	=> '',
 		'after_widget' 		=> '',
@@ -145,8 +127,7 @@ function responsive_tabs_theme_support_setup() {
 	) );
 
 	add_theme_support( 'post-thumbnails', array ( 'post', 'page'));
-		add_image_size( 'front-page-thumb', 267, 200 ); 
-		add_image_size( 'front-page-half-thumb', 133, 100 ); 
+		add_image_size( 'post-list-thumb', 100, 100 ); 
 		add_image_size( 'post-content-width', 640, 480 ); // fits post content width on desktop
 		add_image_size( 'full-width', 1140, 855 ); // fits full width window (as on front page in single widget row) in desktop in maximum 
 	
@@ -254,9 +235,9 @@ function baw_hack_wp_title_for_home( $title )
 
 /*
 *
-* function to populate category list in single db call -- want to maximize speed
+* function to assemble category list -- want to maximize speed
 *
-*  no speed penalty noticeable including this or not
+* cannot avoid get_category_link -- assembly of link depends on permalink structure
 */
 function category_list_two_deep () {
 	global $wpdb;
@@ -264,7 +245,7 @@ function category_list_two_deep () {
 	$term_taxonomy = $wpdb->prefix . 'term_taxonomy';
 	$terms = $wpdb->prefix . 'terms';
 	$sql = "
-		SELECT t1.name as parent_cat, t1.slug as parent_cat_slug, t2.name as child_cat, t2.slug as child_cat_slug FROM 
+		SELECT t1.name as parent_cat, t1.term_id as parent_cat_id, t2.name as child_cat, t2.term_id as child_cat_id FROM 
 		( $term_taxonomy  tt1 INNER JOIN $terms t1 on tt1.term_id = t1.term_id ) left join 
 		( $term_taxonomy  tt2 INNER JOIN $terms t2 on tt2.term_id = t2.term_id ) on 
 			tt2.parent = tt1.term_id 
@@ -272,23 +253,26 @@ function category_list_two_deep () {
 			order by t1.name, t2.name
 	";
 	$cats = $wpdb->get_results ( $sql );
-	$last_cat_slug = '';
+	$last_cat_id = '';
 	foreach ( $cats as $cat ) {
-		if ( $last_cat_slug != $cat->parent_cat_slug ) {
-			if ( '' != $last_cat_slug  ) {
-				echo '</div><div class="horbar-clear-fix"></div>';
+		if ( $last_cat_id != $cat->parent_cat_id ) {
+			if ( '' != $last_cat_id  ) {
+				echo '<div class="horbar-clear-fix"></div></div>';
 			}
 			echo '<div class="main-menu-category-parent">
-				<div class="main-menu-category-parent-link"><a  href="' . site_url() .  '/category/' . $cat->parent_cat_slug . '/">' . $cat->parent_cat . '</a></div>';
-			$last_cat_slug = $cat->parent_cat_slug;
+				<div class="main-menu-category-parent-link">' . 
+					'<a  href="' . esc_url( get_category_link ( $cat->parent_cat_id ) ) . '">' . $cat->parent_cat . '</a>' . 
+				'</div>';
+			$last_cat_id = $cat->parent_cat_id;
 		}
-		echo '<div class="main-menu-category-child">
-			<div class="main-menu-category-child-link"><a  href="' . site_url() .  '/category/' . $cat->parent_cat_slug . '/' . $cat->child_cat_slug . '/">' . $cat->child_cat . '</a></div>' .
+		echo '<div class="main-menu-category-child">' .
+				'<div class="main-menu-category-child-link">' . 
+					'<a  href="' . esc_url( get_category_link( $cat->child_cat_id ) ) . '">' . $cat->child_cat . '</a>' . 
+				'</div>' .
 		'</div>';	
 
 	}
-	echo '</div><div class="horbar-clear-fix"></div>'; // close last div
-
+	echo '<div class="horbar-clear-fix"></div></div>'; // close last div
 }
 
 
